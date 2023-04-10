@@ -14,9 +14,12 @@ def index():
 def receive_parameters():
     request_data = request.get_json()
     ppm = None
+    timestamp = None
     if request_data:
         if 'PPM2' in request_data:
             ppm = request_data['PPM2']
-        timestamp = datetime.fromtimestamp(request_data['ss_lastActivityTime'] / 1000).strftime("%d/%m/%Y - %H:%M:%S")
+        if 'ss_lastActivityTime' in request_data:
+            timestamp = datetime.fromtimestamp(request_data['ss_lastActivityTime'] / 1000).strftime("%d/%m/%Y - "
+                                                                                                    "%H:%M:%S")
     return json.dumps({'ajuste_ppm_prueba': ppm * 0.5,
                        'datatime': timestamp}), 200
