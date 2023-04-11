@@ -32,6 +32,5 @@ def imprimir_acumulador():
     if request_data:
         if 'PPM2' in request_data:
             acumulador_de_prueba_diario = new_query.acumulador_ppm_diario()
-    return json.dumps({'acumulador_de_prueba_diario': acumulador_de_prueba_diario})
-
+    return json.dumps({'status': 'TODO O.K!'})
 

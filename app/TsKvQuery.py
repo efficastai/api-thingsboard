@@ -12,6 +12,6 @@ class TsKvQuery:
     def acumulador_ppm_diario(self):
         date = datetime.now()
         self.db.connect()
-        result = self.db.execute_query(f"SELECT * FROM ts_kv_{date.year}_{date.month}")
+        result = self.db.execute_query(f"SELECT long_v FROM ts_kv_{date.year}_{date.month}")
         self.db.disconnect()
-        return result
+        return
