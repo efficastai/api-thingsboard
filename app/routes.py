@@ -1,5 +1,6 @@
 import json
-from app import app, TsKvQuery
+from app import app
+from .TsKvQuery import *
 from flask import request
 from datetime import datetime
 
@@ -27,10 +28,8 @@ def receive_parameters():
 
 @app.route('/api/imprimir_acumulador', methods=['POST'])
 def imprimir_acumulador():
-    new_query = TsKvQuery.TsKvQuery
     request_data = request.get_json()
-    if request_data:
-        if 'PPM2' in request_data:
-            acumulador_de_prueba_diario = new_query.acumulador_ppm_diario()
-    return json.dumps({'status': 'TODO O.K!'})
-
+    device = request_data['device']
+    new_query = TsKvQuery()
+    acumulador_de_prueba_diario = new_query.acumulador_ppm_diario(device=device)
+    return json.dumps({'acumulador_prueba': acumulador_de_prueba_diario})
