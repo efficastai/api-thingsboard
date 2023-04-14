@@ -18,4 +18,4 @@ def test_imprimir_acumulador():
 
     # Comprobar si la respuesta es correcta
     assert response.status_code == 200
-    assert isinstance(response.json()['acumulador_prueba'], float) and response.json()['acumulador_prueba'] > 0
+    assert isinstance(response.json()['acumulador_prueba'], int) and response.json()['acumulador_prueba'] > 0
