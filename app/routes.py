@@ -40,3 +40,10 @@ def get_accumulator():
                        'api_week_accumulator': api_week_accumulator[0],
                        'api_month_accumulator': api_month_accumulator[0],
                        'api_last_ten_values': api_last_ten_values[0]}, default=float), 200
+
+
+@app.route('api/time_filter', methods=['POST'])
+def time_filter():
+    request_data = request.get_json()
+    device = request_data['device']
+    pass
