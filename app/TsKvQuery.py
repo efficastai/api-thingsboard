@@ -19,5 +19,6 @@ class TsKvQuery:
         date_str = date.strftime('%Y-%m-%d')
         result = self.db.execute_query(
             f"SELECT SUM(long_v) FROM ts_kv_{date.year}_{month_str} t JOIN device d ON t.entity_id = d.id WHERE "
-            f"date_trunc('day', to_timestamp(ts/1000)) = '{date_str}' AND t.key = 36 AND d.name = {device}")
+            f"date_trunc('day', to_timestamp(ts/1000)) = '{date_str}' AND t.key = 36 AND d.name = '{device}'"
+        )
         return result
