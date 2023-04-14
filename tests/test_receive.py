@@ -11,7 +11,7 @@ def test_can_call_endpoint():
 
 def test_imprimir_acumulador():
     # Definir los datos de prueba
-    data = {'device': 'EXXBA'}
+    data = {'device': "ZYHBA"}
 
     # Enviar una solicitud POST al endpoint
     response = requests.post('http://66.97.37.100/api/imprimir_acumulador', json=data)
