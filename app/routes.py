@@ -26,10 +26,14 @@ def receive_parameters():
                        'datatime': timestamp}), 200
 
 
-@app.route('/api/imprimir_acumulador', methods=['POST'])
-def imprimir_acumulador():
+@app.route('/api/get_accumulator', methods=['POST'])
+def get_accumulator():
     request_data = request.get_json()
     device = request_data['device']
     new_query = TsKvQuery()
-    acumulador_de_prueba_diario = new_query.acumulador_ppm_diario(device=device)
-    return json.dumps({'acumulador_prueba': acumulador_de_prueba_diario[0]}, default=float), 200
+    api_today_accumulator = new_query.get_today_accumulator(device=device)
+    api_week_accumulator = new_query.get_week_accumulator(device=device)
+    api_month_accumulator = new_query.get_month_accumulator(device=device)
+    return json.dumps({'api_today_accumulator': api_today_accumulator[0],
+                       'api_week_accumulator': api_week_accumulator,
+                       'api_month_accumulator': api_month_accumulator}, default=float), 200
