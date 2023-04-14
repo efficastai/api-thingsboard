@@ -56,7 +56,7 @@ class TsKvQuery:
         )
         return result
 
-    def get_last_values(self, device, n=None):
+    def get_last_values(self, device, n):
         """
         Obtenemos el acumulado del día, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
         :param n: a cuantos valores limitar la consulta
@@ -65,6 +65,6 @@ class TsKvQuery:
         """
         result = self.db.execute_query(
             f"SELECT SUM(long_v) FROM (SELECT long_v FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON"
-            f" t.entity_id = d.id WHERE t.key = 36 AND d.name = '{device}' ORDER BY ts DESC LIMIT 10) AS last_values;"
+            f" t.entity_id = d.id WHERE t.key = 36 AND d.name = '{device}' ORDER BY ts DESC LIMIT {n}) AS last_values;"
         )
         return result
