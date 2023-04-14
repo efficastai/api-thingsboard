@@ -32,5 +32,4 @@ def imprimir_acumulador():
     device = request_data['device']
     new_query = TsKvQuery()
     acumulador_de_prueba_diario = new_query.acumulador_ppm_diario(device=device)
-    print(acumulador_de_prueba_diario[0])
-    return json.dumps({'acumulador_prueba': 'OK!'})
+    return json.dumps({'acumulador_prueba': acumulador_de_prueba_diario[0]})
