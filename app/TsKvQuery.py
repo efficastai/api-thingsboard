@@ -10,7 +10,7 @@ class TsKvQuery:
     def __init__(self, device=None, alias=None):
         self.device = device
         self.alias = alias
-        self.db = PostgresDB("thingsboard", "postgres", "sm3inv77i3", "localhost", "5432")
+        self.db = PostgresDB("thingsboard", "postgres", "...", "localhost", "5432")
         self.db.connect()
         self.date = datetime.now()
         self.month_str = self.date.strftime('%m')
