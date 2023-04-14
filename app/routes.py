@@ -35,5 +35,5 @@ def get_accumulator():
     api_week_accumulator = new_query.get_week_accumulator(device=device)
     api_month_accumulator = new_query.get_month_accumulator(device=device)
     return json.dumps({'api_today_accumulator': api_today_accumulator[0],
-                       'api_week_accumulator': api_week_accumulator,
-                       'api_month_accumulator': api_month_accumulator}, default=float), 200
+                       'api_week_accumulator': api_week_accumulator[0],
+                       'api_month_accumulator': api_month_accumulator[0]}, default=float), 200
