@@ -65,6 +65,6 @@ class TsKvQuery:
         """
         result = self.db.execute_query(
             f"SELECT SUM(long_v) FROM (SELECT long_v FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON"
-            f" t.entity_id = d.id WHERE t.key = 36 AND d.name = '{device}' ORDER BY ts DESC LIMIT {n})"
+            f" t.entity_id = d.id WHERE t.key = 36 AND d.name = '{device}' ORDER BY ts DESC LIMIT 10)"
         )
         return result
