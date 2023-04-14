@@ -47,7 +47,7 @@ class TsKvQuery:
     def get_month_accumulator(self, device):
         """
         Obtenemos el acumulado del mes, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
-        :param device:
+        :param device: a que dispositivo queremos referenciar
         :return: acumulador diario
         """
         result = self.db.execute_query(
@@ -59,11 +59,12 @@ class TsKvQuery:
     def get_last_values(self, device, n):
         """
         Obtenemos el acumulado del día, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
-        :param device:
+        :param n: a cuantos valores limitar la consulta
+        :param device: a que dispositivo queremos referenciar
         :return: acumulador diario
         """
         result = self.db.execute_query(
             f"SELECT SUM(long_v) FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id"
-            f"WHERE t.key = 36 AND d.name = '{device}' ORDER BY t.ts DESC LIMIT 5"
+            f"WHERE t.key = 36 AND d.name = '{device}' ORDER BY t.ts DESC LIMIT {n}"
         )
         return result
