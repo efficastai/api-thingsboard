@@ -9,13 +9,13 @@ def test_can_call_endpoint():
     assert response.status_code == 200
 
 
-def test_can_receive_parameters():
-    payload = {
-        "pya": 100,
-        "ppm": 50
-    }
-    response = requests.post(ENDPOINT + "/receiveParameters", json=payload)
+def test_imprimir_acumulador():
+    # Definir los datos de prueba
+    data = {'device': 'EXXBA'}
+
+    # Enviar una solicitud POST al endpoint
+    response = requests.post('http://66.97.37.100/api/imprimir_acumulador', json=data)
+
+    # Comprobar si la respuesta es correcta
     assert response.status_code == 200
-    data = response.json()
-    assert data['sumando'] == 150
-    print(data)
+    assert isinstance(response.json()['acumulador_prueba'], float) and response.json()['acumulador_prueba'] > 0
