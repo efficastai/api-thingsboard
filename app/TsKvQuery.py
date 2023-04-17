@@ -13,15 +13,15 @@ class TsKvQuery:
         self.device = device
         self.alias = alias
         # Creo nuevo objeto configparse para utilizar archivo de configuracion
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-        database = config['database']['dbname']
-        username = config['database']['username']
-        password = config['database']['password']
-        host = config['database']['host']
-        port = config['database']['port']
+        self.config = configparser.ConfigParser()
+        self.config.read('config.ini')
+        self.database = self.config['database']['dbname']
+        self.username = self.config['database']['username']
+        self.password = self.config['database']['password']
+        self.host = self.config['database']['host']
+        self.port = self.config['database']['port']
         # Inicio instancia de la base de datos
-        self.db = PostgresDB(database, username, password, host, port)
+        self.db = PostgresDB(self.database, self.username, self.password, self.host, self.port)
         self.db.connect()
         # Creando nuevo objeto date: almaceno mes y fecha completa para utilizar en los
         # metodos que realizan consultas SQL
