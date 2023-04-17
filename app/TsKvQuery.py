@@ -14,12 +14,12 @@ class TsKvQuery:
         self.alias = alias
         # Creo nuevo objeto configparse para utilizar archivo de configuracion
         self.config = configparser.ConfigParser()
-        self.config.read('.config.ini')
-        self.database = self.config['database']['dbname']
-        self.username = self.config['database']['username']
-        self.password = self.config['database']['password']
-        self.host = self.config['database']['host']
-        self.port = self.config['database']['port']
+        self.config.read('config.ini')
+        self.database = self.config.get('database', 'dbname')
+        self.username = self.config.get('database', 'username')
+        self.password = self.config.get('database', 'password')
+        self.host = self.config.get('database', 'host')
+        self.port = self.config.get('database', 'port')
         # Inicio instancia de la base de datos
         self.db = PostgresDB(self.database, self.username, self.password, self.host, self.port)
         self.db.connect()
