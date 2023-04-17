@@ -42,7 +42,7 @@ def get_accumulator():
                        'api_last_ten_values': api_last_ten_values[0]}, default=float), 200
 
 
-@app.route('/api/run_soldadoras')
+@app.route('/api/run_soldadoras', methods=['POST'])
 def run_soldadoras():
     request_data = request.get_json()
     ppm2 = request_data['PPM2']
