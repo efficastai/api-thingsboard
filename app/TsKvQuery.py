@@ -13,11 +13,9 @@ class TsKvQuery:
         # Incluyendo device y alias, por el momento lo tomo desde el metodo
         self.device = device
         self.alias = alias
-        # Obteniendo path absoluto
-        self.config_path = os.path.join(os.getcwd(), 'config.ini')
         # Creo nuevo objeto configparse para utilizar archivo de configuracion
         self.config = configparser.ConfigParser()
-        self.config.read(self.config_path)
+        self.config.read('config.ini')
         self.database = self.config.get('database', 'dbname')
         self.username = self.config.get('database', 'username')
         self.password = self.config.get('database', 'password')
