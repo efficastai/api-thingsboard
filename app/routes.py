@@ -49,3 +49,15 @@ def run_soldadoras():
     if ppm2 > 0:
         run_soldadoras = 1
     return json.dumps({'run_soldadoras': run_soldadoras}, default=int), 200
+
+
+@app.route('/api/test_delta', methods=['POST'])
+def test_delta():
+    request_data = request.get_json()
+    device = request_data['device']
+    new_query = TsKvQuery()
+    api_all_pya = new_query.get_all_pya_values(device)
+    print(api_all_pya)
+    return json.dumps({'status': 'OK!'})
+
+

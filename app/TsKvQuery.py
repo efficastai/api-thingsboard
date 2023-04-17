@@ -82,3 +82,11 @@ class TsKvQuery:
             f" t.entity_id = d.id WHERE t.key = 36 AND d.name = '{device}' ORDER BY ts DESC LIMIT {n}) AS last_values;"
         )
         return result
+
+    def get_all_pya_values(self, device):
+
+        result = self.db.execute_query(
+            f"SELECT long_v, ts FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id WHERE"
+            f" t.key = 34 AND d.name = '{device}' ORDER BY ts DESC"
+        )
+        return result
