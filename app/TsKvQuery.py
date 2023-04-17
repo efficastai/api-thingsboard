@@ -1,5 +1,4 @@
 import configparser
-
 from .PostgresDB import *
 from datetime import datetime
 
