@@ -35,6 +35,7 @@ def get_accumulator():
     api_week_accumulator = new_query.get_week_accumulator(device=device)
     api_month_accumulator = new_query.get_month_accumulator(device=device)
     api_last_ten_values = new_query.get_last_values(device=device, n=10)
+    print(api_today_accumulator)
     return json.dumps({'api_today_accumulator': api_today_accumulator[0],
                        'api_week_accumulator': api_week_accumulator[0],
                        'api_month_accumulator': api_month_accumulator[0],

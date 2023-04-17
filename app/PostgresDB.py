@@ -32,7 +32,7 @@ class PostgresDB:
         try:
             cursor = self.conn.cursor()
             cursor.execute(query)
-            result = cursor.fetchone()
+            result = cursor.fetchall()
             cursor.close()
             return result
         except Exception as e:
