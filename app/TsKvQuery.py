@@ -14,7 +14,7 @@ class TsKvQuery:
         self.alias = alias
         # Creo nuevo objeto configparse para utilizar archivo de configuracion
         self.config = configparser.ConfigParser()
-        self.config.read('config.ini')
+        self.config.read('.config.ini')
         self.database = self.config['database']['dbname']
         self.username = self.config['database']['username']
         self.password = self.config['database']['password']
