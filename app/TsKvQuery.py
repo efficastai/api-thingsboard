@@ -1,3 +1,5 @@
+import configparser
+
 from .PostgresDB import *
 from datetime import datetime
 
@@ -8,10 +10,22 @@ class TsKvQuery:
     """
 
     def __init__(self, device=None, alias=None):
+        # Incluyendo device y alias, por el momento lo tomo desde el metodo
         self.device = device
         self.alias = alias
-        self.db = PostgresDB("thingsboard", "postgres", "...", "localhost", "5432")
+        # Creo nuevo objeto configparse para utilizar archivo de configuracion
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        database = config['database']['dbname']
+        username = config['database']['username']
+        password = config['database']['password']
+        host = config['database']['host']
+        port = config['database']['port']
+        # Inicio instancia de la base de datos
+        self.db = PostgresDB(database, username, password, host, port)
         self.db.connect()
+        # Creando nuevo objeto date: almaceno mes y fecha completa para utilizar en los
+        # metodos que realizan consultas SQL
         self.date = datetime.now()
         self.month_str = self.date.strftime('%m')
         self.date_str = self.date.strftime('%Y-%m-%d')
