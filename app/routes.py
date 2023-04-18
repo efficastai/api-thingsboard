@@ -1,7 +1,7 @@
 import json
 from app import app
 from .TsKvQuery import *
-from .Calculations import *
+from .Calculation import *
 from flask import request
 from datetime import datetime
 
@@ -56,11 +56,8 @@ def run_soldadoras():
 def test_delta():
     request_data = request.get_json()
     device = request_data['device']
-    new_query = TsKvQuery()
-    api_all_pya = new_query.get_all_pya_values(device)
-    new_calculation = Calculations()
-    api_ratio_shift_time = new_calculation.ratio_shift_time(api_all_pya, "00:00")
-    print(f"{api_ratio_shift_time}%")
-    return json.dumps({'ratio_shift_time_test': api_ratio_shift_time})
+    calculation = Calculation()
+    api_machine_time_calculations = calculation.get_machine_time_calculations(device, "00:00")
+    return json.dumps(api_machine_time_calculations)
 
 
