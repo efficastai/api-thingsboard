@@ -60,7 +60,7 @@ def test_delta():
     api_all_pya = new_query.get_all_pya_values(device)
     new_calculation = Calculations()
     api_ratio_shift_time = new_calculation.ratio_shift_time(api_all_pya)
-    print(api_ratio_shift_time)
+    print(f"{api_ratio_shift_time}%")
     return json.dumps({'ratio_shift_time_test': api_ratio_shift_time})
 
 
