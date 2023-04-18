@@ -56,7 +56,7 @@ def run_soldadoras():
 def test_delta():
     request_data = request.get_json()
     device = request_data['device']
-    shift_start = request_data['set_shift_start']
+    shift_start = request_data['shift_start'] if request_data['shift_time'] else None
     print(shift_start)
     calculation = Calculation()
     api_machine_time_calculations = calculation.get_machine_time_calculations(device, shift_start)
