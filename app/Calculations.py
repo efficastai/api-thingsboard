@@ -14,7 +14,7 @@ class Calculations:
         for i in tup:
             print(i[1])
             if last is None:
-                last == i
+                last = i
                 continue
 
             time_diff = i[1] - last[1]
