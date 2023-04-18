@@ -11,7 +11,7 @@ class Calculations:
         time_on_milis = 0
         time_off_milis = 0
         last = None
-        for i in tup:
+        for i in pya_tuple:
             if last is None:
                 last = i
                 continue
