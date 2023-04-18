@@ -1,6 +1,7 @@
 import json
 from app import app
 from .TsKvQuery import *
+from .Calculations import *
 from flask import request
 from datetime import datetime
 
@@ -57,7 +58,8 @@ def test_delta():
     device = request_data['device']
     new_query = TsKvQuery()
     api_all_pya = new_query.get_all_pya_values(device)
-    print(api_all_pya[10])
-    return json.dumps({'status': 'OK!'})
+    new_calculation = Calculations()
+    print(new_calculation.ratio_shift_time(api_all_pya))
+    return json.dumps({'ratio_shift_time_test': 'ok'})
 
 
