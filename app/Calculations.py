@@ -47,6 +47,7 @@ class Calculations:
         ratio_shift_time = 0
         # Retorna el tiempo encendido en [0] y el tiempo apagado en [1]
         times = self.calculate_time_values(pya_tuple)
+        print(times)
         timestamp_now = int(datetime.now().timestamp()) * 1000
         shift_start = self.shift_to_timestamp_milis(shift_start)
         if times[1] == 0:
