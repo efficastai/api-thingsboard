@@ -52,10 +52,12 @@ def run_soldadoras():
     return json.dumps({'run_soldadoras': run}, default=int), 200
 
 
-@app.route('/api/test_delta', methods=['POST'])
+@app.route('/api/time_calculations', methods=['POST'])
 def test_delta():
     request_data = request.get_json()
     device = request_data['device']
+    shift_start = request_data['set_shift_start']
+    print(shift_start)
     calculation = Calculation()
-    api_machine_time_calculations = calculation.get_machine_time_calculations(device, "00:00")
+    api_machine_time_calculations = calculation.get_machine_time_calculations(device, shift_start)
     return json.dumps(api_machine_time_calculations)
