@@ -3,7 +3,6 @@ class Calculations:
     def __init__(self):
         pass
 
-    @staticmethod
     def calculate_time_values(tup):
         """
         Este metodo retorna un diccionario con el total de tiempo encendido (time_on_millis) en [0] y
