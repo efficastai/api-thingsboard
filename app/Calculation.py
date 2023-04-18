@@ -30,19 +30,23 @@ class Calculation:
         ratio_shift_time = self.ratio_shift_time(time_on, shift_to_timestamp_millis)
 
         # Devuelvo los resultados como un diccionario JSON.
-        json = {
+        results = {
             'api_time_on_current_day': time_on,
             'api_time_off_current_day': time_off,
             'api_ratio_shift_time_current_day': ratio_shift_time,
         }
 
-        return json
+        return results
 
     @staticmethod
     def calculate_time_values(pya_tuple):
         """
-        Este método retorna una tupla con el total de tiempo encendido (time_on_millis) en [0] y
-        el total de tiempo apagado (time_off_milis) [1]
+        Metodo que recibe una tupla de pya, en el indice [0] se encuentra el valor del pya y en el indice [1]
+        se encuentra el valor del timestamp en milisegundos.
+        Primero la lista se ordena de menor a mayor, luego se itera entre los elementos y dependiendo el valor de
+        su delta, el tiempo se acumula en tiempo_on_milis o tiempo_off_milis
+        @params: una tupla de valores de pya
+        @return: time_on_milis, time_off_milis
         """
         time_on_milis = 0
         time_off_milis = 0
@@ -76,7 +80,13 @@ class Calculation:
 
     @staticmethod
     def ratio_shift_time(time_on_milis, shift_to_timestamp_milis=None):
-        # Retorna el tiempo encendido en [0] y el tiempo apagado en [1]
+        """
+        Metodo que calcula el ratio de encendido/apagado de una maquina en base a la hora de inicio del turno.
+        En caso de que no sea especificada una hora de inicio del turno, el ratio sera calculado en base a las
+        horas transcurridas del dia
+        @params: un tiempo on total del dia en milisegundos, una hora de inicio del turno
+        @return: el ratio de tiempo encendido del dia
+        """
         timestamp_now = int(datetime.now().timestamp()) * 1000
         if time_on_milis == 0:
             ratio_shift_time = 0
@@ -89,6 +99,12 @@ class Calculation:
 
     @staticmethod
     def shift_to_timestamp_milis(shift_start):
+        """
+        Metodo que recibe un string representando una hora de inicio de un turno, converierte el string
+        en horas y minutos, luego lo devuelvo en formato timestamp en milisegundos
+        @params: una hora de turno en formato string
+        @return: esa hora en timestamp milisegundos en tipo de dato int
+        """
         hour = int(shift_start[:2])
         minutes = int(shift_start[3:])
         now = datetime.now()

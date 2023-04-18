@@ -46,10 +46,10 @@ def get_accumulator():
 def run_soldadoras():
     request_data = request.get_json()
     ppm2 = request_data['PPM2']
-    run_soldadoras = 0
+    run = 0
     if ppm2 > 0:
-        run_soldadoras = 1
-    return json.dumps({'run_soldadoras': run_soldadoras}, default=int), 200
+        run = 1
+    return json.dumps({'run_soldadoras': run}, default=int), 200
 
 
 @app.route('/api/test_delta', methods=['POST'])
