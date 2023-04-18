@@ -1,5 +1,4 @@
 import configparser
-import os
 from .PostgresDB import *
 from datetime import datetime
 
@@ -70,7 +69,7 @@ class TsKvQuery:
         )
         return result
 
-    def get_last_values(self, device, n):
+    def get_last_n_values(self, device, n):
         """
         Obtenemos el acumulado del día, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
         :param n: a cuantos valores limitar la consulta
