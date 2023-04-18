@@ -7,7 +7,8 @@ class Calculations:
     def __init__(self):
         pass
 
-    def calculate_time_values(self, pya_tuple):
+    @staticmethod
+    def calculate_time_values(pya_tuple):
         """
         Este metodo retorna una tupla con el total de tiempo encendido (time_on_millis) en [0] y
         el total de tiempo apagado (time_off_milis) [1]
@@ -44,7 +45,6 @@ class Calculations:
         return time_on_milis, time_off_milis
 
     def ratio_shift_time(self, pya_tuple, shift_start=None):
-        ratio_shift_time = 0
         # Retorna el tiempo encendido en [0] y el tiempo apagado en [1]
         times = self.calculate_time_values(pya_tuple)
         print(times)
