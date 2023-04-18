@@ -14,7 +14,11 @@ class Calculations:
         time_on_milis = 0
         time_off_milis = 0
         last = None
-        for i in pya_tuple:
+        # Ordeno los valores de timestamp de menor a mayor
+        pya_tuple_ordered = sorted(pya_tuple, key=lambda x: x[1])
+
+        # Iterar tupla de pya (pya, ts)
+        for i in pya_tuple_ordered:
             if last is None:
                 last = i
                 continue
