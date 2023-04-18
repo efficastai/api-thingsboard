@@ -12,7 +12,7 @@ class Calculations:
         time_off_milis = 0
         last = None
         for i in tup:
-            print(i)
+            print(i[1])
             if last is None:
                 last == i
                 continue
