@@ -59,7 +59,7 @@ def test_delta():
     new_query = TsKvQuery()
     api_all_pya = new_query.get_all_pya_values(device)
     new_calculation = Calculations()
-    api_ratio_shift_time = new_calculation.ratio_shift_time(api_all_pya, "08:00")
+    api_ratio_shift_time = new_calculation.ratio_shift_time(api_all_pya, "00:00")
     print(f"{api_ratio_shift_time}%")
     return json.dumps({'ratio_shift_time_test': api_ratio_shift_time})
 
