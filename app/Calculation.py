@@ -24,7 +24,7 @@ class Calculation:
         time_on, time_off = self.calculate_time_values(pya_values_current_day)
 
         # Convierto el string de shift_start en un timestamp en milisegundos.
-        shift_to_timestamp_millis = self.shift_to_timestamp_millis(shift_start)
+        shift_to_timestamp_millis = self.shift_to_timestamp_milis(shift_start)
 
         # Calculo los ratios de tiempo para el turno.
         ratio_shift_time = self.ratio_shift_time(time_on, shift_to_timestamp_millis)
