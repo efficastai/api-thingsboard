@@ -3,7 +3,7 @@ class Calculations:
     def __init__(self):
         pass
 
-    def calculate_time_values(self, tup):
+    def calculate_time_values(self, pya_tuple):
         """
         Este metodo retorna un diccionario con el total de tiempo encendido (time_on_millis) en [0] y
         el total de tiempo apagado (time_off_milis) [1]
@@ -12,7 +12,6 @@ class Calculations:
         time_off_milis = 0
         last = None
         for i in tup:
-            print(i[1])
             if last is None:
                 last = i
                 continue
@@ -36,10 +35,10 @@ class Calculations:
 
         return time_on_milis, time_off_milis
 
-    def ratio_shift_time(self, dictionary, shift_period=None):
+    def ratio_shift_time(self, pya_tuple, shift_period=None):
         ratio_shift_time = 0
         # Retorna el tiempo encendido en [0] y el tiempo apagado en [1]
-        times = self.calculate_time_values(dictionary)
+        times = self.calculate_time_values(pya_tuple)
         # print(times)
         if times[1] == 0:
             ratio_shift_time = 100
