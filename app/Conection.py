@@ -2,9 +2,9 @@ import psycopg2
 
 
 class Conection:
-    def __init__(self, dbname, user, password, host, port):
-        self.dbname = dbname
-        self.user = user
+    def __init__(self, database, username, password, host, port):
+        self.database = database
+        self.username = username
         self.password = password
         self.host = host
         self.port = port
@@ -13,8 +13,8 @@ class Conection:
     def connect(self):
         try:
             self.conn = psycopg2.connect(
-                dbname=self.dbname,
-                user=self.user,
+                dbname=self.database,
+                user=self.username,
                 password=self.password,
                 host=self.host,
                 port=self.port
