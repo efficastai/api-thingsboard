@@ -50,10 +50,10 @@ class Calculations:
         print(times)
         timestamp_now = int(datetime.now().timestamp()) * 1000
         shift_convert = self.shift_to_timestamp_milis(shift_start)
-        if times[1] == 0:
-            ratio_shift_time = 100
+        if times[0] == 0:
+            ratio_shift_time = 0
         elif shift_start is None:
-            ratio_shift_time = math.floor(times[1] / timestamp_now * 100)
+            ratio_shift_time = math.floor(times[0] / timestamp_now * 100)
         else:
             ratio_shift_time = math.floor(times[0] / (timestamp_now - shift_convert) * 100)
         # print(type(ratio_shift_time))
