@@ -41,6 +41,7 @@ class Calculations:
         ratio_shift_time = 0
         # Retorna el tiempo encendido en [0] y el tiempo apagado en [1]
         times = self.calculate_time_values(dictionary)
+        print(times)
         if times[1] == 0:
             ratio_shift_time = 100
         else:
