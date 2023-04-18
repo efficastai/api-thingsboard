@@ -1,3 +1,6 @@
+import math
+
+
 class Calculations:
 
     def __init__(self):
@@ -43,6 +46,6 @@ class Calculations:
         if times[1] == 0:
             ratio_shift_time = 100
         else:
-            ratio_shift_time = times[0] / (times[0] + times[1]) * 100
+            ratio_shift_time = math.floor(times[0] / (times[0] + times[1]) * 100)
         # print(type(ratio_shift_time))
         return ratio_shift_time
