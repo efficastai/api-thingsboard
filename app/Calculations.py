@@ -38,8 +38,12 @@ class Calculations:
         return time_on_milis, time_off_milis
 
     def ratio_shift_time(self, dictionary, shift_period=None):
+        ratio_shift_time = 0
         # Retorna el tiempo encendido en [0] y el tiempo apagado en [1]
         times = self.calculate_time_values(dictionary)
-        ratio_shift_time = times[0] / (times[0] + times[1]) * 100
+        if times[1] == 0:
+            ratio_shift_time = 100
+        else:
+            ratio_shift_time = times[0] / (times[0] + times[1]) * 100
         print(type(ratio_shift_time))
         return ratio_shift_time
