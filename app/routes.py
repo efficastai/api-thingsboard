@@ -1,6 +1,6 @@
 import json
 from app import app
-from .TsKvQuery import *
+from .Query import *
 from .Calculation import *
 from flask import request
 from datetime import datetime
@@ -31,7 +31,7 @@ def receive_parameters():
 def get_accumulator():
     request_data = request.get_json()
     device = request_data['device']
-    new_query = TsKvQuery()
+    new_query = Query()
     api_today_accumulator = new_query.get_today_accumulator(device=device)[0][0]
     api_week_accumulator = new_query.get_week_accumulator(device=device)[0][0]
     api_month_accumulator = new_query.get_month_accumulator(device=device)[0][0]
@@ -59,5 +59,3 @@ def test_delta():
     calculation = Calculation()
     api_machine_time_calculations = calculation.get_machine_time_calculations(device, "00:00")
     return json.dumps(api_machine_time_calculations)
-
-

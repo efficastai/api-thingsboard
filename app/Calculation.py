@@ -1,6 +1,6 @@
 from datetime import datetime
 import math
-from .TsKvQuery import *
+from .Query import *
 
 
 class Calculation:
@@ -10,12 +10,12 @@ class Calculation:
     """
 
     def __init__(self):
-        self.query = TsKvQuery()
+        self.query = Query()
 
     def get_machine_time_calculations(self, device, shift_start=None, shift_end=None):
         """
         Este método devuelve el tiempo encendido, tiempo apagado y disponibilidad de una máquina en lo que va
-        del día actual.
+        del día actual en base a su hora de inicio de turno.
         """
         # Obtengo los valores de PYA del día actual en una tupla de tuplas.
         pya_values_current_day = self.query.get_all_pya_values(device=device)

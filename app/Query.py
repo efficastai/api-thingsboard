@@ -1,30 +1,40 @@
 import configparser
-from .PostgresDB import *
+from .Conection import *
 from datetime import datetime
 
 
-class TsKvQuery:
+class Query:
     """
     Esta clase realiza consultas SQL a la base de datos de Thingsboard
     """
 
     def __init__(self, device=None, alias=None):
-        # Incluyendo device y alias, por el momento lo tomo desde el metodo
         self.device = device
         self.alias = alias
-        # Creo nuevo objeto configparse para utilizar archivo de configuracion
-        self.config = configparser.ConfigParser()
-        self.config.read('config.ini')
-        self.database = self.config.get('database', 'dbname')
-        self.username = self.config.get('database', 'username')
-        self.password = self.config.get('database', 'password')
-        self.host = self.config.get('database', 'host')
-        self.port = self.config.get('database', 'port')
-        # Inicio instancia de la base de datos
-        self.db = PostgresDB(self.database, self.username, self.password, self.host, self.port)
+
+        # Leo la configuración desde el archivo config.ini
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        database_config = config['database']
+
+        # Obtengo los datos de la configuración
+        self.database = database_config.get('dbname')
+        self.username = database_config.get('username')
+        self.password = database_config.get('password')
+        self.host = database_config.get('host')
+        self.port = database_config.getint('port')
+
+        # Inicio la instancia de la base de datos
+        self.db = Conection(
+            database=self.database,
+            username=self.username,
+            password=self.password,
+            host=self.host,
+            port=self.port,
+        )
         self.db.connect()
-        # Creando nuevo objeto date: almaceno mes y fecha completa para utilizar en los
-        # metodos que realizan consultas SQL
+
+        # Creo un objeto datetime para almacenar la fecha y el mes actual
         self.date = datetime.now()
         self.month_str = self.date.strftime('%m')
         self.date_str = self.date.strftime('%Y-%m-%d')

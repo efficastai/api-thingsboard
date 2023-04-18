@@ -1,7 +1,7 @@
 import psycopg2
 
 
-class PostgresDB:
+class Conection:
     def __init__(self, dbname, user, password, host, port):
         self.dbname = dbname
         self.user = user
