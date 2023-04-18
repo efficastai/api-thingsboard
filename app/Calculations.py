@@ -3,7 +3,7 @@ class Calculations:
     def __init__(self):
         pass
 
-    def calculate_time_values(tup):
+    def calculate_time_values(self, tup):
         """
         Este metodo retorna un diccionario con el total de tiempo encendido (time_on_millis) en [0] y
         el total de tiempo apagado (time_off_milis) [1]
