@@ -53,7 +53,7 @@ class Calculations:
         if times[1] == 0:
             ratio_shift_time = 100
         elif shift_start is None:
-            ratio_shift_time = math.floor(times[0] / (times[0] + times[1]) * 100)
+            ratio_shift_time = math.floor(times[1] / timestamp_now * 100)
         else:
             ratio_shift_time = math.floor(times[0] / (timestamp_now - shift_convert) * 100)
         # print(type(ratio_shift_time))
