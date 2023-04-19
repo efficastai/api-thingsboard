@@ -7,7 +7,7 @@ class Accumulator:
     y retornar dichos objetos de forma ordenada
     """
 
-    def __init__(self, device):
+    def __init__(self):
         self.query = Query()
 
     def get_accumulators(self, device):
