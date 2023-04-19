@@ -20,6 +20,7 @@ class DBConection:
                 host=self.host,
                 port=self.port
             )
+            print("Connected to the database")
         except Exception as e:
             print("""Unable to connect to the database: """, e)
 
