@@ -106,6 +106,7 @@ class Calculation:
         @return: esa hora en timestamp milisegundos en tipo de dato int
         """
         if shift_start is None:
+            print("LLEGÓ HASTA ACÁ!")
             return shift_start
 
         hour = int(shift_start[:2])
