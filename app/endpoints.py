@@ -5,21 +5,16 @@ from flask import request
 from app import app
 from .Settings import *
 from .TimeCalculation import *
+from .Accumulator import *
 
 
 @app.route('/api/get_accumulators', methods=['POST'])
 def get_accumulators():
     request_data = request.get_json()
     device = request_data['device']
-    new_query = Query()
-    api_today_accumulator = new_query.get_today_accumulator(device=device)[0][0]
-    api_week_accumulator = new_query.get_week_accumulator(device=device)[0][0]
-    api_month_accumulator = new_query.get_month_accumulator(device=device)[0][0]
-    api_last_ten_values = new_query.get_last_n_values(device=device, n=10)[0][0]
-    return json.dumps({'api_today_accumulator': api_today_accumulator,
-                       'api_week_accumulator': api_week_accumulator,
-                       'api_month_accumulator': api_month_accumulator,
-                       'api_last_ten_values': api_last_ten_values}, default=float), 200
+    accumulator = Accumulator()
+    machine_accumulators = accumulator.get_accumulators(device)
+    return machine_accumulators, 200
 
 
 @app.route('/api/settings', methods=['POST'])
@@ -45,7 +40,7 @@ def time_calculations():
     Retorna un objeto JSON con cálculos de tiempo para una máquina específica.
 
     Parámetros esperados en el body de la solicitud:
-    - device: el nombre de la máquina
+    - device: el nombre del dispositivo
     - shift_start (opcional): la hora de inicio del turno
 
     Retorno:
