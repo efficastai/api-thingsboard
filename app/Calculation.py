@@ -88,19 +88,18 @@ class Calculation:
         @params: un tiempo on total del dia en milisegundos, una hora de inicio del turno
         @return: el ratio de tiempo encendido del dia
         """
-        timestamp_now = int(datetime.now().timestamp()) * 1000
+        now = datetime.now()
+        today = datetime(now.year, now.month, now.day)
+        delta = now - today
+        today_miliseconds = delta.total_seconds() * 1000
         if time_on_milis == 0:
             ratio_shift_time = 0
         elif shift_start is None:
-            ratio_shift_time = math.floor(time_on_milis / timestamp_now * 100)
-            print(f"""ESTOY EN RATIO_SHIFT_TIME EN LA CONDICION NONE :)
-                TIME ON MILLIS: {time_on_milis}
-                TIMESTAMP: {timestamp_now}
-                RATIO: {ratio_shift_time}
-            """)
+            ratio_shift_time = math.floor(time_on_milis / today_miliseconds * 100)
         else:
-            ratio_shift_time = math.floor(time_on_milis / (timestamp_now - shift_start) * 100)
-        # print(type(ratio_shift_time))
+            timestamp_milis = now.timestamp() * 1000
+            diff = timestamp_milis - shift_start
+            ratio_shift_time = math.floor(time_on_milis / diff * 100)
         return ratio_shift_time
 
     @staticmethod
