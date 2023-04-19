@@ -56,7 +56,6 @@ def run_soldadoras():
 def test_delta():
     request_data = request.get_json()
     device = request_data['device']
-    client = request_data['customer_title']
     shift_start = None
     if 'shift_start' in request_data:
         shift_start = request_data['shift_start']
