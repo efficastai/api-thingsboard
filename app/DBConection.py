@@ -1,4 +1,5 @@
 import psycopg2
+from datetime import datetime
 
 
 class DBConection:
@@ -19,9 +20,8 @@ class DBConection:
                 host=self.host,
                 port=self.port
             )
-            print("Connected to the database")
         except Exception as e:
-            print("Unable to connect to the database: ", e)
+            print("""Unable to connect to the database: """, e)
 
     def disconnect(self):
         if self.conn:
