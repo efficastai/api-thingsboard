@@ -27,8 +27,8 @@ class Accumulator:
 
         result = {
             'api_day_accumulator': day_accumulator,
-            'week_accumulator': week_accumulator,
-            'month_accumulator': month_accumulator
+            'api_week_accumulator': week_accumulator,
+            'api_month_accumulator': month_accumulator
         }
 
         return result
