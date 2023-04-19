@@ -56,11 +56,13 @@ def run_soldadoras():
 def test_delta():
     request_data = request.get_json()
     device = request_data['device']
+    client = request_data['customer_title']
     shift_start = None
     if 'shift_start' in request_data:
         shift_start = request_data['shift_start']
         print(f"SHIFT!. El dispositivo {device} tiene shift en {shift_start}")
     print(shift_start)
+    print(client)
     calculation = Calculation()
     api_machine_time_calculations = calculation.get_machine_time_calculations(device, shift_start)
     return json.dumps(api_machine_time_calculations)
