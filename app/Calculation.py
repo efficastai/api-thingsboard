@@ -105,6 +105,9 @@ class Calculation:
         @params: una hora de turno en formato string
         @return: esa hora en timestamp milisegundos en tipo de dato int
         """
+        if shift_start is None:
+            return shift_start
+
         hour = int(shift_start[:2])
         minutes = int(shift_start[3:])
         now = datetime.now()
