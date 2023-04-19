@@ -1,11 +1,9 @@
-import json
-
 from flask import request
 
 from app import app
+from .Accumulator import *
 from .Settings import *
 from .TimeCalculation import *
-from .Accumulator import *
 
 
 @app.route('/api/get_accumulators', methods=['POST'])
