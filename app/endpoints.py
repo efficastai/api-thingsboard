@@ -1,31 +1,10 @@
 import json
-from app import app
-from .Query import *
-from .TimeCalculation import *
-from .Settings import *
+
 from flask import request
-from datetime import datetime
 
-
-@app.route('/')
-@app.route('/index')
-def index():
-    return 'Hello'
-
-
-@app.route('/api/prueba', methods=['POST'])
-def receive_parameters():
-    request_data = request.get_json()
-    pp10s = None
-    timestamp = None
-    if request_data:
-        if 'PP10S' in request_data:
-            pp10s = request_data['PP10S']
-        if 'ss_lastActivityTime' in request_data:
-            timestamp = datetime.fromtimestamp(request_data['ss_lastActivityTime'] / 1000).strftime("%d/%m/%Y - "
-                                                                                                    "%H:%M:%S")
-    return json.dumps({'ajuste_ppm_prueba': pp10s * 0.5,
-                       'datatime': timestamp}), 200
+from app import app
+from .Settings import *
+from .TimeCalculation import *
 
 
 @app.route('/api/get_accumulators', methods=['POST'])

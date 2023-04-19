@@ -1,5 +1,5 @@
 import configparser
-from .Conection import *
+from .DBConection import *
 from datetime import datetime
 
 
@@ -25,7 +25,7 @@ class Query:
         self.port = database_config.getint('port')
 
         # Inicio la instancia de la base de datos
-        self.db = Conection(
+        self.db = DBConection(
             database=self.database,
             username=self.username,
             password=self.password,

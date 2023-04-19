@@ -1,7 +1,7 @@
 import psycopg2
 
 
-class Conection:
+class DBConection:
     def __init__(self, database, username, password, host, port):
         self.database = database
         self.username = username
