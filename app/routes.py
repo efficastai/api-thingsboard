@@ -2,6 +2,7 @@ import json
 from app import app
 from .Query import *
 from .TimeCalculation import *
+from .Settings import *
 from flask import request
 from datetime import datetime
 
@@ -42,23 +43,38 @@ def get_accumulators():
                        'api_last_ten_values': api_last_ten_values}, default=float), 200
 
 
-@app.route('/api/run_soldadoras', methods=['POST'])
-def run_soldadoras():
+@app.route('/api/settings', methods=['POST'])
+def settings():
+    """
+        Retorna un objeto JSON con ajustes para una máquina específica.
+
+        Parámetros esperados en el body de la solicitud:
+
+        Retorno:
+        - Un objeto JSON con los ajustes para la máquina especificada.
+        """
     request_data = request.get_json()
-    ppm2 = request_data['PPM2']
-    run = 0
-    if ppm2 > 0:
-        run = 1
-    return json.dumps({'run_soldadoras': run}, default=int), 200
+    ppm = request_data.get('PPM2')
+    setting = Settings()
+    setting.run_setting(ppm)
+    return setting, 200
 
 
 @app.route('/api/time_calculations', methods=['POST'])
 def time_calculations():
+    """
+    Retorna un objeto JSON con cálculos de tiempo para una máquina específica.
+
+    Parámetros esperados en el body de la solicitud:
+    - device: el nombre de la máquina
+    - shift_start (opcional): la hora de inicio del turno
+
+    Retorno:
+    - Un objeto JSON con los cálculos de tiempo para la máquina especificada.
+    """
     request_data = request.get_json()
-    device = request_data['device']
-    shift_start = None
-    if 'shift_start' in request_data:
-        shift_start = request_data['shift_start']
+    device_name = request_data.get('device')
+    shift_start = request_data.get('shift_start')
     time_calculation = TimeCalculation()
-    api_machine_time_calculations = time_calculation.get_machine_time_calculations(device, shift_start)
-    return json.dumps(api_machine_time_calculations)
+    machine_time_calculations = time_calculation.get_machine_time_calculations(device_name, shift_start)
+    return machine_time_calculations, 200
