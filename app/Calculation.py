@@ -93,6 +93,7 @@ class Calculation:
             ratio_shift_time = 0
         elif shift_start is None:
             ratio_shift_time = math.floor(time_on_milis / timestamp_now * 100)
+            print("ESTOY EN RATIO_SHIFT_TIME EN LA CONDICION NONE :)")
         else:
             ratio_shift_time = math.floor(time_on_milis / (timestamp_now - shift_start) * 100)
         # print(type(ratio_shift_time))
