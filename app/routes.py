@@ -59,6 +59,7 @@ def test_delta():
     shift_start = None
     if 'shift_start' in request_data:
         shift_start = request_data['shift_start']
+        print(f"SHIFT!. El dispositivo {device} tiene shift en {shift_start}")
     print(shift_start)
     calculation = Calculation()
     api_machine_time_calculations = calculation.get_machine_time_calculations(device, shift_start)
