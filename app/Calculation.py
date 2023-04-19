@@ -96,6 +96,7 @@ class Calculation:
             print(f"""ESTOY EN RATIO_SHIFT_TIME EN LA CONDICION NONE :)
                 TIME ON MILLIS: {time_on_milis}
                 TIMESTAMP: {timestamp_now}
+                RATIO: {ratio_shift_time}
             """)
         else:
             ratio_shift_time = math.floor(time_on_milis / (timestamp_now - shift_start) * 100)
