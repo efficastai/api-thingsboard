@@ -3,7 +3,7 @@ import math
 from .Query import *
 
 
-class Calculation:
+class TimeCalculation:
     """
     Clase Calculation: Esta clase inicializa calculos variados para las maquinas. En primera instancia la utilizamos
     para llamar al metodo "get_machine_time_calculations" (ver en su descripcion el uso)

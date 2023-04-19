@@ -1,7 +1,7 @@
 import json
 from app import app
 from .Query import *
-from .Calculation import *
+from .TimeCalculation import *
 from flask import request
 from datetime import datetime
 
@@ -27,8 +27,8 @@ def receive_parameters():
                        'datatime': timestamp}), 200
 
 
-@app.route('/api/get_accumulator', methods=['POST'])
-def get_accumulator():
+@app.route('/api/get_accumulators', methods=['POST'])
+def get_accumulators():
     request_data = request.get_json()
     device = request_data['device']
     new_query = Query()
@@ -53,13 +53,12 @@ def run_soldadoras():
 
 
 @app.route('/api/time_calculations', methods=['POST'])
-def test_delta():
+def time_calculations():
     request_data = request.get_json()
     device = request_data['device']
     shift_start = None
     if 'shift_start' in request_data:
         shift_start = request_data['shift_start']
-    calculation = Calculation()
-    api_machine_time_calculations = calculation.get_machine_time_calculations(device, shift_start)
-    print(f"SHIFT START IS NONE! Entonces retorna: {api_machine_time_calculations}")
+    time_calculation = TimeCalculation()
+    api_machine_time_calculations = time_calculation.get_machine_time_calculations(device, shift_start)
     return json.dumps(api_machine_time_calculations)
