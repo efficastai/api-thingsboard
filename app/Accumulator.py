@@ -31,7 +31,7 @@ class Accumulator:
             'api_day_accumulator': day_accumulator,
             'api_week_accumulator': week_accumulator,
             'api_month_accumulator': month_accumulator,
-            'api_last_n_values:': last_n_values
+            'api_last_n_values': last_n_values
         }
 
         return result
