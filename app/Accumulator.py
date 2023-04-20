@@ -24,11 +24,14 @@ class Accumulator:
         day_accumulator = self.query.get_today_accumulator(device=device)[0][0]
         week_accumulator = self.query.get_week_accumulator(device=device)[0][0]
         month_accumulator = self.query.get_month_accumulator(device=device)[0][0]
+        # Harcodeo para ultimos 10 valores, queda pendiente ingreso por parametro
+        last_n_values = self.query.get_last_n_values(device=device, n=10)[0][0]
 
         result = {
             'api_day_accumulator': day_accumulator,
             'api_week_accumulator': week_accumulator,
-            'api_month_accumulator': month_accumulator
+            'api_month_accumulator': month_accumulator,
+            'api_last_n_values:': last_n_values
         }
 
         return result
