@@ -28,8 +28,8 @@ def settings():
     request_data = request.get_json()
     ppm = request_data.get('PPM2')
     setting = Settings()
-    setting.run_setting(ppm)
-    return setting, 200
+    run_but_ppm = setting.run_setting(ppm)
+    return run_but_ppm, 200
 
 
 @app.route('/api/time_calculations', methods=['POST'])
