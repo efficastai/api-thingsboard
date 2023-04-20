@@ -51,7 +51,7 @@ class TimeCalculation:
         time_on_milis = 0
         time_off_milis = 0
         last = None
-
+        print(pya_tuple)
         # Ordenar los valores de timestamp de menor a mayor
         pya_tuple_ordered = sorted(pya_tuple, key=lambda x: x[1])
 
