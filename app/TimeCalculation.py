@@ -29,7 +29,7 @@ class TimeCalculation:
         # Calculo los ratios de tiempo para el turno.
         ratio_shift_time = self.ratio_shift_time(time_on, shift_start)
 
-        # Retorno de get_last_n_values, en este caso hardcodeo 10
+        # Retorno de get_last_n_values, en este caso hardcodeo 10 (queda pendiente ingreso por parametro)
         last_10_values = self.query.get_last_n_values(device=device, n=10)
 
         # Devuelvo los resultados como un diccionario JSON.
