@@ -29,11 +29,15 @@ class TimeCalculation:
         # Calculo los ratios de tiempo para el turno.
         ratio_shift_time = self.ratio_shift_time(time_on, shift_start)
 
+        # Retorno de get_last_n_values, en este caso hardcodeo 10
+        last_10_values = self.query.get_last_n_values(device=device, n=10)
+
         # Devuelvo los resultados como un diccionario JSON.
         results = {
             'api_time_on_current_day': time_on,
             'api_time_off_current_day': time_off,
             'api_ratio_shift_time_current_day': ratio_shift_time,
+            'api_last_n_values': last_10_values
         }
 
         return results
