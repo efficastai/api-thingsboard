@@ -1,12 +1,8 @@
 from app.TimeCalculation import *
-import pytest
 
 
-@pytest.mark.parametrize("shift_start, expected_ratio", [
-    (None, 0),
-    ('07:00', 50)
-])
-def test_get_machine_time_calculations(shift_start, expected_ratio):
+def test_calculate_time_values():
     tc = TimeCalculation()
-    result = tc.get_machine_time_calculations(device='test_device', shift_start=shift_start)
-    assert result['api_ratio_shift_time_current_day'] == expected_ratio
+    pya_tuple = [(0, 100), (1, 200), (1, 300), (0, 400), (0, 500)]
+    expected_output = (200, 400)
+    assert tc.calculate_time_values(pya_tuple) == expected_output
