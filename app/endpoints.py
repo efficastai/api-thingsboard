@@ -2,7 +2,7 @@ from flask import request
 
 from app import app
 from .Accumulator import *
-from .Settings import *
+from .Setting import *
 from .TimeCalculation import *
 
 
