@@ -17,7 +17,7 @@ class TimeCalculation:
         del día actual en base a su hora de inicio de turno.
         """
         # Obtengo los valores de PYA del día actual en una tupla de tuplas.
-        pya_values_current_day = self.query.get_all_pya_values(device=device)
+        pya_values_current_day = self.query.get_day_pya_values(device=device)
 
         # Calculo los tiempos de encendido y apagado del día.
         time_on, time_off = self.calculate_time_values(pya_values_current_day)

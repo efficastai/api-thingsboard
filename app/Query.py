@@ -92,7 +92,7 @@ class Query:
         )
         return result
 
-    def get_all_pya_values(self, device):
+    def get_day_pya_values(self, device):
         """
         Comentarios del metodo
         """
