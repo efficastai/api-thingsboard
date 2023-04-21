@@ -8,6 +8,18 @@ from .TimeCalculation import *
 
 @app.route('/api/get_accumulators', methods=['POST'])
 def get_accumulators():
+    """
+        Retorna un objeto JSON con variables de acumuladores. Por el momento: diario, semanal, mensual y ultimos
+        10 valores. Tener en cuenta que ciertos valores dependiendo del flag se encuentran ajustados (caso
+        soldadoras)
+
+        Parámetros esperados en el body de la solicitud:
+        - device: un dispositivo
+        - flag (opcional): un flag para realizar un ajuste sobre los valores
+
+        Retorno:
+        - Un objeto JSON con los valores de los acumuladores
+    """
     request_data = request.get_json()
     device = request_data.get('device')
     flag = request_data.get('flag')
