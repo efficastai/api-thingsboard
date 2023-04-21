@@ -12,7 +12,7 @@ class Settings:
         @return: json run:valor_de_run
         """
         run = 1 if ppm > 0 else 0
-        return run
+        return {'run': run}
 
     @staticmethod
     def fix_values(values_list, flag):
