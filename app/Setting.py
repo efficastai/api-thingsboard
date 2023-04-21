@@ -12,4 +12,30 @@ class Settings:
         @return: json run:valor_de_run
         """
         run = 1 if ppm > 0 else 0
-        return {'api_setting_run': run}
+        return run
+
+    @staticmethod
+    def fix_values(values_list, flag):
+        """
+        Método que recibe una lista de valores que convertir y una bandera que indica que tipo de conversion hay
+        que realizar.
+        Por el momento utilizamos:
+         - s10 para describir soldadoras que haya que ajustar / 10 sus valores
+         - s20 para describir soldadoras que haya que ajustar / 20 sus valores
+        
+        Parámetros:
+        - values_list: Una lista de valores
+        - flag: Una flag que describa el ajuste que hay que realizar
+        
+        Return:
+        - fixed_values_list: la lista de los valores ajustados
+        """
+        fixed_values_list = []
+        flag = flag.lower()
+        for i in values_list:
+            if "s10" in flag:
+                fixed_values_list.append(i / 10)
+            elif "s20" in flag:
+                fixed_values_list.append(i / 20)
+
+        return fixed_values_list

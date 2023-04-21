@@ -9,9 +9,10 @@ from .TimeCalculation import *
 @app.route('/api/get_accumulators', methods=['POST'])
 def get_accumulators():
     request_data = request.get_json()
-    device = request_data['device']
+    device = request_data.get('device')
+    flag = request_data.get('flag')
     accumulator = Accumulator()
-    machine_accumulators = accumulator.get_accumulators(device)
+    machine_accumulators = accumulator.get_accumulators(device, flag)
     return machine_accumulators, 200
 
 

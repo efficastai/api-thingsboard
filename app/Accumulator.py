@@ -1,4 +1,5 @@
 from .Query import *
+from .Setting import *
 
 
 class Accumulator:
@@ -10,7 +11,7 @@ class Accumulator:
     def __init__(self):
         self.query = Query()
 
-    def get_accumulators(self, device):
+    def get_accumulators(self, device, flag=None):
         """
         Metodo que devuelve los acumulados del día, la semana y el mes. Declarada para agregar llamados de manera
         facil en proximas consultas o consultas con mas parametros
@@ -26,6 +27,13 @@ class Accumulator:
         month_accumulator = self.query.get_month_accumulator(device=device)[0][0]
         # Harcodeo para ultimos 10 valores, queda pendiente ingreso por parametro
         last_n_values = self.query.get_last_n_values(device=device, n=10)[0][0]
+
+        # Si los valores necesitan algun tipo de ajuste antes de ser enviados
+        if flag is not None:
+            setting = Settings()
+            day_accumulator, week_accumulator, month_accumulator, last_n_values = setting.fix_values(
+                [day_accumulator, week_accumulator, month_accumulator, last_n_values])
+            print(f"Valor cambiado en {device}. Se hizo un fix sobre flag {flag}")
 
         result = {
             'api_day_accumulator': day_accumulator,
