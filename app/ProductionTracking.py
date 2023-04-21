@@ -27,7 +27,6 @@ class ProductionTracking:
         month_accumulator = int(self.query.get_month_accumulator(device=device)[0][0])
         # Harcodeo para ultimos 10 valores, queda pendiente ingreso por parametro
         last_n_values = int(self.query.get_last_n_values(device=device, n=10)[0][0])
-        production_rate = last_n_values * 6
         # Si los valores necesitan algun tipo de ajuste antes de ser enviados
         if flag is not None:
             setting = Settings()
@@ -35,6 +34,8 @@ class ProductionTracking:
                 [day_accumulator, week_accumulator, month_accumulator, last_n_values], flag)
             print(f"Valor cambiado en {device}. Se hizo un fix sobre flag {flag}")
 
+        # Tasa de produccion instantanea
+        production_rate = last_n_values * 6
         # Porcentaje de cumplimiento de piezas diario del dispositivo (si existe target seteado)
         daily_compliance_percentege = self.get_daily_compliance_percentage(day_accumulator,
                                                                            target) if target is not None else 'Set'
