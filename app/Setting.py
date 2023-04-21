@@ -34,8 +34,8 @@ class Settings:
         flag = flag.lower()
         for i in values_list:
             if "s10" in flag:
-                fixed_values_list.append(i / 10)
+                fixed_values_list.append(int(i/10))
             elif "s20" in flag:
-                fixed_values_list.append(i / 20)
+                fixed_values_list.append(int(i/20))
 
         return fixed_values_list
