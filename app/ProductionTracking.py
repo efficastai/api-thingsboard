@@ -11,7 +11,7 @@ class ProductionTracking:
     def __init__(self):
         self.query = Query()
 
-    def get_production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None):
+    def production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None):
         """
         Metodo que devuelve los acumulados del día, la semana y el mes. Declarada para agregar llamados de manera
         facil en proximas consultas o consultas con mas parametros
