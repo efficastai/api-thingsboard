@@ -1,13 +1,13 @@
 from flask import request
 
 from app import app
-from .Accumulator import *
+from .ProductionTracking import *
 from .Setting import *
 from .TimeCalculation import *
 
 
-@app.route('/api/get_accumulators', methods=['POST'])
-def get_accumulators():
+@app.route('/api/production_tracking_analysis', methods=['POST'])
+def production_tracking_analysis():
     """
         Retorna un objeto JSON con variables de acumuladores. Por el momento: diario, semanal, mensual y ultimos
         10 valores. Tener en cuenta que ciertos valores dependiendo del flag se encuentran ajustados (caso
@@ -16,6 +16,8 @@ def get_accumulators():
         Parámetros esperados en el body de la solicitud:
         - device: un dispositivo
         - flag (opcional): un flag para realizar un ajuste sobre los valores
+        - target (opcional): el numero de piezas esperadas del dia
+        - cycle_time (opcional): el numero de piezas esperadas por hora
 
         Retorno:
         - Un objeto JSON con los valores de los acumuladores
@@ -23,8 +25,10 @@ def get_accumulators():
     request_data = request.get_json()
     device = request_data.get('device')
     flag = request_data.get('flag')
-    accumulator = Accumulator()
-    machine_accumulators = accumulator.get_accumulators(device, flag)
+    daily_target = request_data.get('daily_target')
+    cycle_time = request_data.get('cycle_time')
+    production_traking = ProductionTracking()
+    machine_accumulators = production_traking.get_production_tracking_analysis(device, flag, daily_target, cycle_time)
     return machine_accumulators, 200
 
 
