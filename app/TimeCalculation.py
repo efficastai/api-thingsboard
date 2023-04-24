@@ -21,13 +21,13 @@ class TimeCalculation:
 
         # Convierto el string de shift_start en un timestamp en milisegundos.
         if shift_start is not None:
-            shift_start_in_timestamp_miliseconds = self.shift_to_timestamp_milis(shift_start)
+            shift_start = self.shift_to_timestamp_milis(shift_start)
 
         # Calculo los tiempos de encendido y apagado del día.
-        time_on, time_off = self.calculate_time_values(pya_values_current_day, shift_start_in_timestamp_miliseconds)
+        time_on, time_off = self.calculate_time_values(pya_values_current_day, shift_start)
 
         # Calculo los ratios de tiempo para el turno.
-        ratio_shift_time = self.ratio_shift_time(time_on, shift_start_in_timestamp_miliseconds)
+        ratio_shift_time = self.ratio_shift_time(time_on, shift_start)
 
         # Devuelvo los resultados como un diccionario JSON.
         results = {
