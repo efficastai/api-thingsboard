@@ -94,11 +94,11 @@ class TimeCalculation:
         if time_on_milis == 0:
             ratio_shift_time = 0
         elif shift_start is None:
-            ratio_shift_time = math.floor(time_on_milis / today_miliseconds * 100)
+            ratio_shift_time = round(time_on_milis / today_miliseconds * 100)
         else:
             timestamp_milis = now.timestamp() * 1000
             diff = timestamp_milis - shift_start
-            ratio_shift_time = math.floor(time_on_milis / diff * 100)
+            ratio_shift_time = round(time_on_milis / diff * 100)
         return ratio_shift_time
 
     @staticmethod
