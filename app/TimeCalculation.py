@@ -19,15 +19,15 @@ class TimeCalculation:
         # Obtengo los valores de PYA del día actual en una tupla de tuplas.
         pya_values_current_day = self.query.get_day_pya_values(device=device)
 
-        # Calculo los tiempos de encendido y apagado del día.
-        time_on, time_off = self.calculate_time_values(pya_values_current_day)
-
         # Convierto el string de shift_start en un timestamp en milisegundos.
         if shift_start is not None:
-            shift_start = self.shift_to_timestamp_milis(shift_start)
+            shift_start_in_timestamp_miliseconds = self.shift_to_timestamp_milis(shift_start)
+
+        # Calculo los tiempos de encendido y apagado del día.
+        time_on, time_off = self.calculate_time_values(pya_values_current_day, shift_start_in_timestamp_miliseconds)
 
         # Calculo los ratios de tiempo para el turno.
-        ratio_shift_time = self.ratio_shift_time(time_on, shift_start)
+        ratio_shift_time = self.ratio_shift_time(time_on, shift_start_in_timestamp_miliseconds)
 
         # Devuelvo los resultados como un diccionario JSON.
         results = {
@@ -38,8 +38,7 @@ class TimeCalculation:
 
         return results
 
-    @staticmethod
-    def calculate_time_values(pya_tuple):
+    def calculate_time_values(self, pya_tuple, shift_start_in_timestamp_miliseconds=None):
         """
         Metodo que recibe una tupla de pya, en el indice [0] se encuentra el valor del pya y en el indice [1]
         se encuentra el valor del timestamp en milisegundos.
@@ -54,6 +53,11 @@ class TimeCalculation:
 
         # Ordenar los valores de timestamp de menor a mayor
         pya_tuple_ordered = sorted(pya_tuple, key=lambda x: x[1])
+
+        # Si existe un tiempo de inicio de turno, actualizo la lista a partir de ese timestamp de inicio de turno
+        if shift_start_in_timestamp_miliseconds is not None:
+            pya_tuple_ordered = self.update_list_from_shift_start(pya_tuple_ordered,
+                                                                  shift_start_in_timestamp_miliseconds)
 
         # Iterar tupla de pya (pya, ts)
         for pya, ts in pya_tuple_ordered:
@@ -116,3 +120,22 @@ class TimeCalculation:
             datetime(now.year, now.month, now.day, hour, minutes, now.second).timestamp()) * 1000
 
         return result
+
+    @staticmethod
+    def update_list_from_shift_start(pya_tuple_ordered, shift_start_in_timestamp_miliseconds):
+        """
+        Metodo que recibe una lista de tuplas de pya ordenadas, además de un tiempo de inicio de turno. Retorna
+        la misma lista actualizada donde solo estén almacenados los datos a partir de la hora de inicio de turno.
+
+        Parámetros:
+        - pya_tuple_ordered: una lista de tuplas de pya ordenadas
+        - shift_start: una hora de inicio de turno en timestamp milisegundos
+
+        Return:
+        - pya_tuple_ordered: la tupla actualizada a partir de la hora de inicio de turno
+        """
+        for i, t in enumerate(pya_tuple_ordered):
+            if t[1] == shift_start_in_timestamp_miliseconds:
+                pya_tuple_ordered = pya_tuple_ordered[i:]
+                break
+        return pya_tuple_ordered
