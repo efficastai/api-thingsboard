@@ -24,14 +24,6 @@ API designed to provide support for complex calculations and queries to the IoT 
 ![App Screenshot](https://i.ibb.co/8BTZCS1/Captura-desde-2023-04-24-09-11-10.png)
 
 ![App Screenshot](https://i.ibb.co/SBWg34X/Captura-desde-2023-04-24-08-59-42.png)
-## Run
-
-To run this project run
-
-```bash
-  sudo supervisorctl start api-thingsboard
-```
-
 
 ## Authors
 
