@@ -135,7 +135,7 @@ class TimeCalculation:
         - pya_tuple_ordered: la tupla actualizada a partir de la hora de inicio de turno
         """
         for i, t in enumerate(pya_tuple_ordered):
-            if t[1] == shift_start_in_timestamp_miliseconds:
+            if t[1] >= shift_start_in_timestamp_miliseconds:
                 pya_tuple_ordered = pya_tuple_ordered[i:]
                 break
         return pya_tuple_ordered
