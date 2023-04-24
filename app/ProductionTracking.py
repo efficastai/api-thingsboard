@@ -22,7 +22,7 @@ class ProductionTracking:
         Retorno:
         - Un objeto JSON con el acumulado del dia, semana y mes
         """
-        day_accumulator = int(self.query.get_today_accumulator(device=device)[0][0])
+        day_accumulator = int(self.query.get_day_accumulator(device=device)[0][0])
         week_accumulator = int(self.query.get_week_accumulator(device=device)[0][0])
         month_accumulator = int(self.query.get_month_accumulator(device=device)[0][0])
         # Harcodeo para ultimos 10 valores, queda pendiente ingreso por parametro

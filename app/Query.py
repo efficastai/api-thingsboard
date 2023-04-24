@@ -42,7 +42,7 @@ class Query:
     def __del__(self):
         self.db.disconnect()
 
-    def get_today_accumulator(self, device):
+    def get_day_accumulator(self, device):
         """
         Obtenemos el acumulado del día, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
         :param device:
