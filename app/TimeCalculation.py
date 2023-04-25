@@ -161,6 +161,7 @@ class TimeCalculation:
         Return:
         - values_tuple: esa lista de valores convertidas a valores de 0 y 1
         """
+        print(values_tuple)
         for i in values_tuple:
             if i[0] > 1:
                 i = (1, i[1])
