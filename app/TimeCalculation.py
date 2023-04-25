@@ -24,6 +24,7 @@ class TimeCalculation:
                 day_ppm_values = self.query.get_day_ppm_values(device)
                 run_stop_values_tuple = self.convert_to_pya_tuple(day_ppm_values)
                 print("Tengo un FLAG en time_calculations")
+                print(run_stop_values_tuple)
         # Si el mensaje viene sin flag obtengo los valores de pya del día
         else:
             run_stop_values_tuple = self.query.get_day_pya_values(device)
@@ -161,7 +162,6 @@ class TimeCalculation:
         Return:
         - values_tuple: esa lista de valores convertidas a valores de 0 y 1
         """
-        print(values_tuple)
         for i in values_tuple:
             if i[0] > 1:
                 i = (1, i[1])
