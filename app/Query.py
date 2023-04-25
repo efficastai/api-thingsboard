@@ -101,3 +101,15 @@ class Query:
             f"WHERE date_trunc('day', to_timestamp(ts/1000)) = '{self.date_str}' AND t.key = 34 AND d.name = '{device}'"
         )
         return result
+
+    def get_day_ppm_values(self, device):
+        """
+        Obtenemos una tupla de tuplas con los valores de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
+        :param device:
+        :return: acumulador diario
+        """
+        result = self.db.execute_query(
+            f"SELECT long_v FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id "
+            f"WHERE date_trunc('day', to_timestamp(ts/1000)) = '{self.date_str}' AND t.key = 36 AND d.name = '{device}'"
+        )
+        return result

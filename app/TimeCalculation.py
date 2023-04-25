@@ -11,20 +11,29 @@ class TimeCalculation:
     def __init__(self):
         self.query = Query()
 
-    def get_machine_time_calculations(self, device, shift_start=None, shift_end=None):
+    def get_machine_time_calculations(self, device, shift_start=None, flag=None):
         """
         Este método devuelve el tiempo encendido, tiempo apagado y disponibilidad de una máquina en lo que va
         del día actual en base a su hora de inicio de turno.
         """
-        # Obtengo los valores de PYA del día actual en una tupla de tuplas.
-        pya_values_current_day = self.query.get_day_pya_values(device=device)
+        # Si tengo un flag en el cuerpo del mensaje convierto a minúsculas
+        if flag is not None:
+            flag = flag.lower()
+            # Si tengo un flag de soldadora obtengo los valores de ppm del día y luego los convierto a valores de pya
+            if "s" in flag:
+                day_ppm_values = self.query.get_day_ppm_values(device)
+                run_stop_values_tuple = self.convert_to_pya_tuple(day_ppm_values)
+                print("Tengo un FLAG en time_calculations")
+        # Si el mensaje viene sin flag obtengo los valores de pya del día
+        else:
+            run_stop_values_tuple = self.query.get_day_pya_values(device)
 
         # Convierto el string de shift_start en un timestamp en milisegundos.
         if shift_start is not None:
             shift_start = self.shift_to_timestamp_milis(shift_start)
 
         # Calculo los tiempos de encendido y apagado del día.
-        time_on, time_off = self.calculate_time_values(pya_values_current_day, shift_start)
+        time_on, time_off = self.calculate_time_values(run_stop_values_tuple, shift_start)
 
         # Calculo los ratios de tiempo para el turno.
         ratio_shift_time = self.ratio_shift_time(time_on, shift_start)
@@ -38,7 +47,7 @@ class TimeCalculation:
 
         return results
 
-    def calculate_time_values(self, pya_tuple, shift_start_in_timestamp_miliseconds=None):
+    def calculate_time_values(self, run_stop_values_tuple, shift_start_in_timestamp_miliseconds=None):
         """
         Metodo que recibe una tupla de pya, en el indice [0] se encuentra el valor del pya y en el indice [1]
         se encuentra el valor del timestamp en milisegundos.
@@ -52,15 +61,15 @@ class TimeCalculation:
         last = None
 
         # Ordenar los valores de timestamp de menor a mayor
-        pya_tuple_ordered = sorted(pya_tuple, key=lambda x: x[1])
+        run_stop_values_ordered = sorted(run_stop_values_tuple, key=lambda x: x[1])
 
         # Si existe un tiempo de inicio de turno, actualizo la lista a partir de ese timestamp de inicio de turno
         if shift_start_in_timestamp_miliseconds is not None:
-            pya_tuple_ordered = self.update_list_from_shift_start(pya_tuple_ordered,
-                                                                  shift_start_in_timestamp_miliseconds)
+            run_stop_values_ordered = self.update_list_from_shift_start(run_stop_values_ordered,
+                                                                        shift_start_in_timestamp_miliseconds)
 
         # Iterar tupla de pya (pya, ts)
-        for pya, ts in pya_tuple_ordered:
+        for pya, ts in run_stop_values_ordered:
             if last is None:
                 last = (pya, ts)
                 continue
@@ -139,3 +148,21 @@ class TimeCalculation:
                 pya_tuple_ordered = pya_tuple_ordered[i:]
                 break
         return pya_tuple_ordered
+
+    @staticmethod
+    def convert_to_pya_tuple(values_tuple):
+        """
+        Método que recibe una tupla de tuplas de ppm y las convierte a una tuple de pya. Esto lo utilizamos en los
+        casos donde hay que utilizar los valores de ppm diario como valores de run-stop
+
+        Parámetros:
+        - values_tuple: una tupla de valores (generalmente será de ppm)
+
+        Return:
+        - values_tuple: esa lista de valores convertidas a valores de 0 y 1
+        """
+        for i in values_tuple:
+            if i[0] > 1:
+                i = (1, i[1])
+
+        return values_tuple
