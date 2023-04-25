@@ -23,7 +23,7 @@ class TimeCalculation:
             if "s" in flag:
                 day_ppm_values = self.query.get_day_ppm_values(device)
                 run_stop_values_tuple = self.convert_to_pya_tuple(day_ppm_values)
-                print("Tengo un FLAG en time_calculations")
+                print(f"Tengo un FLAG en time_calculations en device {device}")
                 print(run_stop_values_tuple)
         # Si el mensaje viene sin flag obtengo los valores de pya del día
         else:
