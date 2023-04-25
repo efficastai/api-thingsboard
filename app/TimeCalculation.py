@@ -164,6 +164,6 @@ class TimeCalculation:
         """
         for i in values_tuple:
             if i[0] > 1:
-                i = (1, i[1])
+                values_tuple[values_tuple.index(i)] = (1, i[1])
 
         return values_tuple
