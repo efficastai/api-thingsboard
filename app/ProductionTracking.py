@@ -32,7 +32,6 @@ class ProductionTracking:
             setting = Setting()
             day_accumulator, week_accumulator, month_accumulator, last_n_values = setting.fix_values(
                 [day_accumulator, week_accumulator, month_accumulator, last_n_values], flag)
-            print(f"Valor cambiado en {device}. Se hizo un fix sobre flag {flag}")
 
         # Tasa de produccion instantanea
         production_rate = last_n_values * 6
