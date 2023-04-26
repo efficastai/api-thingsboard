@@ -32,10 +32,14 @@ class SQLiteQuery:
 
     def insert_state(self, client, device, state):
         query = """
-            INSERT INTO machines (
+            REPLACE INTO machines (
                 client,
                 device,
                 state
-            ) VALUES ('{client}', '{device}', {state})
+            ) VALUES (
+            (SELECT id FROM machines WHERE client = '{client}' AND device = '{device}'),
+            '{client}', 
+            '{device}', 
+            {state})
         """.format(client=client, device=device, state=state)
         self.db.execute_query(query)
