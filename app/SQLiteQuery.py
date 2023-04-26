@@ -33,6 +33,7 @@ class SQLiteQuery:
     def insert_state(self, client, device, state):
         query = """
             REPLACE INTO machines (
+                id,
                 client,
                 device,
                 state
