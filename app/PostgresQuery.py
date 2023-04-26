@@ -8,21 +8,19 @@ class PostgresQuery:
     Esta clase realiza consultas SQL a la base de datos de Thingsboard
     """
 
+    # Variables de clase para la información de la configuración de la base de datos
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    database_config = config['database']
+    database = database_config.get('dbname')
+    username = database_config.get('username')
+    password = database_config.get('password')
+    host = database_config.get('host')
+    port = database_config.getint('port')
+
     def __init__(self, device=None, alias=None):
         self.device = device
         self.alias = alias
-
-        # Leo la configuración desde el archivo config.ini
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-        database_config = config['database']
-
-        # Obtengo los datos de la configuración
-        self.database = database_config.get('dbname')
-        self.username = database_config.get('username')
-        self.password = database_config.get('password')
-        self.host = database_config.get('host')
-        self.port = database_config.getint('port')
 
         # Inicio la instancia de la base de datos
         self.db = PostgresDB(

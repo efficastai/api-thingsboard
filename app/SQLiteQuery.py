@@ -7,13 +7,14 @@ class SQLiteQuery:
     Esta clase realiza consultas SQL a la base de datos SQLite
     """
 
-    def __init__(self):
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-        sqlite_config = config['sqlite']
-        path = sqlite_config.get('path')
+    # Variables de clase para la información de la configuración de la base de datos
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    sqlite_config = config['sqlite']
+    path = sqlite_config.get('path')
 
-        self.db = SQLiteDB(path)
+    def __init__(self):
+        self.db = SQLiteDB(self.path)
         self.db.connect()
 
     def __del__(self):
