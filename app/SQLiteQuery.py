@@ -28,8 +28,7 @@ class SQLiteQuery:
                 state INTEGER
             )
         """
-        result = self.db.execute_query(query)
-        return result
+        self.db.execute_query(query)
 
     def insert_state(self, client, device, state):
         query = """
