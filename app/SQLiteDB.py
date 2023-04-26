@@ -14,6 +14,7 @@ class SQLiteDB:
     def connect(self):
         try:
             self.conn = sqlite3.connect(self.database)
+            print("Connected to the SQLite database")
         except Exception as e:
             print("Unable to connect to SQLite database")
             raise e
