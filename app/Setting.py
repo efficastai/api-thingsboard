@@ -1,4 +1,3 @@
-from .SQLiteQuery import *
 class Setting:
 
     def __init__(self):
@@ -13,7 +12,6 @@ class Setting:
         @return: json run:valor_de_run
         """
         run = 1 if ppm > 0 else 0
-        test = SQLiteQuery()
         return {'api_run': run}
 
     @staticmethod
