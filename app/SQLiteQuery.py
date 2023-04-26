@@ -37,6 +37,6 @@ class SQLiteQuery:
                 client,
                 device,
                 state
-            ) VALUES ({client}, {device}, {state})
+            ) VALUES ('{client}', '{device}', {state})
         """.format(client=client, device=device, state=state)
         self.db.execute_query(query)
