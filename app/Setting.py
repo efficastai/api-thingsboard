@@ -1,4 +1,5 @@
-class Settings:
+from .SQLiteQuery import *
+class Setting:
 
     def __init__(self):
         pass
@@ -12,6 +13,7 @@ class Settings:
         @return: json run:valor_de_run
         """
         run = 1 if ppm > 0 else 0
+        test = SQLiteQuery()
         return {'api_run': run}
 
     @staticmethod
@@ -33,9 +35,12 @@ class Settings:
         fixed_values_list = []
         flag = flag.lower()
         for i in values_list:
+            if i == 0:
+                fixed_values_list.append(i)
+                continue
             if "s10" in flag:
-                fixed_values_list.append(int(i/10))
+                fixed_values_list.append(int(i / 10))
             elif "s20" in flag:
-                fixed_values_list.append(int(i/20))
+                fixed_values_list.append(int(i / 20))
 
         return fixed_values_list

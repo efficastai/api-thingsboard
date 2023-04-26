@@ -1,9 +1,9 @@
 import configparser
-from .DBConection import *
+from .PostgresDB import *
 from datetime import datetime
 
 
-class Query:
+class PostgresQuery:
     """
     Esta clase realiza consultas SQL a la base de datos de Thingsboard
     """
@@ -25,7 +25,7 @@ class Query:
         self.port = database_config.getint('port')
 
         # Inicio la instancia de la base de datos
-        self.db = DBConection(
+        self.db = PostgresDB(
             database=self.database,
             username=self.username,
             password=self.password,
@@ -42,7 +42,7 @@ class Query:
     def __del__(self):
         self.db.disconnect()
 
-    def get_day_accumulator(self, device):
+    def get_ppm_day_accumulator(self, device):
         """
         Obtenemos el acumulado del día, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
         :param device:
@@ -54,7 +54,7 @@ class Query:
         )
         return result
 
-    def get_week_accumulator(self, device):
+    def get_ppm_week_accumulator(self, device):
         """
         Obtenemos el acumulado de la semana, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
         :param device:
@@ -67,7 +67,7 @@ class Query:
         )
         return result
 
-    def get_month_accumulator(self, device):
+    def get_ppm_month_accumulator(self, device):
         """
         Obtenemos el acumulado del mes, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
         :param device: a que dispositivo queremos referenciar
@@ -79,7 +79,7 @@ class Query:
         )
         return result
 
-    def get_last_n_values(self, device, n):
+    def get_ppm_last_n_values(self, device, n):
         """
         Obtenemos el acumulado del día, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
         :param n: a cuantos valores limitar la consulta

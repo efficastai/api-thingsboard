@@ -1,5 +1,5 @@
 import math
-from .Query import *
+from .PostgresQuery import *
 
 
 class TimeCalculation:
@@ -9,7 +9,7 @@ class TimeCalculation:
     """
 
     def __init__(self):
-        self.query = Query()
+        self.query = PostgresQuery()
 
     def get_machine_time_calculations(self, device, shift_start=None, flag=None):
         """

@@ -1,8 +1,10 @@
 import psycopg2
-from datetime import datetime
 
 
-class DBConection:
+class PostgresDB:
+    """
+    Clase que crea una conexión con la base de datos de Thingsboard
+    """
     def __init__(self, database, username, password, host, port):
         self.database = database
         self.username = username

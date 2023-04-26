@@ -44,7 +44,7 @@ def settings():
         """
     request_data = request.get_json()
     ppm = request_data.get('PPM2')
-    setting = Settings()
+    setting = Setting()
     run_but_ppm = setting.run_setting(ppm)
     return run_but_ppm, 200
 

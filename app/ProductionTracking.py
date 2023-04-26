@@ -1,4 +1,4 @@
-from .Query import *
+from .PostgresQuery import *
 from .Setting import *
 
 
@@ -9,7 +9,7 @@ class ProductionTracking:
     """
 
     def __init__(self):
-        self.query = Query()
+        self.query = PostgresQuery()
 
     def get_production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None):
         """
@@ -22,14 +22,14 @@ class ProductionTracking:
         Retorno:
         - Un objeto JSON con el acumulado del dia, semana y mes
         """
-        day_accumulator = int(self.query.get_day_accumulator(device=device)[0][0])
-        week_accumulator = int(self.query.get_week_accumulator(device=device)[0][0])
-        month_accumulator = int(self.query.get_month_accumulator(device=device)[0][0])
+        day_accumulator = int(self.query.get_ppm_day_accumulator(device=device)[0][0])
+        week_accumulator = int(self.query.get_ppm_week_accumulator(device=device)[0][0])
+        month_accumulator = int(self.query.get_ppm_month_accumulator(device=device)[0][0])
         # Harcodeo para ultimos 10 valores, queda pendiente ingreso por parametro
-        last_n_values = int(self.query.get_last_n_values(device=device, n=10)[0][0])
+        last_n_values = int(self.query.get_ppm_last_n_values(device=device, n=10)[0][0])
         # Si los valores necesitan algun tipo de ajuste antes de ser enviados
         if flag is not None:
-            setting = Settings()
+            setting = Setting()
             day_accumulator, week_accumulator, month_accumulator, last_n_values = setting.fix_values(
                 [day_accumulator, week_accumulator, month_accumulator, last_n_values], flag)
             print(f"Valor cambiado en {device}. Se hizo un fix sobre flag {flag}")
