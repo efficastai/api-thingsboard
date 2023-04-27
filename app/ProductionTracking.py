@@ -71,7 +71,7 @@ class ProductionTracking:
     def performance(production_rate, cycle_time):
         """
         Metodo que devuelve el porcentaje de rendimiento de la maquina basado en su tasa de produccion
-        y el tiempo de ciclo
+        y el tiempo de ciclo.
 
         Parámetros:
         - production_rate: tasa de produccion instantanea
