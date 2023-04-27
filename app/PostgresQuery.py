@@ -34,7 +34,6 @@ class PostgresQuery:
 
         # Creo un objeto datetime para almacenar la fecha y el mes actual
         self.date = datetime.now()
-        self.year = self.date.year
         self.month_str = self.date.strftime('%m')
         self.date_str = self.date.strftime('%Y-%m-%d')
 
@@ -47,15 +46,10 @@ class PostgresQuery:
         :param device:
         :return: acumulador diario
         """
-        query = (
-            "SELECT SUM(long_v) FROM ts_kv_{0}_{1} t "
-            "JOIN device d ON t.entity_id = d.id "
-            "WHERE date_trunc('day', to_timestamp(ts/1000)) = '{2}' "
-            "AND t.key = 36 AND d.name = '{3}'"
-            .format(self.year, self.month_str, self.date, device)
+        result = self.db.execute_query(
+            f"SELECT SUM(long_v) FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id "
+            f"WHERE date_trunc('day', to_timestamp(ts/1000)) = '{self.date_str}' AND t.key = 36 AND d.name = '{device}'"
         )
-
-        result = self.db.execute_query(query)
         return result
 
     def get_ppm_week_accumulator(self, device):
@@ -64,16 +58,11 @@ class PostgresQuery:
         :param device:
         :return: acumulador diario
         """
-        query = (
-            "SELECT SUM(long_v) "
-            "FROM ts_kv_{0}_{1} t "
-            "JOIN device d ON t.entity_id = d.id "
-            "WHERE date_trunc('week', to_timestamp(ts/1000)) = date_trunc('week', current_timestamp) "
-            "AND t.key = 36 AND d.name = '{2}'"
-            .format(self.year, self.month_str, device)
+        result = self.db.execute_query(
+            f"SELECT SUM(long_v) FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id"
+            f" WHERE date_trunc('week', to_timestamp(ts/1000)) = date_trunc('week', current_timestamp) AND t.key = 36"
+            f" AND d.name = '{device}'"
         )
-
-        result = self.db.execute_query(query)
         return result
 
     def get_ppm_month_accumulator(self, device):
@@ -82,15 +71,10 @@ class PostgresQuery:
         :param device: a que dispositivo queremos referenciar
         :return: acumulador diario
         """
-        query = (
-            "SELECT SUM(long_v) "
-            "FROM ts_kv_{0}_{1} t "
-            "JOIN device d ON t.entity_id = d.id "
-            "WHERE t.key = 36 AND d.name = '{2}'"
-            .format(self.year, self.month_str, device)
+        result = self.db.execute_query(
+            f"SELECT SUM(long_v) FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id"
+            f" WHERE t.key = 36 AND d.name = '{device}'"
         )
-
-        result = self.db.execute_query(query)
         return result
 
     def get_ppm_last_n_values(self, device, n):
@@ -100,33 +84,20 @@ class PostgresQuery:
         :param device: a que dispositivo queremos referenciar
         :return: acumulador diario
         """
-        query = (
-            "SELECT SUM(long_v) "
-            "FROM (SELECT long_v FROM ts_kv_{0}_{1} t "
-            "JOIN device d ON t.entity_id = d.id "
-            "WHERE t.key = 36 "
-            "AND d.name = '{2}' "
-            "ORDER BY ts DESC LIMIT {3}) "
-            "AS last_values;"
-            .format(self.year, self.month_str, device, n)
+        result = self.db.execute_query(
+            f"SELECT SUM(long_v) FROM (SELECT long_v FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON"
+            f" t.entity_id = d.id WHERE t.key = 36 AND d.name = '{device}' ORDER BY ts DESC LIMIT {n}) AS last_values;"
         )
-
-        result = self.db.execute_query(query)
         return result
 
     def get_day_pya_values(self, device):
         """
         Comentarios del metodo
         """
-        query = (
-            "SELECT long_v, ts FROM ts_kv_{0}_{1} t "
-            "JOIN device d ON t.entity_id = d.id "
-            "WHERE date_trunc('day', to_timestamp(ts/1000)) = '{2}' "
-            "AND t.key = 34 AND d.name = '{3}'"
-            .format(self.year, self.month_str, self.date_str, device)
+        result = self.db.execute_query(
+            f"SELECT long_v, ts FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id "
+            f"WHERE date_trunc('day', to_timestamp(ts/1000)) = '{self.date_str}' AND t.key = 34 AND d.name = '{device}'"
         )
-
-        result = self.db.execute_query(query)
         return result
 
     def get_day_ppm_values(self, device):
@@ -135,13 +106,8 @@ class PostgresQuery:
         :param device:
         :return: acumulador diario
         """
-        query = (
-            "SELECT long_v, ts FROM ts_kv_{0}_{1} t "
-            "JOIN device d ON t.entity_id = d.id "
-            "WHERE date_trunc('day', to_timestamp(ts/1000)) = '{2}' "
-            "AND t.key = 36 AND d.name = '{3}'"
-            .format(self.year, self.month_str, self.date_str, device)
+        result = self.db.execute_query(
+            f"SELECT long_v, ts FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id "
+            f"WHERE date_trunc('day', to_timestamp(ts/1000)) = '{self.date_str}' AND t.key = 36 AND d.name = '{device}'"
         )
-
-        result = self.db.execute_query(query)
         return result
