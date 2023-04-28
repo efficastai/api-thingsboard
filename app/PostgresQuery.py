@@ -48,7 +48,7 @@ class PostgresQuery:
         """
         result = self.db.execute_query(
             f"SELECT SUM(long_v) FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id "
-            f"WHERE date_trunc('day', to_timestamp(ts/1000)) = '{self.date_str}' AND t.key = 36 AND d.name = '{device}'"
+            f"WHERE date_trunc('day', to_timestamp(ts/1000)) = '{self.date_str}' AND t.key = 24 AND d.name = '{device}'"
         )
         return result
 
@@ -60,7 +60,7 @@ class PostgresQuery:
         """
         result = self.db.execute_query(
             f"SELECT SUM(long_v) FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id"
-            f" WHERE date_trunc('week', to_timestamp(ts/1000)) = date_trunc('week', current_timestamp) AND t.key = 36"
+            f" WHERE date_trunc('week', to_timestamp(ts/1000)) = date_trunc('week', current_timestamp) AND t.key = 24"
             f" AND d.name = '{device}'"
         )
         return result
@@ -73,7 +73,7 @@ class PostgresQuery:
         """
         result = self.db.execute_query(
             f"SELECT SUM(long_v) FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id"
-            f" WHERE t.key = 36 AND d.name = '{device}'"
+            f" WHERE t.key = 24 AND d.name = '{device}'"
         )
         return result
 
@@ -86,7 +86,7 @@ class PostgresQuery:
         """
         result = self.db.execute_query(
             f"SELECT SUM(long_v) FROM (SELECT long_v FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON"
-            f" t.entity_id = d.id WHERE t.key = 36 AND d.name = '{device}' ORDER BY ts DESC LIMIT {n}) AS last_values;"
+            f" t.entity_id = d.id WHERE t.key = 24 AND d.name = '{device}' ORDER BY ts DESC LIMIT {n}) AS last_values;"
         )
         return result
 
@@ -96,7 +96,7 @@ class PostgresQuery:
         """
         result = self.db.execute_query(
             f"SELECT long_v, ts FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id "
-            f"WHERE date_trunc('day', to_timestamp(ts/1000)) = '{self.date_str}' AND t.key = 34 AND d.name = '{device}'"
+            f"WHERE date_trunc('day', to_timestamp(ts/1000)) = '{self.date_str}' AND t.key = 25 AND d.name = '{device}'"
         )
         return result
 
@@ -108,6 +108,6 @@ class PostgresQuery:
         """
         result = self.db.execute_query(
             f"SELECT long_v, ts FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id "
-            f"WHERE date_trunc('day', to_timestamp(ts/1000)) = '{self.date_str}' AND t.key = 36 AND d.name = '{device}'"
+            f"WHERE date_trunc('day', to_timestamp(ts/1000)) = '{self.date_str}' AND t.key = 24 AND d.name = '{device}'"
         )
         return result
