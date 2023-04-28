@@ -50,6 +50,7 @@ class PostgresQuery:
             f"SELECT SUM(long_v) FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id "
             f"WHERE date_trunc('day', to_timestamp(ts/1000)) = '{self.date_str}' AND t.key = 24 AND d.name = '{device}'"
         )
+        print(result)
         return result
 
     def get_ppm_week_accumulator(self, device):
