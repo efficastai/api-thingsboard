@@ -6,7 +6,7 @@ API designed to provide support for complex calculations and queries to the IoT 
 
 ## Tech Stack
 
-**Server:** Python, Flask
+**Server:** Python, Flask.
 
 
 ## Screenshots

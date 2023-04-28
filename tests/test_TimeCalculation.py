@@ -3,7 +3,7 @@ from app.TimeCalculation import *
 
 def test_calculate_time_values():
     """
-    REVISAR ESTE TEST. Los valores de salida simulados no son correcots. Necesito conocer el resultado de antemano
+    REVISAR ESTE TEST. Los valores de salida simulados no son correcots. Necesito conocer el resultado de antemano.
     """
     tc = TimeCalculation()
     pya_tuple = [(1, 1681983371000), (1, 1681983491000), (1, 1681983461000), (1, 1681983431000), (1, 1681983401000),
