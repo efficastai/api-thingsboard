@@ -5,7 +5,7 @@ from .Setting import *
 class ProductionTracking:
     """
     Esta clase esta destinada a llamar a las consultas que devuelvan valores acumulados de ciertos periodos
-    y retornar dichos objetos de forma ordenada
+    y retornar dichos objetos de forma ordenada.
     """
 
     def __init__(self):

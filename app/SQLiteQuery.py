@@ -4,7 +4,7 @@ from .SQLiteDB import *
 
 class SQLiteQuery:
     """
-    Esta clase realiza consultas SQL a la base de datos SQLite
+    Esta clase realiza consultas SQL a la base de datos SQLite.
     """
 
     # Variables de clase para la información de la configuración de la base de datos

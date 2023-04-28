@@ -3,7 +3,7 @@ import psycopg2
 
 class PostgresDB:
     """
-    Clase que crea una conexión con la base de datos de Thingsboard
+    Clase que crea una conexión con la base de datos de Thingsboard.
     """
     def __init__(self, database, username, password, host, port):
         self.database = database

@@ -11,7 +11,7 @@ def production_tracking_analysis():
     """
         Retorna un objeto JSON con variables de acumuladores. Por el momento: diario, semanal, mensual y ultimos
         10 valores. Tener en cuenta que ciertos valores dependiendo del flag se encuentran ajustados (caso
-        soldadoras)
+        soldadoras).
 
         Parámetros esperados en el body de la solicitud:
         - device: un dispositivo

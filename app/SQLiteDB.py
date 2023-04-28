@@ -4,7 +4,7 @@ from threading import Lock
 
 class SQLiteDB:
     """
-    Clase que crea una conexión con una base de datos SQLite
+    Clase que crea una conexión con una base de datos SQLite.
     """
     def __init__(self, database):
         self.database = database
