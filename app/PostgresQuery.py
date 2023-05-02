@@ -5,7 +5,7 @@ from datetime import datetime
 
 class PostgresQuery:
     """
-    Esta clase realiza consultas SQL a la base de datos de Thingsboard
+    Esta clase realiza consultas SQL a la base de datos de Thingsboard.
     """
 
     # Variables de clase para la información de la configuración de la base de datos
