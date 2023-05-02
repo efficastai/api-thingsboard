@@ -1,6 +1,7 @@
 import configparser
 from .PostgresDB import *
 from datetime import datetime
+from query import postgres
 
 
 class PostgresQuery:
@@ -34,6 +35,7 @@ class PostgresQuery:
 
         # Creo un objeto datetime para almacenar la fecha y el mes actual
         self.date = datetime.now()
+        self.year = self.date.year
         self.month_str = self.date.strftime('%m')
         self.date_str = self.date.strftime('%Y-%m-%d')
 
@@ -46,10 +48,8 @@ class PostgresQuery:
         :param device:
         :return: acumulador diario
         """
-        result = self.db.execute_query(
-            f"SELECT SUM(long_v) FROM ts_kv_{self.date.year}_{self.month_str} t JOIN device d ON t.entity_id = d.id "
-            f"WHERE date_trunc('day', to_timestamp(ts/1000)) = '{self.date_str}' AND t.key= 24 AND d.name = '{device}'"
-        )
+        query = postgres.get('get_ppm_day_accumulator').format(self.year, self.month_str, self.date_str, device)
+        result = self.db.execute_query(query)
         return result
 
     def get_ppm_week_accumulator(self, device):
