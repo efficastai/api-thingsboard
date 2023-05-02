@@ -35,7 +35,7 @@ class ProductionTracking:
         # Porcentaje de cumplimiento de piezas diario del dispositivo (si existe target seteado, sinó SET)
         daily_compliance_percentege = self.get_daily_compliance_percentage(day_accumulator, target)
         # Porcentaje de performance de la maquina (si existe tiempo de ciclo seteado, sinó SET)
-        performance = self.performance(production_rate, cycle_time)
+        performance = self.get_performance(production_rate, cycle_time)
 
         result = {
             'api_day_accumulator': day_accumulator,
