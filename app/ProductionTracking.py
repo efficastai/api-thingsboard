@@ -18,6 +18,7 @@ class ProductionTracking:
             while not connected:
                 result = self.get_production_tracking_analysis(device, flag, target, connected)
                 time.sleep(60)
+                print("ESTOY EN EL WHILE!")
                 return result
 
         result = self.get_production_tracking_analysis(device, flag, target, cycle_time, connected)
