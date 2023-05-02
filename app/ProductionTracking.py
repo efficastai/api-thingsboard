@@ -1,5 +1,6 @@
 from .PostgresQuery import *
 from .Setting import *
+import time
 
 
 class ProductionTracking:
@@ -11,7 +12,18 @@ class ProductionTracking:
     def __init__(self):
         self.query = PostgresQuery()
 
-    def get_production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None):
+    def get_production(self, device, flag=None, target=None, cycle_time=None, connected=None):
+
+        if not connected:
+            while not connected:
+                result = self.get_production_tracking_analysis(device, flag, target, connected)
+                time.sleep(60)
+            return result
+
+        result = self.get_production_tracking_analysis(device, flag, target, cycle_time, connected)
+        return result
+
+    def get_production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None, connected=None):
         """
         Método central de la clase. Este método se encarga de recopilar todas los calculos necesarios
         para tener el tracking de la producción de las máquinas. Me refiero: obtenemos todos los valores

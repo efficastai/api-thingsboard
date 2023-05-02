@@ -25,10 +25,11 @@ def production_tracking_analysis():
     request_data = request.get_json()
     device = request_data.get('device')
     flag = request_data.get('flag')
+    connected = request_data.get('connected')
     daily_target = request_data.get('daily_target')
     cycle_time = request_data.get('cycle_time')
     production_traking = ProductionTracking()
-    machine_accumulators = production_traking.get_production_tracking_analysis(device, flag, daily_target, cycle_time)
+    machine_accumulators = production_traking.get_production(device, flag, daily_target, cycle_time)
     return machine_accumulators, 200
 
 
