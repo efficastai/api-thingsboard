@@ -1,6 +1,5 @@
 from .PostgresQuery import *
 from .Setting import *
-from .Telemetry import *
 import time
 
 
@@ -12,13 +11,6 @@ class ProductionTracking:
 
     def __init__(self):
         self.query = PostgresQuery()
-        self.telemetry = Telemetry()
-
-    def get_production(self, device, flag=None, target=None, cycle_time=None, device_status=None):
-
-        if device_status is False:
-            self.telemetry.send_telemetry()
-        return self.get_production_tracking_analysis(device, flag, target, cycle_time)
 
     def get_production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None):
         """
