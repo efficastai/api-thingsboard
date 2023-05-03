@@ -100,3 +100,9 @@ class PostgresQuery:
         query = postgres.get('get_day_ppm_values').format(self.year, self.month_str, self.date, device)
         result = self.db.execute_query(query)
         return result
+
+    def get_device_access_token(self, device):
+        query = postgres.get('get_device_access_token').format(device)
+        result = self.db.execute_query(query)
+        return result
+
