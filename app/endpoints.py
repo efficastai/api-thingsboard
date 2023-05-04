@@ -29,7 +29,6 @@ def production_tracking_analysis():
     cycle_time = request_data.get('cycle_time')
     machine_state = request_data.get('PYA1')
     client = request_data.get('customer_title')
-    print(client, type(client))
     production_traking = ProductionTracking()
     machine_accumulators = production_traking.get_production_tracking_analysis(device, flag, daily_target, cycle_time,
                                                                                machine_state, client)
