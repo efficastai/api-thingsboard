@@ -27,20 +27,11 @@ class SQLiteQuery:
         self.db.execute_query(query, values)
 
     def count_machines_on(self, client):
-        query = (
-            "SELECT COUNT(*) "
-            "FROM machines "
-            "WHERE client = ? "
-            "AND state = 1"
-        )
+        query = sqlite.get('count_machines_on')
         result = self.db.execute_query(query, (client,)).fetchone()[0]
         return result
 
     def count_machines(self, client):
-        query = (
-            "SELECT * "
-            "FROM machines "
-            "WHERE client = ?"
-        )
+        query = sqlite.get('count_machines')
         result = self.db.execute_query(query, (client,)).fetchone()[0]
         return result
