@@ -120,8 +120,9 @@ class ProductionTracking:
 
     def get_machines_status(self, device, client, machine_state):
         self.sqlite_query.insert_state(device, client, machine_state)
-        machines_on = self.sqlite_query.count_machines_on(client).fetchone()[0]
-        total_machines = self.sqlite_query.count_machines(client)[0].fetchone()[0]
+        machines_on = self.sqlite_query.count_machines_on(client)[0]
+        print(machines_on)
+        total_machines = self.sqlite_query.count_machines(client)[0]
         machines_off = total_machines - machines_on
 
         return machines_on, machines_off, total_machines
