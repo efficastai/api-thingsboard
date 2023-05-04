@@ -66,6 +66,6 @@ class SQLiteQuery:
         )
         values = (client,)
         print(values)
-        result = self.db.execute_query(query, values).fetchone()[0]
+        result = self.db.execute_query(query, values).fetchone()
         print("Total maquinas: ".format(result))
         return result
