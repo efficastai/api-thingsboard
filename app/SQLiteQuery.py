@@ -1,5 +1,6 @@
 import configparser
 from .SQLiteDB import *
+from query import sqlite
 
 
 class SQLiteQuery:
@@ -20,31 +21,8 @@ class SQLiteQuery:
     def __del__(self):
         self.db.disconnect()
 
-    def create_table(self):
-        query = """
-            CREATE TABLE IF NOT EXISTS machines (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                client VARCHAR,
-                device VARCHAR, 
-                state INTEGER
-            )
-        """
-        self.db.execute_query(query)
-
     def insert_state(self, client, device, state):
-        query = """
-            REPLACE INTO machines (
-                id,
-                client,
-                device,
-                state
-            ) VALUES (
-                (SELECT id FROM machines WHERE client = ? AND device = ?),
-                ?,
-                ?,
-                ?
-            )
-        """
+        query = sqlite.get('insert_state')
         values = (client, device, client, device, state)
         self.db.execute_query(query, values)
 
