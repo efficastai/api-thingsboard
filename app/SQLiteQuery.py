@@ -21,9 +21,9 @@ class SQLiteQuery:
     def __del__(self):
         self.db.disconnect()
 
-    def insert_state(self, client, device, state):
+    def insert_state(self, state, client, device):
         query = sqlite.get('insert_state')
-        values = (client, device, client, device, state)
+        values = (state, client, device)
         self.db.execute_query(query, values)
 
     def count_machines_on(self, client):

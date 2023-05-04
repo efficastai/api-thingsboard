@@ -40,9 +40,9 @@ class ProductionTracking:
         # Porcentaje de performance de la maquina (si existe tiempo de ciclo seteado, sinó SET)
         performance = self.get_performance(production_rate, cycle_time)
         # Inserto el estado de la maquina en la base de datos SQLITE
-        #self.insert_machine_state(client, device, machine_state)
+        self.insert_machine_state(client, device, machine_state)
         # Obtengo la cantidad de maquinas on, off y la cantidad total de maquinas
-        machines_on, machines_off, total_machines = self.get_machines_status(client, device, machine_state)
+        machines_on, machines_off, total_machines = self.get_machines_status(client)
 
         result = {
             'api_day_accumulator': day_accumulator,
@@ -133,7 +133,7 @@ class ProductionTracking:
         """
         self.sqlite_query.insert_state(client, device, machine_state)
 
-    def get_machines_status(self, client, device, machine_state):
+    def get_machines_status(self, client):
         """
         Método que obtiene la cantidad de maquinas encendidas, la cantidad de maquinas apagadas y la cantidad
         total de maquinas por cliente. Esto sucede cada vez que una maquina reporta un pya, ya que en ese momento
@@ -142,7 +142,6 @@ class ProductionTracking:
         Parámetros:
         - client: un cliente
         """
-        self.sqlite_query.insert_state(client, device, machine_state)
         machines_on = self.sqlite_query.count_machines_on(client)
         total_machines = self.sqlite_query.count_machines(client)
         machines_off = total_machines - machines_on
