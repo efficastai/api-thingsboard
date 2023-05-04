@@ -23,7 +23,7 @@ class SQLiteQuery:
 
     def insert_state(self, client, device, state):
         query = sqlite.get('insert_state')
-        values = (client, device, state)
+        values = (client, device, client, device, state)
         self.db.execute_query(query, values)
 
     def count_machines_on(self, client):
