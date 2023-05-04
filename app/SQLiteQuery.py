@@ -58,9 +58,9 @@ class SQLiteQuery:
 
     def count_machines(self, client):
         query = (
-            "SELECT COUNT(id) "
+            "SELECT COUNT(*) "
             "FROM machines "
-            "WHERE client = {} "
+            "WHERE client = {}"
         ).format(client)
         result = self.db.execute_query(query)
         return result
