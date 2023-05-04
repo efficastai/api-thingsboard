@@ -64,8 +64,5 @@ class SQLiteQuery:
             "FROM machines "
             "WHERE client = ?"
         )
-        values = (client,)
-        print(values)
         result = self.db.execute_query(query, (client,)).fetchone()[0]
-        print("Total maquinas: ".format(result))
         return result
