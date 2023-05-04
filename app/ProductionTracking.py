@@ -11,6 +11,7 @@ class ProductionTracking:
 
     def __init__(self):
         self.query = PostgresQuery()
+        self.sqlite_query = SQLiteQuery()
 
     def get_production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None, machine_state=None,
                                          client=None):
@@ -117,13 +118,10 @@ class ProductionTracking:
 
         return performance
 
-    @staticmethod
-    def get_machines_status(device, client, machine_state):
-        query = SQLiteQuery()
-        query.create_table()
-        query.insert_state(device, client, machine_state)
-        machines_on = query.count_machines_on(client)
-        total_machines = query.count_machines(client)
+    def get_machines_status(self, device, client, machine_state):
+        self.sqlite_query.insert_state(device, client, machine_state)
+        machines_on = self.sqlite_query.count_machines_on(client)
+        total_machines = self.sqlite_query.count_machines(client)
         machines_off = total_machines - machines_on
 
         return machines_on, machines_off, total_machines
