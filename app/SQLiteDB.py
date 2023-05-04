@@ -32,8 +32,9 @@ class SQLiteDB:
             self.lock.acquire()
             cursor = self.conn.cursor()
             cursor.execute(query, value)
+            result = cursor.fetchall()
             self.conn.commit()
-            return cursor
+            return result
         except Exception as e:
             print("Unable to execute the SQLite query", e)
             raise e
