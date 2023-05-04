@@ -60,12 +60,12 @@ class SQLiteQuery:
 
     def count_machines(self, client):
         query = (
-            "SELECT COUNT(*) "
+            "SELECT * "
             "FROM machines "
             "WHERE client = ?"
         )
         values = (client,)
         print(values)
-        result = self.db.execute_query(query, values).fetchone()
+        result = self.db.execute_query(query, values).fetchall()
         print("Total maquinas: ".format(result))
         return result
