@@ -52,8 +52,8 @@ class SQLiteQuery:
         query = (
             "SELECT COUNT(*) "
             "FROM machines "
-            "WHERE state = 1 "
-            "AND client = ?"
+            "WHERE client = ? "
+            "AND state = 1"
         )
         result = self.db.execute_query(query, (client,)).fetchone()[0]
         return result
