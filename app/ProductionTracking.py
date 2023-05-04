@@ -144,6 +144,7 @@ class ProductionTracking:
         Parámetros:
         - client: un cliente
         """
+        time.sleep(2)
         machines_on = self.sqlite_query.count_machines_on(client)
         total_machines = self.sqlite_query.count_machines(client)
         machines_off = total_machines - machines_on
