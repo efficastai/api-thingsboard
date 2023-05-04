@@ -50,7 +50,7 @@ class SQLiteQuery:
         query = (
             "SELECT COUNT(state) "
             "FROM machines "
-            "WHERE state = 1"
+            "WHERE state = 1 "
             "AND client = {} "
         ).format(client)
         result = self.db.execute_query(query)
