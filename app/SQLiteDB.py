@@ -24,7 +24,7 @@ class SQLiteDB:
             self.conn.close()
             print("Disconnected from SQLite database")
 
-    def execute_query(self, query, value=None):
+    def execute_query(self, query, value):
         if not self.conn:
             print("No connection to SQLite database")
             return None
