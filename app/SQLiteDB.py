@@ -24,14 +24,14 @@ class SQLiteDB:
             self.conn.close()
             print("Disconnected from SQLite database")
 
-    def execute_query(self, query):
+    def execute_query(self, query, value):
         if not self.conn:
             print("No connection to SQLite database")
             return None
         try:
             self.lock.acquire()
             cursor = self.conn.cursor()
-            cursor.execute(query)
+            cursor.execute(query, value)
             self.conn.commit()
             return cursor
         except Exception as e:
