@@ -39,6 +39,7 @@ class ProductionTracking:
         daily_compliance_percentege = self.get_daily_compliance_percentage(day_accumulator, target)
         # Porcentaje de performance de la maquina (si existe tiempo de ciclo seteado, sinó SET)
         performance = self.get_performance(production_rate, cycle_time)
+        self.insert_machine_state(device, client, machine_state)
         machines_on, machines_off, total_machines = self.get_machines_status(device, client, machine_state)
 
         result = {
@@ -118,8 +119,10 @@ class ProductionTracking:
 
         return performance
 
-    def get_machines_status(self, device, client, machine_state):
+    def insert_machine_state(self, device, client, machine_state)
         self.sqlite_query.insert_state(device, client, machine_state)
+
+    def get_machines_status(self, device, client, machine_state):
         machines_on = self.sqlite_query.count_machines_on(client)
         print(machines_on)
         total_machines = self.sqlite_query.count_machines(client)

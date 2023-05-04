@@ -16,6 +16,7 @@ class SQLiteQuery:
     def __init__(self):
         self.db = SQLiteDB(self.path)
         self.db.connect()
+        self.create_table()
 
     def __del__(self):
         self.db.disconnect()
