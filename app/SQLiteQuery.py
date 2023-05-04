@@ -55,8 +55,7 @@ class SQLiteQuery:
             "WHERE state = 1 "
             "AND client = ?"
         )
-        values = client
-        result = self.db.execute_query(query, values)
+        result = self.db.execute_query(query, (client,))
         return result
 
     def count_machines(self, client):
@@ -65,6 +64,5 @@ class SQLiteQuery:
             "FROM machines "
             "WHERE client = ?"
         )
-        values = client
-        result = self.db.execute_query(query, values)
+        result = self.db.execute_query(query, (client,))
         return result
