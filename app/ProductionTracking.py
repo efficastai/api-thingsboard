@@ -1,6 +1,6 @@
 from .PostgresQuery import *
 from .Setting import *
-import time
+from .SQLiteQuery import *
 
 
 class ProductionTracking:
@@ -12,7 +12,8 @@ class ProductionTracking:
     def __init__(self):
         self.query = PostgresQuery()
 
-    def get_production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None):
+    def get_production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None, machine_state=None,
+                                         client=None):
         """
         Método central de la clase. Este método se encarga de recopilar todas los calculos necesarios
         para tener el tracking de la producción de las máquinas. Me refiero: obtenemos todos los valores
@@ -37,6 +38,7 @@ class ProductionTracking:
         daily_compliance_percentege = self.get_daily_compliance_percentage(day_accumulator, target)
         # Porcentaje de performance de la maquina (si existe tiempo de ciclo seteado, sinó SET)
         performance = self.get_performance(production_rate, cycle_time)
+        machines_on, machines_off, total_machines = self.get_machines_status(device, client, machine_state)
 
         result = {
             'api_day_accumulator': day_accumulator,
@@ -45,7 +47,10 @@ class ProductionTracking:
             'api_last_n_values': last_n_values,
             'api_daily_compliance_percentege': daily_compliance_percentege,
             'api_instantaneous_production_rate': production_rate,
-            'api_performance': performance
+            'api_performance': performance,
+            'api_machines_on': machines_on,
+            'api_machines_off': machines_off,
+            'api_total_machines': total_machines
         }
 
         return result
@@ -111,3 +116,14 @@ class ProductionTracking:
         performance = round(production_rate / cycle_time * 100) if cycle_time is not None else 'Set'
 
         return performance
+
+    @staticmethod
+    def get_machines_status(device, client, machine_state):
+        query = SQLiteQuery()
+        query.create_table()
+        query.insert_state(device, client, machine_state)
+        machines_on = query.count_machines_on(client)
+        total_machines = query.count_machines(client)
+        machines_off = total_machines - machines_on
+
+        return machines_on, machines_off, total_machines

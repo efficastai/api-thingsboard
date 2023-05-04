@@ -45,3 +45,22 @@ class SQLiteQuery:
             {state})
         """.format(client=client, device=device, state=state)
         self.db.execute_query(query)
+
+    def count_machines_on(self, client):
+        query = (
+            "SELECT COUNT(state) "
+            "FROM machines "
+            "WHERE state = 1"
+            "AND client = {} "
+        ).format(client)
+        result = self.db.execute_query(query)
+        return result
+
+    def count_machines(self, client):
+        query = (
+            "SELECT COUNT(id) "
+            "FROM machines "
+            "WHERE client = {} "
+        ).format(client)
+        result = self.db.execute_query(query)
+        return result
