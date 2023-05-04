@@ -50,7 +50,7 @@ class SQLiteQuery:
 
     def count_machines_on(self, client):
         query = (
-            "SELECT COUNT(state) "
+            "SELECT COUNT(*) "
             "FROM machines "
             "WHERE state = 1 "
             "AND client = ?"
