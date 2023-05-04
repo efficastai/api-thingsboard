@@ -39,28 +39,32 @@ class SQLiteQuery:
                 device,
                 state
             ) VALUES (
-            (SELECT id FROM machines WHERE client = {0} AND device = {1}),
-            {0}, 
-            {1}, 
-            {2})
-        """.format(client, device, state)
-        self.db.execute_query(query)
+                (SELECT id FROM machines WHERE client = ? AND device = ?),
+                ?,
+                ?,
+                ?
+            )
+        """
+        values = (client, device, client, device, state)
+        self.db.execute_query(query, values)
 
     def count_machines_on(self, client):
         query = (
             "SELECT COUNT(state) "
             "FROM machines "
             "WHERE state = 1 "
-            "AND client = {} "
-        ).format(client)
-        result = self.db.execute_query(query)
+            "AND client = ?"
+        )
+        values = client
+        result = self.db.execute_query(query, values)
         return result
 
     def count_machines(self, client):
         query = (
             "SELECT COUNT(*) "
             "FROM machines "
-            "WHERE client = {}"
-        ).format(client)
-        result = self.db.execute_query(query)
+            "WHERE client = ?"
+        )
+        values = client
+        result = self.db.execute_query(query, values)
         return result
