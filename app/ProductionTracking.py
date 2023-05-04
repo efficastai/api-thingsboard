@@ -42,7 +42,7 @@ class ProductionTracking:
         # Inserto el estado de la maquina en la base de datos SQLITE
         self.insert_machine_state(client, device, machine_state)
         # Obtengo la cantidad de maquinas on, off y la cantidad total de maquinas
-        machines_on, machines_off, total_machines = self.get_machines_status(device, client, machine_state)
+        machines_on, machines_off, total_machines = self.get_machines_status(client)
 
         result = {
             'api_day_accumulator': day_accumulator,
