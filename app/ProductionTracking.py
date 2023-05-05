@@ -13,7 +13,6 @@ class ProductionTracking:
 
     def __init__(self):
         self.query = PostgresQuery()
-        self.sqlite_query = SQLiteQuery()
 
     def get_production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None, machine_state=None,
                                          client=None):

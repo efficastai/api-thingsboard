@@ -43,18 +43,17 @@ class PostgresQuery:
         self.db.disconnect()
 
     def insert_state(self, client, device, state):
-        query = postgres.get('insert_state')
-        values = (client, device, client, device, state)
-        self.db.execute_query(query, values)
+        query = postgres.get('insert_state').format(client, device, client, device, state)
+        self.db.execute_query(query)
 
     def count_machines_on(self, client):
-        query = postgres.get('count_machines_on')
-        result = self.db.execute_query(query, (client,))
+        query = postgres.get('count_machines_on').format(client)
+        result = self.db.execute_query(query)
         return result
 
     def count_total_machines(self, client):
-        query = postgres.get('count_total_machines')
-        result = self.db.execute_query(query, (client,))
+        query = postgres.get('count_total_machines').format(client)
+        result = self.db.execute_query(query)
         return result
 
     def get_ppm_day_accumulator(self, device):
@@ -63,9 +62,8 @@ class PostgresQuery:
         :param device:
         :return: acumulador diario
         """
-        query = postgres.get('get_ppm_day_accumulator').format(self.year, self.month_str)
-        values = (self.date_str, device)
-        result = self.db.execute_query(query, values)
+        query = postgres.get('get_ppm_day_accumulator').format(self.year, self.month_str, self.date_str, device)
+        result = self.db.execute_query(query)
         return result
 
     def get_ppm_week_accumulator(self, device):
@@ -74,9 +72,8 @@ class PostgresQuery:
         :param device:
         :return: acumulador diario
         """
-        query = postgres.get('get_ppm_week_accumulator').format(self.year, self.month_str)
-        values = (device,)
-        result = self.db.execute_query(query, values)
+        query = postgres.get('get_ppm_week_accumulator').format(self.year, self.month_str, device)
+        result = self.db.execute_query(query)
         return result
 
     def get_ppm_month_accumulator(self, device):
@@ -85,9 +82,8 @@ class PostgresQuery:
         :param device: a que dispositivo queremos referenciar
         :return: acumulador diario
         """
-        query = postgres.get('get_ppm_month_accumulator').format(self.year, self.month_str)
-        values = (device,)
-        result = self.db.execute_query(query, values)
+        query = postgres.get('get_ppm_month_accumulator').format(self.year, self.month_str, device)
+        result = self.db.execute_query(query)
         return result
 
     def get_ppm_last_n_values(self, device, n):
@@ -97,18 +93,16 @@ class PostgresQuery:
         :param device: a que dispositivo queremos referenciar
         :return: acumulador diario
         """
-        query = postgres.get('get_ppm_last_n_values').format(self.year, self.month_str)
-        values = (device, n)
-        result = self.db.execute_query(query, values)
+        query = postgres.get('get_ppm_last_n_values').format(self.year, self.month_str, device, n)
+        result = self.db.execute_query(query)
         return result
 
     def get_day_pya_values(self, device):
         """
         Comentarios del metodo
         """
-        query = postgres.get('get_day_pya_values').format(self.year, self.month_str)
-        values = (self.date, device)
-        result = self.db.execute_query(query, values)
+        query = postgres.get('get_day_pya_values').format(self.year, self.month_str, self.date_str, device)
+        result = self.db.execute_query(query)
         return result
 
     def get_day_ppm_values(self, device):
@@ -117,13 +111,12 @@ class PostgresQuery:
         :param device:
         :return: acumulador diario
         """
-        query = postgres.get('get_day_ppm_values').format(self.year, self.month_str)
-        values = (self.date_str, device)
-        result = self.db.execute_query(query, values)
+        query = postgres.get('get_day_ppm_values').format(self.year, self.month_str, self.date_str, device)
+        result = self.db.execute_query(query)
         return result
 
     def get_device_access_token(self, device):
-        query = postgres.get('get_device_access_token')
-        result = self.db.execute_query(query, (device,))
+        query = postgres.get('get_device_access_token').format(device)
+        result = self.db.execute_query(query)
         return result
 

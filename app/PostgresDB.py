@@ -31,10 +31,10 @@ class PostgresDB:
             self.conn.close()
             print("Disconnected from the database")
 
-    def execute_query(self, query, values):
+    def execute_query(self, query):
         try:
             cursor = self.conn.cursor()
-            cursor.execute(query, values)
+            cursor.execute(query)
             result = cursor.fetchall()
             cursor.close()
             return result
