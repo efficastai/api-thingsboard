@@ -57,7 +57,7 @@ class PostgresQuery:
         return result
 
     def get_last_status(self, device):
-        query = postgres.get('get_last_pya').format(device)
+        query = postgres.get('get_last_status').format(device)
         result = self.db.execute_query(query)
         return result
 
