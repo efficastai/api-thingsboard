@@ -132,8 +132,9 @@ class ProductionTracking:
         - device: un dispositivo
         - machine_state: el estado de la maquina (pya)
         """
-        last_status = self.query.get_last_status(device)
+        last_status = self.query.get_last_status(device)[0][0]
         print("LAST STATUSSSSS:", last_status)
+        print("STATUS ACTUAL: ", status)
         if last_status != status or last_status is None:
             self.query.insert_state(client, device, status)
         else:
@@ -149,9 +150,7 @@ class ProductionTracking:
         - client: un cliente
         """
         machines_on = self.query.count_machines_on(client)[0][0]
-        print("Machines on: ", machines_on)
         total_machines = self.query.count_total_machines(client)[0][0]
-        print("Machines total: ", total_machines)
         machines_off = total_machines - machines_on
 
         return machines_on, machines_off, total_machines
