@@ -133,7 +133,7 @@ class ProductionTracking:
         - device: un dispositivo
         - machine_state: el estado de la maquina (pya)
         """
-        self.sqlite_query.insert_state(client, device, machine_state)
+        self.query.insert_state(client, device, machine_state)
 
     def get_machines_status(self, client):
         """
@@ -145,8 +145,8 @@ class ProductionTracking:
         - client: un cliente
         """
         time.sleep(2)
-        machines_on = self.sqlite_query.count_machines_on(client)
-        total_machines = self.sqlite_query.count_machines(client)
+        machines_on = self.query.count_machines_on(client)[0][0]
+        total_machines = self.query.count_machines(client)[0][0]
         machines_off = total_machines - machines_on
 
         return machines_on, machines_off, total_machines
