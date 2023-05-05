@@ -143,7 +143,7 @@ class ProductionTracking:
         Parámetros:
         - client: un cliente
         """
-        time.sleep(2)
+        time.sleep(3)
         machines_on = self.query.count_machines_on(client)[0][0]
         print("Machines on: ", machines_on)
         total_machines = self.query.count_total_machines(client)[0][0]
