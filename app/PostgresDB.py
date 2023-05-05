@@ -34,9 +34,15 @@ class PostgresDB:
     def execute_query(self, query):
         try:
             cursor = self.conn.cursor()
-            cursor.execute(query)
-            result = cursor.fetchall()
-            cursor.close()
-            return result
+            if query.startswith('INSERT'):
+                cursor.execute(query)
+                self.conn.commit()
+                return None
+            else:
+                cursor.execute(query)
+                result = cursor.fetchall()
+                cursor.close()
+                return result
         except Exception as e:
             print("Unable to execute the query: ", e)
+
