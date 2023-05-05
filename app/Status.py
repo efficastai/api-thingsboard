@@ -10,7 +10,7 @@ class Status:
 
     def get_machine_status(self, client, device, status):
         self.insert_machine_status(client, device, status)
-        machines_on, machines_off, total_machines = self.get_machines_status(client)
+        machines_on, machines_off, total_machines = self.get_total_on_off(client)
 
         return {
             'api_machines_on': machines_on,
