@@ -43,7 +43,7 @@ class PostgresQuery:
         self.db.disconnect()
 
     def insert_state(self, client, device, state):
-        query = postgres.get('insert_state').format(client, device, client, device, state)
+        query = postgres.get('insert_state').format(client, device, state)
         self.db.execute_query(query)
 
     def count_machines_on(self, client):
