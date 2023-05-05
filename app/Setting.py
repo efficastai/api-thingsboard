@@ -1,6 +1,3 @@
-from .SQLiteQuery import *
-
-
 class Setting:
 
     def __init__(self):
