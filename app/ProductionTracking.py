@@ -14,7 +14,7 @@ class ProductionTracking:
     def __init__(self):
         self.query = PostgresQuery()
 
-    def get_production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None, machine_state=None,
+    def get_production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None, status=None,
                                          client=None):
         """
         Método central de la clase. Este método se encarga de recopilar todas los calculos necesarios
@@ -41,7 +41,7 @@ class ProductionTracking:
         # Porcentaje de performance de la maquina (si existe tiempo de ciclo seteado, sinó SET)
         performance = self.get_performance(production_rate, cycle_time)
         # Inserto el estado de la maquina en la base de datos SQLITE
-        self.insert_machine_state(client, device, machine_state)
+        self.insert_machine_state(client, device, status)
         # Obtengo la cantidad de maquinas on, off y la cantidad total de maquinas
         machines_on, machines_off, total_machines = self.get_machines_status(client)
 
@@ -122,7 +122,7 @@ class ProductionTracking:
 
         return performance
 
-    def insert_machine_state(self, client, device, machine_state):
+    def insert_machine_state(self, client, device, status):
         """
         Método que inserta el estado de la máquina en una base de datos SQLITE de estructura simple.
         Por el momento la base de datos se utiliza unicamente para esa funcion.
@@ -132,7 +132,12 @@ class ProductionTracking:
         - device: un dispositivo
         - machine_state: el estado de la maquina (pya)
         """
-        self.query.insert_state(client, device, machine_state)
+        last_status = self.query.get_last_status(device)
+        print("LAST STATUSSSSS:", last_status)
+        if last_status != status or last_status is None:
+            self.query.insert_state(client, device, status)
+        else:
+            return "No hay que actualizar el registro"
 
     def get_machines_status(self, client):
         """
@@ -143,7 +148,6 @@ class ProductionTracking:
         Parámetros:
         - client: un cliente
         """
-        time.sleep(3)
         machines_on = self.query.count_machines_on(client)[0][0]
         print("Machines on: ", machines_on)
         total_machines = self.query.count_total_machines(client)[0][0]

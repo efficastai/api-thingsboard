@@ -56,6 +56,11 @@ class PostgresQuery:
         result = self.db.execute_query(query)
         return result
 
+    def get_last_status(self, device):
+        query = postgres.get('get_last_pya').format(device)
+        result = self.db.execute_query(query)
+        return result
+
     def get_ppm_day_accumulator(self, device):
         """
         Obtenemos el acumulado del día, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
