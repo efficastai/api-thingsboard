@@ -63,8 +63,8 @@ class PostgresQuery:
         :param device:
         :return: acumulador diario
         """
-        query = postgres.get('get_ppm_day_accumulator')
-        values = (self.year, self.month_str, self.date_str, device)
+        query = postgres.get('get_ppm_day_accumulator').format(self.year, self.month_str)
+        values = (self.date_str, device)
         result = self.db.execute_query(query, values)
         return result
 
@@ -74,8 +74,8 @@ class PostgresQuery:
         :param device:
         :return: acumulador diario
         """
-        query = postgres.get('get_ppm_week_accumulator')
-        values = (self.year, self.month_str, device)
+        query = postgres.get('get_ppm_week_accumulator').format(self.year, self.month_str)
+        values = (device,)
         result = self.db.execute_query(query, values)
         return result
 
@@ -85,8 +85,8 @@ class PostgresQuery:
         :param device: a que dispositivo queremos referenciar
         :return: acumulador diario
         """
-        query = postgres.get('get_ppm_month_accumulator')
-        values = (self.year, self.month_str, device)
+        query = postgres.get('get_ppm_month_accumulator').format(self.year, self.month_str)
+        values = (device,)
         result = self.db.execute_query(query, values)
         return result
 
@@ -97,8 +97,8 @@ class PostgresQuery:
         :param device: a que dispositivo queremos referenciar
         :return: acumulador diario
         """
-        query = postgres.get('get_ppm_last_n_values')
-        values = (self.year, self.month_str, device, n)
+        query = postgres.get('get_ppm_last_n_values').format(self.year, self.month_str)
+        values = (device, n)
         result = self.db.execute_query(query, values)
         return result
 
@@ -106,8 +106,8 @@ class PostgresQuery:
         """
         Comentarios del metodo
         """
-        query = postgres.get('get_day_pya_values')
-        values = (self.year, self.month_str, self.date, device)
+        query = postgres.get('get_day_pya_values').format(self.year, self.month_str)
+        values = (self.date, device)
         result = self.db.execute_query(query, values)
         return result
 
@@ -117,8 +117,8 @@ class PostgresQuery:
         :param device:
         :return: acumulador diario
         """
-        query = postgres.get('get_day_ppm_values')
-        values = (self.year, self.month_str, self.date_str, device)
+        query = postgres.get('get_day_ppm_values').format(self.year, self.month_str)
+        values = (self.date_str, device)
         result = self.db.execute_query(query, values)
         return result
 
