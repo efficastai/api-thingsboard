@@ -137,8 +137,9 @@ class ProductionTracking:
         print("STATUS ACTUAL: ", status)
         if last_status != status or last_status is None:
             self.query.insert_state(client, device, status)
+            print("ACTUALIZANDO REGISTRO!")
         else:
-            return "No hay que actualizar el registro"
+            print("NO HAY QUE ACTUALIZAR REGISTRO!")
 
     def get_machines_status(self, client):
         """
