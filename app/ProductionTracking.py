@@ -145,9 +145,9 @@ class ProductionTracking:
         """
         time.sleep(2)
         machines_on = self.query.count_machines_on(client)[0][0]
-        print(machines_on)
+        print("Machines on: ", machines_on)
         total_machines = self.query.count_total_machines(client)[0][0]
-        print(total_machines)
+        print("Machines total: ", total_machines)
         machines_off = total_machines - machines_on
 
         return machines_on, machines_off, total_machines
