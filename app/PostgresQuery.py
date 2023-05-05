@@ -42,8 +42,8 @@ class PostgresQuery:
     def __del__(self):
         self.db.disconnect()
 
-    def insert_state(self, client, device, state):
-        query = postgres.get('insert_state').format(client, device, state)
+    def insert_state(self, client, device, status):
+        query = postgres.get('insert_state').format(client, device, status)
         self.db.execute_query(query)
 
     def count_machines_on(self, client):
