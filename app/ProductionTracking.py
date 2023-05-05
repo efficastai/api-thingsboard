@@ -2,7 +2,6 @@ import time
 
 from .PostgresQuery import *
 from .Setting import *
-from .SQLiteQuery import *
 
 
 class ProductionTracking:
@@ -133,13 +132,8 @@ class ProductionTracking:
         - machine_state: el estado de la maquina (pya)
         """
         last_status = self.query.get_last_status(device)[0][0]
-        print("LAST STATUSSSSS:", last_status)
-        print("STATUS ACTUAL: ", status)
         if last_status != status or last_status is None:
             self.query.insert_state(client, device, status)
-            print("ACTUALIZANDO REGISTRO!")
-        else:
-            print("NO HAY QUE ACTUALIZAR REGISTRO!")
 
     def get_machines_status(self, client):
         """
