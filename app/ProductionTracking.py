@@ -13,8 +13,7 @@ class ProductionTracking:
     def __init__(self):
         self.query = PostgresQuery()
 
-    def get_production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None, status=None,
-                                         client=None):
+    def get_production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None):
         """
         Método central de la clase. Este método se encarga de recopilar todas los calculos necesarios
         para tener el tracking de la producción de las máquinas. Me refiero: obtenemos todos los valores
@@ -39,10 +38,6 @@ class ProductionTracking:
         daily_compliance_percentege = self.get_daily_compliance_percentage(day_accumulator, target)
         # Porcentaje de performance de la maquina (si existe tiempo de ciclo seteado, sinó SET)
         performance = self.get_performance(production_rate, cycle_time)
-        # Inserto el estado de la maquina en la base de datos SQLITE
-        self.insert_machine_state(client, device, status)
-        # Obtengo la cantidad de maquinas on, off y la cantidad total de maquinas
-        machines_on, machines_off, total_machines = self.get_machines_status(client)
 
         result = {
             'api_day_accumulator': day_accumulator,
@@ -52,9 +47,6 @@ class ProductionTracking:
             'api_daily_compliance_percentege': daily_compliance_percentege,
             'api_instantaneous_production_rate': production_rate,
             'api_performance': performance,
-            'api_machines_on': machines_on,
-            'api_machines_off': machines_off,
-            'api_total_machines': total_machines
         }
 
         return result

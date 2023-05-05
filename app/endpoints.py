@@ -4,6 +4,7 @@ from app import app
 from .ProductionTracking import *
 from .Setting import *
 from .TimeCalculation import *
+from .Status import *
 
 
 @app.route('/api/production_tracking_analysis', methods=['POST'])
@@ -27,11 +28,8 @@ def production_tracking_analysis():
     flag = request_data.get('flag')
     daily_target = request_data.get('daily_target')
     cycle_time = request_data.get('cycle_time')
-    status = request_data.get('PYA1')
-    client = request_data.get('customer_title')
     production_traking = ProductionTracking()
-    machine_accumulators = production_traking.get_production_tracking_analysis(device, flag, daily_target, cycle_time,
-                                                                               status, client)
+    machine_accumulators = production_traking.get_production_tracking_analysis(device, flag, daily_target, cycle_time)
     return machine_accumulators, 200
 
 
@@ -71,3 +69,14 @@ def time_calculations():
     time_calculation = TimeCalculation()
     machine_time_calculations = time_calculation.get_machine_time_calculations(device_name, shift_start, flag)
     return machine_time_calculations, 200
+
+
+@app.route('/api/status', methods=['POST'])
+def status():
+    request_data = request.get_json()
+    client = request_data.get('customer_title')
+    device = request_data.get('device')
+    current_status = request_data.get('PYA1')
+    machine_status = Status()
+    result = machine_status.get_machine_status(client, device, current_status)
+    return result
