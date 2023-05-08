@@ -8,7 +8,7 @@ class Status:
     def __init__(self):
         self.query = PostgresQuery()
 
-    def get_machine_status(self, client, device, status, flag):
+    def get_machine_status(self, client, device, status, flag=None):
         """
         Método que devuelve la cantidad de máquinas encendidas, apagadas y totales por empresa, consultando a una
         tabla que actualiza sus registros en base al cambio de estado. En caso de que la maquina se reporte por
@@ -25,7 +25,7 @@ class Status:
         """
         # Identifico si el dispositivo tiene un flag nodo, en ese caso elimino el registro de dicho dispositivo,
         # ya que por el momento no interesa contar si esta encendido o no.
-        flag = flag.lower()
+        flag = flag.lower() if flag is not None else None
         if flag == 'nodo':
             self.query.delete_node_device(device)
             print("Hubo un DELETE!")

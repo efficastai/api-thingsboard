@@ -77,6 +77,7 @@ def status():
     client = request_data.get('customer_title')
     device = request_data.get('device')
     current_status = request_data.get('PYA1')
+    flag = request_data.get('flag')
     machine_status = Status()
-    result = machine_status.get_machine_status(client, device, current_status)
+    result = machine_status.get_machine_status(client, device, current_status, flag)
     return result
