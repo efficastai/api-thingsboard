@@ -59,6 +59,7 @@ class PostgresQuery:
     def get_last_status(self, device):
         query = postgres.get('get_last_status').format(device)
         result = self.db.execute_query(query)
+        print("EL RESULTADO DE LA QUERY ES: ", result)
         return result
 
     def get_ppm_day_accumulator(self, device):
