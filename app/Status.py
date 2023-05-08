@@ -60,7 +60,7 @@ class Status:
         flag = flag.lower() if flag is not None else None
         nodo = True if flag == 'nodo' else False
 
-        if (last_status != status or last_status is None) and flag is not nodo:
+        if (last_status != status or last_status is None) and not nodo:
             self.query.insert_state(client, device, status)
 
     def get_total_on_off(self, client):
