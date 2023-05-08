@@ -34,7 +34,7 @@ class PostgresDB:
     def execute_query(self, query):
         try:
             cursor = self.conn.cursor()
-            if query.startswith('INSERT'):
+            if query.startswith('INSERT') or query.startswith('UPDATE') or query.startswith('DELETE'):
                 cursor.execute(query)
                 self.conn.commit()
                 return None
