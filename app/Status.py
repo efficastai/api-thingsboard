@@ -9,6 +9,20 @@ class Status:
         self.query = PostgresQuery()
 
     def get_machine_status(self, client, device, status):
+        """
+        Método que devuelve la cantidad de máquinas encendidas, apagadas y totales por empresa, consultando a una
+        tabla que actualiza sus registros en base al cambio de estado. En caso de que la maquina se reporte por
+        primera vez, los métodos insertan el registro y luego comienzan a actualizarlo. El calculo se realiza por
+        cada entrada de pya a la API.
+
+        Parámetros:
+        - client: un cliente
+        - device: un dispositivo
+        - status: el estado de la maquina
+
+        Return:
+        - Un objeto JSON con la información del status de todas las máquinas del cliente en cuestión
+        """
         self.insert_machine_status(client, device, status)
         machines_on, machines_off, total_machines = self.get_total_on_off(client)
 
