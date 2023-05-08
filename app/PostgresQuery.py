@@ -56,6 +56,10 @@ class PostgresQuery:
         result = self.db.execute_query(query)
         return result
 
+    def delete_node_device(self, device):
+        query = postgres.get('delete_node_device').format(device)
+        self.db.execute_query(query)
+
     def get_last_status(self, device):
         query = postgres.get('get_last_status').format(device)
         result = self.db.execute_query(query)
@@ -124,4 +128,3 @@ class PostgresQuery:
         query = postgres.get('get_device_access_token').format(device)
         result = self.db.execute_query(query)
         return result
-
