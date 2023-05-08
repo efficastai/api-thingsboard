@@ -28,7 +28,7 @@ class Status:
         - device: un dispositivo
         - machine_state: el estado de la maquina (pya)
         """
-        print(self.query.get_ppm_last_n_values(device))
+        print(self.query.get_ppm_last_status(device))
         last_status = self.query.get_last_status(device)[0][0]
 
         if last_status != status or last_status is None:
