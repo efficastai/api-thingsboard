@@ -28,10 +28,13 @@ class Status:
         - device: un dispositivo
         - machine_state: el estado de la maquina (pya)
         """
-        last_status = self.query.get_last_status(device)
-        print(last_status)
-        if last_status[0][0] != status or last_status == "[]":
-            print("ENTRE AL IF!")
+        try:
+            last_status = self.query.get_last_status(device)[0][0]
+        except IndexError:
+            last_status = None
+            print("Estoy en el except. LAST STATUS: ", last_status)
+
+        if last_status != status or last_status is None:
             self.query.insert_state(client, device, status)
 
     def get_total_on_off(self, client):
