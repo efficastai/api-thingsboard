@@ -126,19 +126,3 @@ class ProductionTracking:
         last_status = self.query.get_last_status(device)[0][0]
         if last_status != status or last_status is None:
             self.query.insert_state(client, device, status)
-
-    def get_machines_status(self, client):
-        """
-        Método que obtiene la cantidad de maquinas encendidas, la cantidad de maquinas apagadas y la cantidad
-        total de maquinas por cliente. Esto sucede cada vez que una maquina reporta un pya, ya que en ese momento
-        se actualiza el estado de la maquina, por lo cual este metodo devuelve en tiempo real los resultados.
-
-        Parámetros:
-        - client: un cliente
-        """
-        time.sleep(2)
-        machines_on = self.query.count_machines_on(client)[0][0]
-        total_machines = self.query.count_total_machines(client)[0][0]
-        machines_off = total_machines - machines_on
-
-        return machines_on, machines_off, total_machines
