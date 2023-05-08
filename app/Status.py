@@ -34,8 +34,9 @@ class Status:
 
     def insert_machine_status(self, client, device, status):
         """
-        Método que inserta el estado de la máquina en una base de datos SQLITE de estructura simple.
-        Por el momento la base de datos se utiliza unicamente para esa funcion.
+        Método que inserta el estado de la máquina en una tabla de la base de datos de Thingsboard llamada machines.
+        Esta tabla cuenta con id, client, device, status. Se utiliza para actualizar el estado actual de la maquina
+        y así verificar cuantas maquinas se encuentran encendidas y cuantas apagadas.
 
         Parámetros:
         - client: un clinete

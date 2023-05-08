@@ -85,7 +85,7 @@ class ProductionTracking:
         """
         Método que devuelve el porcentaje cumplimiento diario del target en el caso que el cliente haya
         ingresado por pantalla un target diario. En caso contrario devolverá set para indicarle que debe
-        setear el parámetro
+        setear el parámetro.
 
         Parámetros:
         - day_accumulator: el acumulador del dia
