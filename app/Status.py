@@ -26,11 +26,12 @@ class Status:
         # Identifico si el dispositivo tiene un flag nodo, en ese caso elimino el registro de dicho dispositivo,
         # ya que por el momento no interesa contar si esta encendido o no.
         flag = flag.lower() if flag is not None else None
-        if flag == 'nodo':
+        nodo = True if flag == 'nodo' else False
+        if nodo:
             self.query.delete_node_device(device)
             print("Hubo un DELETE!")
 
-        self.insert_machine_status(client, device, status)
+        self.insert_machine_status(client, device, status, flag)
         machines_on, machines_off, total_machines = self.get_total_on_off(client)
 
         return {
@@ -39,7 +40,7 @@ class Status:
             'api_total_machines': total_machines
         }
 
-    def insert_machine_status(self, client, device, status):
+    def insert_machine_status(self, client, device, status, flag):
         """
         Método que inserta el estado de la máquina en una tabla de la base de datos de Thingsboard llamada machines.
         Esta tabla cuenta con id, client, device, status. Se utiliza para actualizar el estado actual de la maquina
@@ -56,7 +57,10 @@ class Status:
             last_status = None
             print("Estoy en el except. LAST STATUS: ", last_status)
 
-        if last_status != status or last_status is None:
+        flag = flag.lower() if flag is not None else None
+        nodo = True if flag == 'nodo' else False
+
+        if (last_status != status or last_status is None) and flag is not nodo:
             self.query.insert_state(client, device, status)
 
     def get_total_on_off(self, client):
