@@ -112,17 +112,3 @@ class ProductionTracking:
         performance = round(production_rate / cycle_time * 100) if cycle_time is not None else 'Set'
 
         return performance
-
-    def insert_machine_state(self, client, device, status):
-        """
-        Método que inserta el estado de la máquina en una base de datos SQLITE de estructura simple.
-        Por el momento la base de datos se utiliza unicamente para esa funcion.
-
-        Parámetros:
-        - client: un clinete
-        - device: un dispositivo
-        - machine_state: el estado de la maquina (pya)
-        """
-        last_status = self.query.get_last_status(device)[0][0]
-        if last_status != status or last_status is None:
-            self.query.insert_state(client, device, status)
