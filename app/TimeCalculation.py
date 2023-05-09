@@ -52,7 +52,7 @@ class TimeCalculation:
         Metodo que recibe una tupla de pya, en el indice [0] se encuentra el valor del pya y en el indice [1]
         se encuentra el valor del timestamp en milisegundos.
         Primero la lista se ordena de menor a mayor, luego se itera entre los elementos y dependiendo el valor de
-        su delta, el tiempo se acumula en tiempo_on_milis o tiempo_off_milis
+        su delta, el tiempo se acumula en tiempo_on_milis o tiempo_off_milis.
         @params: una tupla de valores de pya
         @return: time_on_milis, time_off_milis
         """
