@@ -16,6 +16,7 @@ class TimeCalculation:
         Este método devuelve el tiempo encendido, tiempo apagado y disponibilidad de una máquina en lo que va
         del día actual en base a su hora de inicio de turno.
         """
+        run_stop_values_tuple = None
         # Si tengo un flag en el cuerpo del mensaje convierto a minúsculas
         if flag is not None:
             flag = flag.lower()
@@ -24,7 +25,7 @@ class TimeCalculation:
                 day_ppm_values = self.query.get_day_ppm_values(device)
                 run_stop_values_tuple = self.convert_to_pya_tuple(day_ppm_values)
         # Si el mensaje viene sin flag obtengo los valores de pya del día
-        else:
+        if run_stop_values_tuple is None:
             run_stop_values_tuple = self.query.get_day_pya_values(device)
 
         # Convierto el string de shift_start en un timestamp en milisegundos.
