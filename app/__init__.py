@@ -3,6 +3,7 @@ from flask.json import JSONEncoder
 from flask import Flask
 
 
+# Cambiando encoder y decoder por defecto
 class CustomJSONEncoder(JSONEncoder):
     def default(self, obj):
         try:
