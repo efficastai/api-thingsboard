@@ -137,6 +137,16 @@ class TimeCalculation:
 
     @staticmethod
     def validate_shift_format(shift):
+        """
+        Metodo para validar que la hora de turno tenga un formato y unos valores correctos
+
+        Parámetros:
+        - shift: un turno en formato string
+
+        Return:
+        - None: si el formato de la hora no es correcto
+        - result: si el formato esta bien, retorna ese turno en timestamp
+        """
         # Comprobar si el formato es hh:mm
         if not re.match(r'^\d{2}:\d{2}$', shift):
             return False
