@@ -1,4 +1,6 @@
 import math
+import re
+
 from .PostgresQuery import *
 
 
@@ -114,14 +116,17 @@ class TimeCalculation:
             ratio_shift_time = round(time_on_milis / diff * 100)
         return ratio_shift_time
 
-    @staticmethod
-    def shift_to_timestamp_milis(shift_start):
+    def shift_to_timestamp_milis(self, shift_start):
         """
         Metodo que recibe un string representando una hora de inicio de un turno, converierte el string
         en horas y minutos, luego lo devuelvo en formato timestamp en milisegundos
         @params: una hora de turno en formato string
         @return: esa hora en timestamp milisegundos en tipo de dato int
         """
+        # Valido que la hora ingresada tenga un formato correcto, en caso de que no, retorno None
+        valid = self.validate_shift_format(shift_start)
+        if not valid:
+            return None
         hour = int(shift_start[:2])
         minutes = int(shift_start[3:])
         now = datetime.now()
@@ -129,6 +134,35 @@ class TimeCalculation:
             datetime(now.year, now.month, now.day, hour, minutes, now.second).timestamp()) * 1000
 
         return result
+
+    @staticmethod
+    def validate_shift_format(shift):
+        """
+        Metodo para validar que la hora de turno tenga un formato y unos valores correctos
+
+        Parámetros:
+        - shift: un turno en formato string
+
+        Return:
+        - None: si el formato de la hora no es correcto
+        - result: si el formato esta bien, retorna ese turno en timestamp
+        """
+        # Comprobar si el formato es hh:mm
+        if not re.match(r'^\d{2}:\d{2}$', shift):
+            return False
+        # Obtener la hora y los minutos como números enteros
+        hora, minuto = map(int, shift.split(':'))
+        # Comprobar si la hora está entre 00 y 23
+        if hora < 0 or hora > 23:
+            return False
+        # Comprobar si los minutos están entre 00 y 59
+        if minuto < 0 or minuto > 59:
+            return False
+        # Comprobar si los dos puntos están en la posición correcta
+        if shift[2] != ':' or len(shift) != 5:
+            return False
+
+        return True
 
     @staticmethod
     def update_list_from_shift_start(pya_tuple_ordered, shift_start_in_timestamp_miliseconds):
