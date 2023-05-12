@@ -65,6 +65,7 @@ def time_calculations():
     request_data = request.get_json()
     device_name = request_data.get('device')
     shift_start = request_data.get('shift_start')
+    shift_end = request_data.get('shift_end')
     flag = request_data.get('flag')
     time_calculation = TimeCalculation()
     machine_time_calculations = time_calculation.get_machine_time_calculations(device_name, shift_start, flag)
