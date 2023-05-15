@@ -24,13 +24,12 @@ class CustomCalculation:
             self.flag.wait()
             ts, dif, acum_today_pieces = self.get_last_register(device)
 
-            results = {
-                "api_custom_tensar_ts": ts,
-                "api_custom_tensar_dif": dif,
-                "api_custom_tensar_accumulator": acum_today_pieces
-            }
-            return results
-        return None
+        results = {
+            "api_custom_tensar_ts": ts,
+            "api_custom_tensar_dif": dif,
+            "api_custom_tensar_accumulator": acum_today_pieces
+        }
+        return results
 
     def get_last_register(self, device):
         result = self.query.get_tensar_day_last_register(device)
@@ -45,14 +44,14 @@ class CustomCalculation:
             last_ts = None
 
         if last_ts is None:
-            self.query.insert_tensar_data(self.ts_now, 1, None, device)
+            self.query.insert_tensar_data(self.ts_now, 1, 0, device)
 
         elif last_ts is not None:
 
             same_day = self.compare_dates_from_timestamp(last_ts)
 
             if not same_day:
-                self.query.insert_tensar_data(self.ts_now, 1, None, device)
+                self.query.insert_tensar_data(self.ts_now, 1, 0, device)
 
             if same_day:
                 valid_dif = self.fifteen_minutes_interval(current_data_ts, last_ts)
