@@ -9,7 +9,7 @@ class CustomCalculation:
     def __init__(self):
         self.query = PostgresQuery()
         self.date = datetime.now()
-        self.ts_now = self.date.timestamp()
+        self.ts_now = int(self.date.timestamp())
         self.flag = threading.Event()
 
     def tensar_filter_custom_calculation(self, device, current_data_ts, ppm):
@@ -64,7 +64,8 @@ class CustomCalculation:
         Metodo que compara compara un timestamp con la fecha actual, si coinciden ser del dia de hoy, retorna True
         en caso contrario retorna False
         """
-        ts_to_date = ts.date()
+
+        ts_to_date = datetime.fromtimestamp(ts)
 
         if ts_to_date == self.date:
             return True
