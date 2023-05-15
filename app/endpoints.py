@@ -76,8 +76,8 @@ def time_calculations():
 def custom_calculations():
     request_data = request.get_json()
     device = request_data.get('device')
-    ppm = request_data.get('PPM2')
     ts = request_data.get('ts')
+    ppm = request_data.get('PPM2')
     custom = CustomCalculation()
-    result = custom.insert_tensar_data(device, ts)
-    return result
+    result = custom.tensar_filter_custom_calculation(device, ts, ppm)
+    return result, 200

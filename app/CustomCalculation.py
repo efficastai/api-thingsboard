@@ -24,13 +24,12 @@ class CustomCalculation:
             self.flag.wait()
             ts, dif, acum_today_pieces = self.get_last_register(device)
 
-        results = {
-            "api_custom_tensar_ts": ts,
-            "api_custom_tensar_dif": dif,
-            "api_custom_tensar_accumulator": acum_today_pieces
-        }
-
-        return results
+            results = {
+                "api_custom_tensar_ts": ts,
+                "api_custom_tensar_dif": dif,
+                "api_custom_tensar_accumulator": acum_today_pieces
+            }
+            return results
 
     def get_last_register(self, device):
         result = self.query.get_tensar_day_last_register(device)
