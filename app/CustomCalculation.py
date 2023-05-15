@@ -38,7 +38,7 @@ class CustomCalculation:
     def insert_tensar_data(self, device, current_data_ts):
 
         try:
-            last_ts = self.query.get_tensar_last_ts(device)
+            last_ts = self.query.get_tensar_last_ts(device)[0]
             print("ESTOY EN EL LAST! ///// ", last_ts)
         except IndexError:
             last_ts = None
