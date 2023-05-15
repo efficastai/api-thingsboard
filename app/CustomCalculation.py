@@ -39,25 +39,25 @@ class CustomCalculation:
 
         try:
             last_ts = self.query.get_tensar_last_ts(device)[0][0]
-            print(last_ts)
+            print("ESTOY EN EL LAST! ///// ", last_ts)
         except IndexError:
             last_ts = None
 
         if last_ts is None:
-            self.query.insert_tensar_data(self.ts_now, 1, 0, device)
+            self.query.insert_tensar_data(current_data_ts, 1, 0, device)
 
         elif last_ts is not None:
 
             same_day = self.compare_dates_from_timestamp(last_ts)
 
             if not same_day:
-                self.query.insert_tensar_data(self.ts_now, 1, 0, device)
+                self.query.insert_tensar_data(current_data_ts, 1, 0, device)
 
             if same_day:
                 valid_dif = self.fifteen_minutes_interval(current_data_ts, last_ts)
 
                 if valid_dif is not False:
-                    self.query.insert_tensar_data(self.ts_now, 1, valid_dif, device)
+                    self.query.insert_tensar_data(current_data_ts, 1, valid_dif, device)
 
     def compare_dates_from_timestamp(self, ts):
         """
