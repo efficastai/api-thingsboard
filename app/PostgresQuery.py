@@ -42,29 +42,6 @@ class PostgresQuery:
     def __del__(self):
         self.db.disconnect()
 
-    def insert_state(self, client, device, status):
-        query = postgres.get('insert_state').format(client, device, status)
-        self.db.execute_query(query)
-
-    def count_machines_on(self, client):
-        query = postgres.get('count_machines_on').format(client)
-        result = self.db.execute_query(query)
-        return result
-
-    def count_total_machines(self, client):
-        query = postgres.get('count_total_machines').format(client)
-        result = self.db.execute_query(query)
-        return result
-
-    def delete_node_device(self, device):
-        query = postgres.get('delete_node_device').format(device)
-        self.db.execute_query(query)
-
-    def get_last_status(self, device):
-        query = postgres.get('get_last_status').format(device)
-        result = self.db.execute_query(query)
-        return result
-
     def get_ppm_day_accumulator(self, device):
         """
         Obtenemos el acumulado del día, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
@@ -116,13 +93,6 @@ class PostgresQuery:
         result = self.db.execute_query(query)
         return result
 
-    def insert_tensar_data(self, ts, pieza, dif, device):
-        """
-        Insertamos la nueva informacion en la tabla de Tensar.
-        """
-        query = postgres.get('insert_tensar_data').format(ts, pieza, dif, device)
-        self.db.execute_query(query)
-
     def get_day_pya_values(self, device):
         """
         Comentarios del metodo
@@ -146,12 +116,29 @@ class PostgresQuery:
         result = self.db.execute_query(query)
         return result
 
-    def get_tensar_last_insert(self, device):
+    # QUERY DE TENSAR
+
+    def insert_tensar_data(self, ts, pieza, dif, device):
+        """
+        Insertamos la nueva informacion en la tabla de Tensar.
+        """
+        query = postgres.get('insert_tensar_data').format(ts, pieza, dif, device)
+        self.db.execute_query(query)
+
+    def get_tensar_last_ts(self, device):
         """
         Obtenemos el timestamp del ultimo dato registrado de un determinado dispositivo. Este query esta enfocado
         a ser utilizado en la creacion de la tabla que necesita contar Tensar en base a la diferencia de tiempo entre
         piezas.
         """
-        query = postgres.get('get_tensar_last_insert').format(device)
+        query = postgres.get('get_tensar_last_ts').format(device)
+        result = self.db.execute_query(query)
+        return result
+
+    def get_tensar_day_last_register(self, device):
+        """
+        Encuentro la ultima fila que haya reportado el dispositivo
+        """
+        query = postgres.get('get_tensar_day_last_register').format(device, self.date_str)
         result = self.db.execute_query(query)
         return result

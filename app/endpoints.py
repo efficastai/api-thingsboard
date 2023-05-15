@@ -4,7 +4,7 @@ from app import app
 from .ProductionTracking import *
 from .Setting import *
 from .TimeCalculation import *
-from .Status import *
+from .CustomCalculation import *
 
 
 @app.route('/api/production_tracking_analysis', methods=['POST'])
@@ -72,13 +72,12 @@ def time_calculations():
     return machine_time_calculations, 200
 
 
-@app.route('/api/status', methods=['POST'])
-def status():
+@app.route('/api/custom_calculation', methods=['POST'])
+def custom_calculations():
     request_data = request.get_json()
-    client = request_data.get('customer_title')
     device = request_data.get('device')
-    current_status = request_data.get('PYA1')
-    flag = request_data.get('flag')
-    machine_status = Status()
-    result = machine_status.get_machine_status(client, device, current_status, flag)
+    ppm = request_data.get('PPM2')
+    ts = request_data.get('ts')
+    custom = CustomCalculation()
+    result = custom.insert_tensar_data(device, ts)
     return result
