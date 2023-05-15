@@ -72,7 +72,7 @@ def time_calculations():
 
 
 @app.route('/api/custom_calculation', methods=['POST'])
-def custom_calculations():
+def custom_calculation():
     request_data = request.get_json()
     device = request_data.get('device')
     ts = request_data.get('timestamp')

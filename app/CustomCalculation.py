@@ -80,7 +80,7 @@ class CustomCalculation:
         """
         dif = current_data_ts - last_ts
 
-        if dif >= 900000:
+        if dif >= 120000:
             return dif
 
         return False
