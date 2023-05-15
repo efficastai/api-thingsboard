@@ -30,6 +30,7 @@ class CustomCalculation:
                 "api_custom_tensar_accumulator": acum_today_pieces
             }
             return results
+        return None
 
     def get_last_register(self, device):
         result = self.query.get_tensar_day_last_register(device)
