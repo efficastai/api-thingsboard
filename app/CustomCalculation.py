@@ -9,7 +9,7 @@ class CustomCalculation:
     def __init__(self):
         self.query = PostgresQuery()
         self.date = datetime.now()
-        self.ts_now = int(self.date.timestamp())
+        self.ts_now = int(self.date.timestamp()) * 1000
         self.flag = threading.Event()
 
     def tensar_filter_custom_calculation(self, device, current_data_ts, ppm):
