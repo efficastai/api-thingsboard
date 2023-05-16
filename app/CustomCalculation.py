@@ -104,6 +104,7 @@ class CustomCalculation:
         """
         last_ts = self.query.get_last_ts_where_ppm_equals_1(device)[0][0]
         print("LAST TS >= 1", last_ts)
+        print("TIMESTAMP ACTUAL: ", ts)
         dif = ts - last_ts
         print("LA DIFERENCIA ES DE: ", dif / 60000)
         if dif >= interval:
