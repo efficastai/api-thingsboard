@@ -23,7 +23,6 @@ class CustomCalculation:
             if insert_custom_data:
                 last_register = self.query.get_tensar_day_last_register()
                 return last_register
-        return 200
 
     def insert_tensar_data(self, device, ts, interval):
         """
