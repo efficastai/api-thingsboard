@@ -21,7 +21,7 @@ class CustomCalculation:
         print(interval_to_milis)
         if is_valid_value:
             insert_custom_data = self.insert_tensar_data(device, ts_int, interval_to_milis)
-            print(insert_custom_data)
+            print("INSERTAR CUSTOM DATA? ", insert_custom_data)
             if insert_custom_data:
                 last_register = self.get_tensar_last_register(device)
                 print(last_register)
