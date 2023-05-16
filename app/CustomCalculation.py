@@ -37,11 +37,9 @@ class CustomCalculation:
         # Valores por defecto a insertar en el registro
         value = True
         dif = 0
-        print("TS ACTUAL: ////", ts)
         # Traigo el ultimo registro de timestamp, en caso de que no exista, es None
         try:
             last_ts = self.query.get_tensar_last_ts(device)[0][0]
-            print("UTLIMO TS: ///",last_ts)
         except IndexError:
             last_ts = None
 
@@ -56,7 +54,8 @@ class CustomCalculation:
                 self.query.insert_tensar_data(ts, value, dif, device)
                 return True
             elif is_same_day:
-                valid_dif = self.is_valid_interval(ts, last_ts, interval)
+                # Consulto si la diferencia es valida en la tabla general de Thingsboard
+                valid_dif = self.is_valid_interval(ts, device, interval)
                 # Si es una diferencia de tiempo valida, inserto el dato y retorno True
                 if valid_dif is not False:
                     self.query.insert_tensar_data(ts, value, valid_dif, device)
@@ -98,12 +97,13 @@ class CustomCalculation:
 
         return False
 
-    @staticmethod
-    def is_valid_interval(ts, last_ts, interval):
+    def is_valid_interval(self, ts, device, interval):
         """
         Metodo que comprueba si hay una diferencia mayor a 15 minutos entre el dato actual y el anterior registrado
         en la tabla de Tensar
         """
+        last_ts = self.query.get_last_ts_where_ppm_equals_1(device)[0][0]
+        print("LAST TS >= 1", last_ts)
         dif = ts - last_ts
 
         if dif >= interval:

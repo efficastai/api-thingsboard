@@ -116,6 +116,11 @@ class PostgresQuery:
         result = self.db.execute_query(query)
         return result
 
+    def get_last_ts_where_ppm_equals_1(self, device):
+        query = postgres.get('get_last_ts_where_ppm_equals_1').format(self.year, self.month_str, device)
+        result = self.db.execute_query(query)
+        return result
+
     # QUERY DE TENSAR
 
     def insert_tensar_data(self, ts, pieza, dif, device):
