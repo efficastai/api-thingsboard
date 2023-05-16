@@ -69,7 +69,7 @@ class CustomCalculation:
         ts_to_date = datetime.fromtimestamp(ts).date()
         print("TIMESTAMP TO DATE: ", ts_to_date)
         print("ESTA FECHA: ", self.date.today())
-        if ts_to_date == self.date.today():
+        if ts_to_date == self.date.date():
             return True
 
         return False
