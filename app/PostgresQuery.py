@@ -142,3 +142,11 @@ class PostgresQuery:
         query = postgres.get('get_tensar_day_last_register').format(device, self.date_str)
         result = self.db.execute_query(query)
         return result
+
+    def count_tensar_total_pieces(self, device):
+        """
+        Comentarios del metodo
+        """
+        query = postgres.get('count_tensar_total_pieces').format(device)
+        result = self.db.execute_query(query)
+        return result
