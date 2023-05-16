@@ -21,7 +21,6 @@ class CustomCalculation:
         acum_today_pieces = None
         if ppm >= 1:
             self.insert_tensar_data(device, current_data_ts)
-            self.flag.wait()
             ts, dif, acum_today_pieces = self.get_last_register(device)
 
         results = {
