@@ -22,7 +22,7 @@ class CustomCalculation:
         if ppm >= 1:
             self.insert_tensar_data(device, current_data_ts)
             ts, dif = self.get_last_register(device)[0]
-            acum_today_pieces = self.query.count_tensar_total_pieces(device)
+            acum_today_pieces = self.query.count_tensar_total_pieces(device)[0][0]
 
         results = {
             "api_custom_tensar_ts": ts,
