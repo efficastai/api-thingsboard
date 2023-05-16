@@ -18,10 +18,13 @@ class CustomCalculation:
         is_valid_value = value >= 1
         ts_int = int(ts)
         interval_to_milis = int(interval) * 60000
+        print(interval_to_milis)
         if is_valid_value:
             insert_custom_data = self.insert_tensar_data(device, ts_int, interval_to_milis)
+            print(insert_custom_data)
             if insert_custom_data:
                 last_register = self.get_tensar_last_register(device)
+                print(last_register)
                 return last_register
 
         return None
