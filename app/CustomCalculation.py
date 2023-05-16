@@ -68,7 +68,7 @@ class CustomCalculation:
         ts = ts / 1000
         ts_to_date = datetime.fromtimestamp(ts).date()
         print("TIMESTAMP TO DATE: ", ts_to_date)
-        print("ESTA FECHA: ", self.datew)
+        print("ESTA FECHA: ", self.date.today())
         if ts_to_date == self.date.today():
             return True
 
