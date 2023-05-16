@@ -33,6 +33,7 @@ class CustomCalculation:
 
     def get_last_register(self, device):
         result = self.query.get_tensar_day_last_register(device)
+        print("ULTIMO REGISTRO: ", result)
         return result
 
     def insert_tensar_data(self, device, current_data_ts):
