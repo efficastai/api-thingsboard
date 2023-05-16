@@ -35,7 +35,7 @@ class CustomCalculation:
         de dicho dispositivo, en caso de que no existan, ingresa el primer registro. Luego realiza otras comprobaciones
         """
         # Valores por defecto a insertar en el registro
-        value = 1
+        value = True
         dif = 0
         # Traigo el ultimo registro de timestamp, en caso de que no exista, es None
         try:
