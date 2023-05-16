@@ -80,5 +80,5 @@ def custom_calculation():
     interval = request_data.get('interval')
     custom = CustomCalculation()
     result = custom.get_tensar_custom_data(device, ts, ppm, interval)
-    if result:
-        return result, 200
+    if result is not None:
+        return result

@@ -24,6 +24,8 @@ class CustomCalculation:
                 last_register = self.query.get_tensar_day_last_register(device)
                 return last_register
 
+        return None
+
     def insert_tensar_data(self, device, ts, interval):
         """
         Método que recibe un dispositivo y una estampa de tiempo, luego consulta si existen registros anteriores
