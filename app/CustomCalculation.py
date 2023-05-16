@@ -106,7 +106,7 @@ class CustomCalculation:
         print("LAST TS >= 1", last_ts)
         print("TIMESTAMP ACTUAL: ", ts)
         dif = ts - last_ts
-        print("LA DIFERENCIA ES DE: ", dif / 60000)
+        print("LA DIFERENCIA ES DE: ", dif)
         if dif >= interval:
             return dif
 
