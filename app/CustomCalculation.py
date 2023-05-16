@@ -67,7 +67,8 @@ class CustomCalculation:
         """
         ts = ts / 1000
         ts_to_date = datetime.fromtimestamp(ts)
-
+        print("TIMESTAMP TO DATE: ", ts_to_date)
+        print("ESTA FECHA: ", self.date)
         if ts_to_date == self.date:
             return True
 
