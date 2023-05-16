@@ -21,7 +21,7 @@ class CustomCalculation:
         acum_today_pieces = None
         if ppm >= 1:
             self.insert_tensar_data(device, current_data_ts)
-            ts, dif = self.get_last_register(device)
+            ts, dif = self.get_last_register(device)[0]
             acum_today_pieces = self.query.count_tensar_total_pieces(device)
 
         results = {
@@ -33,7 +33,6 @@ class CustomCalculation:
 
     def get_last_register(self, device):
         result = self.query.get_tensar_day_last_register(device)
-        print("ULTIMO REGISTRO: ", result)
         return result
 
     def insert_tensar_data(self, device, current_data_ts):
