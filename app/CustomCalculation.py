@@ -50,13 +50,13 @@ class CustomCalculation:
         elif last_ts is not None:
 
             same_day = self.compare_dates_from_timestamp(last_ts)
-
+            print("SAME DAY", same_day)
             if not same_day:
                 self.query.insert_tensar_data(current_data_ts, 1, 0, device)
 
             if same_day:
                 valid_dif = self.fifteen_minutes_interval(current_data_ts, last_ts)
-
+                print("VALID DIFFFFF: ", valid_dif)
                 if valid_dif is not False:
                     self.query.insert_tensar_data(current_data_ts, 1, valid_dif, device)
 
