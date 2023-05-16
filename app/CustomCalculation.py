@@ -37,9 +37,11 @@ class CustomCalculation:
         # Valores por defecto a insertar en el registro
         value = True
         dif = 0
+        print("TS ACTUAL: ////", ts)
         # Traigo el ultimo registro de timestamp, en caso de que no exista, es None
         try:
             last_ts = self.query.get_tensar_last_ts(device)[0][0]
+            print("UTLIMO TS: ///",last_ts)
         except IndexError:
             last_ts = None
 
