@@ -41,6 +41,7 @@ class CustomCalculation:
             last_ts = self.query.get_tensar_last_ts(device)[0][0]
             print("ESTOY EN EL LAST! ///// ", last_ts)
         except IndexError:
+            print("ERROR DE INDEX!")
             last_ts = None
 
         if last_ts is None:
