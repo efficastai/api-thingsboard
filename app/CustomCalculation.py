@@ -66,10 +66,10 @@ class CustomCalculation:
         en caso contrario retorna False
         """
         ts = ts / 1000
-        ts_to_date = datetime.fromtimestamp(ts)
+        ts_to_date = datetime.fromtimestamp(ts).date()
         print("TIMESTAMP TO DATE: ", ts_to_date)
-        print("ESTA FECHA: ", self.date)
-        if ts_to_date == self.date:
+        print("ESTA FECHA: ", self.datew)
+        if ts_to_date == self.date.today():
             return True
 
         return False
