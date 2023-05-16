@@ -64,7 +64,7 @@ class CustomCalculation:
         Metodo que compara compara un timestamp con la fecha actual, si coinciden ser del dia de hoy, retorna True
         en caso contrario retorna False
         """
-
+        ts = ts / 1000
         ts_to_date = datetime.fromtimestamp(ts)
 
         if ts_to_date == self.date:
