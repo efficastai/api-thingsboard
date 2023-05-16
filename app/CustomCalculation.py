@@ -80,6 +80,7 @@ class CustomCalculation:
         Metodo que comprueba si hay una diferencia mayor a 15 minutos entre el dato actual y el anterior registrado
         en la tabla de Tensar
         """
+        current_data_ts = int(current_data_ts)
         dif = current_data_ts - last_ts
 
         if dif >= 120000:
