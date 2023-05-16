@@ -21,7 +21,7 @@ class CustomCalculation:
         if is_valid_value:
             insert_custom_data = self.insert_tensar_data(device, ts_int, interval_to_milis)
             if insert_custom_data:
-                last_register = self.query.get_tensar_day_last_register(device)
+                last_register = self.get_tensar_last_register(device)
                 return last_register
 
         return None
@@ -59,7 +59,7 @@ class CustomCalculation:
 
         return False
 
-    def get_last_tensar_register(self, device):
+    def get_tensar_last_register(self, device):
         """
         Metodo que retorna un objeto JSON con los resultados obtenidos de la tabla de Tensar:
         ultimo ts y dif registrado, total acumulado de piezas del dia en base a los filtros que requieren ser
