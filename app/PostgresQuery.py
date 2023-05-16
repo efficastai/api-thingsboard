@@ -143,10 +143,10 @@ class PostgresQuery:
         result = self.db.execute_query(query)
         return result
 
-    def count_tensar_total_pieces(self, device):
+    def get_tensar_day_accumulator(self, device):
         """
         Comentarios del metodo
         """
-        query = postgres.get('count_tensar_total_pieces').format(device)
+        query = postgres.get('get_tensar_day_accumulator').format(device)
         result = self.db.execute_query(query)
         return result

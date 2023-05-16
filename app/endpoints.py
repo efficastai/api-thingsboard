@@ -77,6 +77,7 @@ def custom_calculation():
     device = request_data.get('device')
     ts = request_data.get('timestamp')
     ppm = request_data.get('PPM2')
+    interval = request_data.get('interval')
     custom = CustomCalculation()
-    result = custom.tensar_filter_custom_calculation(device, ts, ppm)
+    result = custom.get_tensar_custom_data(device, ts, ppm, interval)
     return result, 200

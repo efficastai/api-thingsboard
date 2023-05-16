@@ -9,56 +9,76 @@ class CustomCalculation:
     def __init__(self):
         self.query = PostgresQuery()
         self.date = datetime.now()
-        self.ts_now = int(self.date.timestamp()) * 1000
         self.flag = threading.Event()
 
-    def tensar_filter_custom_calculation(self, device, current_data_ts, ppm):
+    def get_tensar_custom_data(self, device, ts, value, interval):
         """
-        Comentarios del metodo
+        Método que determina si es necesario retornar nuevos datos para la tabla personalizada de tensar
         """
-        ts = None
-        dif = None
-        acum_today_pieces = None
-        if ppm >= 1:
-            self.insert_tensar_data(device, current_data_ts)
-            ts, dif = self.get_last_register(device)[0]
-            acum_today_pieces = self.query.count_tensar_total_pieces(device)[0][0]
+        is_valid_value = value >= 1
+        ts_int = int(ts)
+        interval_to_milis = int(interval) * 60000
+        if is_valid_value:
+            insert_custom_data = self.insert_tensar_data(device, ts_int, interval_to_milis)
+            if insert_custom_data:
+                last_register = self.query.get_tensar_day_last_register()
+                return last_register
+        return 200
 
-        results = {
-            "api_custom_tensar_ts": ts,
-            "api_custom_tensar_dif": dif,
-            "api_custom_tensar_accumulator": acum_today_pieces
-        }
-        return results
-
-    def get_last_register(self, device):
-        result = self.query.get_tensar_day_last_register(device)
-        return result
-
-    def insert_tensar_data(self, device, current_data_ts):
-
+    def insert_tensar_data(self, device, ts, interval):
+        """
+        Método que recibe un dispositivo y una estampa de tiempo, luego consulta si existen registros anteriores
+        de dicho dispositivo, en caso de que no existan, ingresa el primer registro. Luego realiza otras comprobaciones
+        """
+        # Valores por defecto a insertar en el registro
+        value = 1
+        dif = 0
+        # Traigo el ultimo registro de timestamp, en caso de que no exista, es None
         try:
             last_ts = self.query.get_tensar_last_ts(device)[0][0]
-            print("ESTOY EN EL LAST! ///// ", last_ts)
         except IndexError:
-            print("ERROR DE INDEX!")
             last_ts = None
 
+        # Si no existe un ultimo registro, inserto el registro actual y retorno True
         if last_ts is None:
-            self.query.insert_tensar_data(current_data_ts, 1, 0, device)
-
+            self.query.insert_tensar_data(ts, value, dif, device)
+            return True
         elif last_ts is not None:
-
-            same_day = self.compare_dates_from_timestamp(last_ts)
-            print("SAME DAY", same_day)
-            if not same_day:
-                self.query.insert_tensar_data(current_data_ts, 1, 0, device)
-
-            if same_day:
-                valid_dif = self.fifteen_minutes_interval(current_data_ts, last_ts)
-                print("VALID DIFFFFF: ", valid_dif)
+            is_same_day = self.compare_dates_from_timestamp(ts)
+            # Si el registro no es del mismo dia, inserto el dato y retorno True
+            if not is_same_day:
+                self.query.insert_tensar_data(ts, value, dif, device)
+                return True
+            elif is_same_day:
+                valid_dif = self.is_valid_interval(ts, last_ts, interval)
+                # Si es una diferencia de tiempo valida, inserto el dato y retorno True
                 if valid_dif is not False:
-                    self.query.insert_tensar_data(current_data_ts, 1, valid_dif, device)
+                    self.query.insert_tensar_data(ts, value, valid_dif, device)
+                    return True
+
+        return False
+
+    def get_last_tensar_register(self, device):
+        """
+        Metodo que retorna un objeto JSON con los resultados obtenidos de la tabla de Tensar:
+        ultimo ts y dif registrado, total acumulado de piezas del dia en base a los filtros que requieren ser
+        aplicados.
+
+        Parámetros:
+
+        Return:
+
+        """
+        ts, dif = self.query.get_tensar_day_last_register(device)[0]
+        day_accumulator = self.query.get_tensar_day_accumulator(device)[0][0]
+
+        result = {
+            'api_custom_tensar_ts': ts,
+            'api_custom_tensar_dif': dif,
+            'api_custom_tensar_accumulator': day_accumulator
+        }
+
+        return result
 
     def compare_dates_from_timestamp(self, ts):
         """
@@ -67,23 +87,20 @@ class CustomCalculation:
         """
         ts = ts / 1000
         ts_to_date = datetime.fromtimestamp(ts).date()
-        print("TIMESTAMP TO DATE: ", ts_to_date)
-        print("ESTA FECHA: ", self.date.today())
         if ts_to_date == self.date.date():
             return True
 
         return False
 
     @staticmethod
-    def fifteen_minutes_interval(current_data_ts, last_ts):
+    def is_valid_interval(ts, last_ts, interval):
         """
         Metodo que comprueba si hay una diferencia mayor a 15 minutos entre el dato actual y el anterior registrado
         en la tabla de Tensar
         """
-        current_data_ts = int(current_data_ts)
-        dif = current_data_ts - last_ts
+        dif = ts - last_ts
 
-        if dif >= 120000:
+        if dif >= interval:
             return dif
 
         return False
