@@ -102,7 +102,7 @@ class CustomCalculation:
         Metodo que comprueba si hay una diferencia mayor a 15 minutos entre el dato actual y el anterior registrado
         en la tabla de Tensar
         """
-        last_ts = self.query.get_last_ts_where_ppm_equals_1(device)[0][0]
+        last_ts = self.query.get_last_ts_where_ppm_equals_1(device)
         print("LAST TS >= 1", last_ts)
         dif = ts - last_ts
 
