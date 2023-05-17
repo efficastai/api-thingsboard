@@ -171,3 +171,20 @@ class PostgresQuery:
         query = postgres.get('get_tensar_day_accumulator').format(device, self.date_str)
         result = self.db.execute_query(query)
         return result
+
+    def get_tensar_week_accumulator(self, device):
+        """
+        Comentarios del metodo
+        """
+        query = postgres.get('get_tensar_week_accumulator').format(device)
+        result = self.db.execute_query(query)
+        return result
+
+    def get_tensar_month_accumulator(self, device):
+        """
+        Comentarios del metodo
+        """
+        query = postgres.get('get_tensar_month_accumulator').format(device)
+        result = self.db.execute_query(query)
+        return result
+
