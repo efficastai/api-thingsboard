@@ -72,6 +72,14 @@ class PostgresQuery:
         result = self.db.execute_query(query)
         return result
 
+    def get_pya_day_accumulator(self, device):
+        """
+        Comentarios del metodo
+        """
+        query = postgres.get('get_pya_day_accumulator').format(self.year, self.month_str, device)
+        result = self.db.execute_query(query)
+        return result
+
     def get_pya_total_accumulator(self, device):
         """
         Comentarios del metodo
