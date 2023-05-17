@@ -11,21 +11,26 @@ class CustomCalculation:
         self.date = datetime.now()
         self.flag = threading.Event()
 
-    def get_tensar_custom_data(self, device, ts, value, interval):
+    def get_tensar_custom_data(self, device, ts, value, interval=None, flag=None):
         """
         Método que determina si es necesario retornar nuevos datos para la tabla personalizada de tensar
         """
-        is_valid_value = value >= 1
-        ts_int = int(ts)
-        interval_to_milis = int(interval) * 60000
-        print(interval_to_milis)
-        if is_valid_value:
-            insert_custom_data = self.insert_tensar_data(device, ts_int, interval_to_milis)
-            print("INSERTAR CUSTOM DATA? ", insert_custom_data)
-            if insert_custom_data:
-                last_register = self.get_tensar_last_register(device)
-                print(last_register)
-                return last_register
+        flag = flag.lower() if flag is not None else None
+        if flag == 'puente':
+            pya_values = self.get_pya_values(device)
+            return pya_values
+        if interval is not None:
+            is_valid_value = value >= 1
+            ts_int = int(ts)
+            interval_to_milis = int(interval) * 60000
+            print(interval_to_milis)
+            if is_valid_value:
+                insert_custom_data = self.insert_tensar_data(device, ts_int, interval_to_milis)
+                print("INSERTAR CUSTOM DATA? ", insert_custom_data)
+                if insert_custom_data:
+                    last_register = self.get_tensar_last_register(device)
+                    print(last_register)
+                    return last_register
 
         return None
 
@@ -111,3 +116,16 @@ class CustomCalculation:
             return dif
 
         return False
+
+    def get_pya_values(self, device):
+        """
+        Comentarios del metodo
+        """
+        pya_day_accumulator = self.query.get_day_pya_values(device)[0][0]
+        pya_total_accumulator = self.query.get_pya_total_accumulator(device)[0][0]
+        result = {
+            'api_day_accumulator': pya_day_accumulator,
+            'api_total_pya_accumulator': pya_total_accumulator
+        }
+
+        return result
