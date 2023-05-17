@@ -152,6 +152,6 @@ class PostgresQuery:
         """
         Comentarios del metodo
         """
-        query = postgres.get('get_tensar_day_accumulator').format(device)
+        query = postgres.get('get_tensar_day_accumulator').format(device, self.date_str)
         result = self.db.execute_query(query)
         return result
