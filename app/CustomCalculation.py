@@ -21,9 +21,7 @@ class CustomCalculation:
             pya_values = self.get_pya_values(device)
             return pya_values
         if interval is not None:
-            print("ENTRE AL INTERVALOOOOOO!!!!!")
             is_valid_value = value >= 1
-            print("ES UN VALOR VALIDO? ", is_valid_value)
             ts_int = int(ts)
             interval_to_milis = int(interval) * 60000
             print(interval_to_milis)
