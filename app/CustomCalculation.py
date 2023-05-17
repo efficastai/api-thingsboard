@@ -123,10 +123,10 @@ class CustomCalculation:
         """
         Comentarios del metodo
         """
-        pya_day_accumulator = self.query.get_pya_day_accumulator(device)[0][0]
+        pya_day_accumulator = int(self.query.get_pya_day_accumulator(device)[0][0])
         pya_total_accumulator = int(self.query.get_pya_total_accumulator(device)[0][0])
         result = {
-            'api_day_accumulator': pya_day_accumulator,
+            'api_day_pya_accumulator': pya_day_accumulator,
             'api_total_pya_accumulator': pya_total_accumulator
         }
 
