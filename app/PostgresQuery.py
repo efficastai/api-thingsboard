@@ -76,7 +76,7 @@ class PostgresQuery:
         """
         Comentarios del metodo
         """
-        query = postgres.get('get_pya_day_accumulator').format(self.year, self.month_str, device)
+        query = postgres.get('get_pya_day_accumulator').format(self.year, self.month_str, self.date_str, device)
         result = self.db.execute_query(query)
         return result
 
