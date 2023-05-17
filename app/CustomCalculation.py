@@ -48,7 +48,7 @@ class CustomCalculation:
             self.query.insert_tensar_data(ts, value, dif, device)
             return True
         elif last_ts is not None:
-            is_same_day = self.compare_dates_from_timestamp(ts)
+            is_same_day = self.is_same_day(ts)
             # Si el registro no es del mismo dia, inserto el dato y retorno True
             if not is_same_day:
                 self.query.insert_tensar_data(ts, value, dif, device)
@@ -85,7 +85,7 @@ class CustomCalculation:
 
         return result
 
-    def compare_dates_from_timestamp(self, ts):
+    def is_same_day(self, ts):
         """
         Metodo que compara compara un timestamp con la fecha actual, si coinciden ser del dia de hoy, retorna True
         en caso contrario retorna False
