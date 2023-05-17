@@ -17,6 +17,7 @@ class CustomCalculation:
         """
         flag = flag.lower() if flag is not None else None
         if flag == 'puente':
+            print("ENTRE AL FLAG!")
             pya_values = self.get_pya_values(device)
             return pya_values
         if interval is not None:
@@ -122,7 +123,9 @@ class CustomCalculation:
         Comentarios del metodo
         """
         pya_day_accumulator = self.query.get_day_pya_values(device)[0][0]
+        print("ACUMULADOR DIA:",pya_day_accumulator)
         pya_total_accumulator = self.query.get_pya_total_accumulator(device)[0][0]
+        print("ACUMULADOR TOTAL: ",pya_total_accumulator)
         result = {
             'api_day_accumulator': pya_day_accumulator,
             'api_total_pya_accumulator': pya_total_accumulator
