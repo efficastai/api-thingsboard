@@ -74,7 +74,7 @@ class PostgresQuery:
 
     def get_pya_day_accumulator(self, device):
         """
-        Comentarios del metodo
+        Obtenemos el acumulado del dia de pya
         """
         query = postgres.get('get_pya_day_accumulator').format(self.year, self.month_str, self.date_str, device)
         result = self.db.execute_query(query)
@@ -82,7 +82,7 @@ class PostgresQuery:
 
     def get_ppm_count_day_accumulator(self, device):
         """
-        Comentarios del metodo
+        Obtenemos la sumatoria de registros de ppm del dia (registros, no la sumatoria de los valores de ppm)
         """
         query = postgres.get('get_ppm_count_day_accumulator').format(self.year, self.month_str, self.date_str, device)
         result = self.db.execute_query(query)
@@ -90,7 +90,7 @@ class PostgresQuery:
 
     def get_pya_total_accumulator(self, device):
         """
-        Comentarios del metodo
+        Obtenemos el acumulado historico de pya
         """
         query = postgres.get('get_pya_total_accumulator').format(device)
         result = self.db.execute_query(query)
@@ -119,7 +119,7 @@ class PostgresQuery:
 
     def get_day_pya_values(self, device):
         """
-        Comentarios del metodo
+        Obtenemos un lista con los valores de pya del dia
         """
         query = postgres.get('get_day_pya_values').format(self.year, self.month_str, self.date_str, device)
         result = self.db.execute_query(query)
@@ -136,11 +136,17 @@ class PostgresQuery:
         return result
 
     def get_device_access_token(self, device):
+        """
+        Obtenemos el access token de un dispositivo en particular
+        """
         query = postgres.get('get_device_access_token').format(device)
         result = self.db.execute_query(query)
         return result
 
     def get_last_ts_where_ppm_equals_1(self, device):
+        """
+        Obtenemos el ultimo ts de un dato de ppm >= 1
+        """
         query = postgres.get('get_last_ts_where_ppm_equals_1').format(self.year, self.month_str, device)
         result = self.db.execute_query(query)
         return result
@@ -166,7 +172,7 @@ class PostgresQuery:
 
     def get_tensar_day_last_register(self, device):
         """
-        Encuentro la ultima fila que haya reportado el dispositivo
+        Obtenemos la ultima fila de registro de la tabla tensar
         """
         query = postgres.get('get_tensar_day_last_register').format(device, self.date_str)
         result = self.db.execute_query(query)
@@ -174,7 +180,7 @@ class PostgresQuery:
 
     def get_tensar_day_accumulator(self, device):
         """
-        Comentarios del metodo
+        Obtenemos el acumulador del dia de la tabla  tensar
         """
         query = postgres.get('get_tensar_day_accumulator').format(device, self.date_str)
         result = self.db.execute_query(query)
@@ -182,7 +188,7 @@ class PostgresQuery:
 
     def get_tensar_week_accumulator(self, device):
         """
-        Comentarios del metodo
+        Obtenemos el acumulador semanal de la tabla tensar
         """
         query = postgres.get('get_tensar_week_accumulator').format(device)
         result = self.db.execute_query(query)
@@ -190,7 +196,7 @@ class PostgresQuery:
 
     def get_tensar_month_accumulator(self, device):
         """
-        Comentarios del metodo
+        Obtenemos el acumulado mensual de la tabla tensar
         """
         query = postgres.get('get_tensar_month_accumulator').format(device)
         result = self.db.execute_query(query)
