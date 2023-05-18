@@ -80,6 +80,7 @@ class CustomCalculation:
         Return:
 
         """
+        ppm = 1
         ts, dif = self.query.get_tensar_day_last_register(device)[0]
         day_accumulator = self.query.get_tensar_day_accumulator(device)[0][0]
         week_accumulator = self.query.get_tensar_week_accumulator(device)[0][0]
@@ -88,6 +89,7 @@ class CustomCalculation:
         result = {
             'api_custom_tensar_ts': ts,
             'api_custom_tensar_dif': dif,
+            'api_custom_tensar_ppm': ppm,
             'api_custom_tensar_day_accumulator': day_accumulator,
             'api_custom_tensar_week_accumulator': week_accumulator,
             'api_custom_tensar_month_accumulator': month_accumulator
