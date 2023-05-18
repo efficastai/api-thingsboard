@@ -16,10 +16,21 @@ class CustomCalculation:
         Método que determina si es necesario retornar nuevos datos para la tabla personalizada de tensar
         """
         flag = flag.lower() if flag is not None else None
+        # Si el flag es de los puentes, retorno los acumulados de pya del dia y totales
         if flag == 'puente':
-            print("ENTRE AL FLAG!")
             pya_values = self.get_pya_values(device)
             return pya_values
+        # Si el flag es de la caldera, retorno los acumulados de pya del dia y totales + el conteo diario de registros
+        # de ppm
+        if flag == 'caldera':
+            pya_values = self.get_pya_values(device)
+            ppm_count_values = self.get_ppm_count_day_accumulator(device)
+            result = {**pya_values, **ppm_count_values}
+            return result
+        # Si el mensaje posee un intervalo, significa que pertenece al tipo de maquina que se le aplica un filtro
+        # de tiempo entre mensajes. A partir de esto vienen validaciones (si el registro es de hoy, si existe o no y
+        # si transcurrieron al menos 15 minutos entre ppm >= 1. Si no se cumplen las condiciones el metodo no retorna
+        # nada
         if interval is not None:
             is_valid_value = value >= 1
             ts_int = int(ts)
@@ -130,6 +141,18 @@ class CustomCalculation:
         result = {
             'api_day_pya_accumulator': pya_day_accumulator,
             'api_total_pya_accumulator': pya_total_accumulator
+        }
+
+        return result
+
+    def get_ppm_count_day_accumulator(self, device):
+        """
+        Comentarios del metodo
+        """
+        ppm_count_day_accumulator = int(self.query.get_ppm_count_day_accumulator(device)[0][0])
+
+        result = {
+            'api_custom_tensar_ppm_count_day_accumulator': ppm_count_day_accumulator
         }
 
         return result
