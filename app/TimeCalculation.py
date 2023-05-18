@@ -1,4 +1,6 @@
 import math
+import re
+
 from .PostgresQuery import *
 
 
@@ -16,6 +18,7 @@ class TimeCalculation:
         Este método devuelve el tiempo encendido, tiempo apagado y disponibilidad de una máquina en lo que va
         del día actual en base a su hora de inicio de turno.
         """
+        run_stop_values_tuple = None
         # Si tengo un flag en el cuerpo del mensaje convierto a minúsculas
         if flag is not None:
             flag = flag.lower()
@@ -24,7 +27,7 @@ class TimeCalculation:
                 day_ppm_values = self.query.get_day_ppm_values(device)
                 run_stop_values_tuple = self.convert_to_pya_tuple(day_ppm_values)
         # Si el mensaje viene sin flag obtengo los valores de pya del día
-        else:
+        if run_stop_values_tuple is None:
             run_stop_values_tuple = self.query.get_day_pya_values(device)
 
         # Convierto el string de shift_start en un timestamp en milisegundos.
@@ -51,7 +54,7 @@ class TimeCalculation:
         Metodo que recibe una tupla de pya, en el indice [0] se encuentra el valor del pya y en el indice [1]
         se encuentra el valor del timestamp en milisegundos.
         Primero la lista se ordena de menor a mayor, luego se itera entre los elementos y dependiendo el valor de
-        su delta, el tiempo se acumula en tiempo_on_milis o tiempo_off_milis
+        su delta, el tiempo se acumula en tiempo_on_milis o tiempo_off_milis.
         @params: una tupla de valores de pya
         @return: time_on_milis, time_off_milis
         """
@@ -113,14 +116,17 @@ class TimeCalculation:
             ratio_shift_time = round(time_on_milis / diff * 100)
         return ratio_shift_time
 
-    @staticmethod
-    def shift_to_timestamp_milis(shift_start):
+    def shift_to_timestamp_milis(self, shift_start):
         """
         Metodo que recibe un string representando una hora de inicio de un turno, converierte el string
         en horas y minutos, luego lo devuelvo en formato timestamp en milisegundos
         @params: una hora de turno en formato string
         @return: esa hora en timestamp milisegundos en tipo de dato int
         """
+        # Valido que la hora ingresada tenga un formato correcto, en caso de que no, retorno None
+        valid = self.validate_shift_format(shift_start)
+        if not valid:
+            return None
         hour = int(shift_start[:2])
         minutes = int(shift_start[3:])
         now = datetime.now()
@@ -128,6 +134,35 @@ class TimeCalculation:
             datetime(now.year, now.month, now.day, hour, minutes, now.second).timestamp()) * 1000
 
         return result
+
+    @staticmethod
+    def validate_shift_format(shift):
+        """
+        Metodo para validar que la hora de turno tenga un formato y unos valores correctos
+
+        Parámetros:
+        - shift: un turno en formato string
+
+        Return:
+        - None: si el formato de la hora no es correcto
+        - result: si el formato esta bien, retorna ese turno en timestamp
+        """
+        # Comprobar si el formato es hh:mm
+        if not re.match(r'^\d{2}:\d{2}$', shift):
+            return False
+        # Obtener la hora y los minutos como números enteros
+        hora, minuto = map(int, shift.split(':'))
+        # Comprobar si la hora está entre 00 y 23
+        if hora < 0 or hora > 23:
+            return False
+        # Comprobar si los minutos están entre 00 y 59
+        if minuto < 0 or minuto > 59:
+            return False
+        # Comprobar si los dos puntos están en la posición correcta
+        if shift[2] != ':' or len(shift) != 5:
+            return False
+
+        return True
 
     @staticmethod
     def update_list_from_shift_start(pya_tuple_ordered, shift_start_in_timestamp_miliseconds):

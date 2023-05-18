@@ -4,6 +4,7 @@ from app import app
 from .ProductionTracking import *
 from .Setting import *
 from .TimeCalculation import *
+from .CustomCalculation import *
 
 
 @app.route('/api/production_tracking_analysis', methods=['POST'])
@@ -57,6 +58,7 @@ def time_calculations():
     Parámetros esperados en el body de la solicitud:
     - device: el nombre del dispositivo
     - shift_start (opcional): la hora de inicio del turno
+    - flag (opcional): una bandera que alerta de algun calculo alternativo
 
     Retorno:
     - Un objeto JSON con los cálculos de tiempo para la máquina especificada.
@@ -68,3 +70,35 @@ def time_calculations():
     time_calculation = TimeCalculation()
     machine_time_calculations = time_calculation.get_machine_time_calculations(device_name, shift_start, flag)
     return machine_time_calculations, 200
+
+
+@app.route('/api/custom_calculation', methods=['POST'])
+def custom_calculation():
+    """
+    Retorna un objeto JSON con calculos customizados (calculos que no utilizamos en general pero si de manera
+    específica).
+    Por el momento este endpoint funciona unicamente para maquinas de tensar, ya que requieren filtros, conteos
+    especiales, etc.
+
+    Parámetros:
+    - device: un dispositivo
+    - timestamp: la estampa de tiempo del dato
+    - PPM2: valor de ppm2
+    - interval (opcional): un intervalo de tiempo para filtar valores
+    - flag (opcional): una bandera que alerta de algun calculo alternativo
+
+    Return:
+    - None: si el resultado del objeto custom es None, el endpoint no retorna ningun valor
+    - Un objeto JSON con los calculos necesarios para la maquina especificada
+    """
+    request_data = request.get_json()
+    device = request_data.get('device')
+    ts = request_data.get('timestamp')
+    ppm = request_data.get('PPM2')
+    interval = request_data.get('interval')
+    flag = request_data.get('flag')
+    custom = CustomCalculation()
+    result = custom.get_tensar_custom_data(device, ts, ppm, interval, flag)
+    if result is None:
+        return '', 200
+    return result, 200

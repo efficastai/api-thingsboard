@@ -194,7 +194,9 @@ cython_debug/
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 
+
 #Configurations
 config.ini
+query.py
 
 # End of https://www.toptal.com/developers/gitignore/api/flask
