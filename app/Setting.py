@@ -36,6 +36,6 @@ class Setting:
             if i == 0:
                 fixed_values_list.append(i)
                 continue
-            fixed_values_list.append(int(i * fix))
+            fixed_values_list.append(round(i * fix))
 
         return fixed_values_list
