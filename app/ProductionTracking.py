@@ -13,7 +13,7 @@ class ProductionTracking:
     def __init__(self):
         self.query = PostgresQuery()
 
-    def get_production_tracking_analysis(self, device, flag=None, target=None, cycle_time=None):
+    def get_production_tracking_analysis(self, device, fix=None, target=None, cycle_time=None):
         """
         Método central de la clase. Este método se encarga de recopilar todas los calculos necesarios
         para tener el tracking de la producción de las máquinas. Me refiero: obtenemos todos los valores
@@ -31,7 +31,7 @@ class ProductionTracking:
         - Un objeto JSON con el acumulado del dia, semana y mes
         """
         # Obtengo los acumulados del día, la semana, el mes, y los ultimos n valores
-        day_accumulator, week_accumulator, month_accumulator, last_n_values = self.get_accumulators(device, flag)
+        day_accumulator, week_accumulator, month_accumulator, last_n_values = self.get_accumulators(device, fix)
         # Tasa de produccion instantanea
         production_rate = last_n_values * 6
         # Porcentaje de cumplimiento de piezas diario del dispositivo (si existe target seteado, sinó SET)
@@ -51,7 +51,7 @@ class ProductionTracking:
 
         return result
 
-    def get_accumulators(self, device, flag=None):
+    def get_accumulators(self, device, fix=None):
         """
         Método que devuelve los acumuladores que necesitamos por el momento (day, week, month, last n values).
         Además, este método identifica a través del flag si los valores necesitan algún tipo de ajuste
@@ -73,10 +73,10 @@ class ProductionTracking:
         # Harcodeo para ultimos 10 valores, queda pendiente ingreso por parametro
         last_n_values = int(self.query.get_ppm_last_n_values(device=device, n=10)[0][0])
 
-        if flag is not None:
+        if fix is not None:
             setting = Setting()
             day_accumulator, week_accumulator, month_accumulator, last_n_values = setting.fix_values(
-                [day_accumulator, week_accumulator, month_accumulator, last_n_values], flag)
+                [day_accumulator, week_accumulator, month_accumulator, last_n_values], fix)
 
         return day_accumulator, week_accumulator, month_accumulator, last_n_values
 

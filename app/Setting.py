@@ -15,7 +15,7 @@ class Setting:
         return {'api_run': run}
 
     @staticmethod
-    def fix_values(values_list, flag):
+    def fix_values(values_list, fix):
         """
         Método que recibe una lista de valores que convertir y una bandera que indica que tipo de conversion hay
         que realizar.
@@ -31,14 +31,11 @@ class Setting:
         - fixed_values_list: la lista de los valores ajustados
         """
         fixed_values_list = []
-        flag = flag.lower()
+        fix = float(fix)
         for i in values_list:
             if i == 0:
                 fixed_values_list.append(i)
                 continue
-            if "s10" in flag:
-                fixed_values_list.append(int(i / 10))
-            elif "s20" in flag:
-                fixed_values_list.append(int(i / 20))
+            fixed_values_list.append(int(i * fix))
 
         return fixed_values_list
