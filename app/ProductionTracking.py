@@ -40,7 +40,7 @@ class ProductionTracking:
         # Porcentaje de performance de la maquina (si existe tiempo de ciclo seteado, sinó SET)
         performance = self.get_performance(production_rate, cycle_time)
         # Chequear si borrar la causa de parada de Fundemap
-        check_clear_stop_cause = self.check_clear_stop_cause(device, customer, 5, stop_cause)
+        check_clear_stop_cause = self.check_clear_stop_cause(device, customer, 5)
 
         result = {
             'api_day_accumulator': day_accumulator,
