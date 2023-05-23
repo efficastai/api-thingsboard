@@ -119,7 +119,7 @@ class ProductionTracking:
 
         return performance
 
-    def check_clear_stop_cause(self, device, customer, n, stop_cause):
+    def check_clear_stop_cause(self, device, customer, n):
         """
         Comentarios del metodo
         """
@@ -127,13 +127,15 @@ class ProductionTracking:
 
         if customer == 'fundemap':
 
+            stop_cause = False
+
             try:
                 last_n_pya = int(self.query.get_pya_last_n_values(device, n)[0][0])
             except IndexError:
                 last_n_pya = None
 
-            if last_n_pya >= n or stop_cause is None:
-                stop_cause = ''
+            if last_n_pya >= n:
+                stop_cause = True
 
             result = {
                 'api_stop_cause': stop_cause
