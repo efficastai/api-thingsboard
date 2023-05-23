@@ -107,6 +107,17 @@ class PostgresQuery:
         result = self.db.execute_query(query)
         return result
 
+    def get_pya_last_n_values(self, device, n):
+        """
+        A diferencia del metodo de arriba, este método retorna los 5 ultimos registros en formato tupla
+        :param n: a cuantos valores limitar la consulta
+        :param device: a que dispositivo queremos referenciar
+        :return: tupla de ultimos 5 registros pya
+        """
+        query = postgres.get('get_pya_last_n_registers').format(self.year, self.month_str, device, n)
+        result = self.db.execute_query(query)
+        return result
+
     def get_last_data_ts(self, device):
         """
          Obtenemos el ultimo valor del día, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
@@ -201,4 +212,3 @@ class PostgresQuery:
         query = postgres.get('get_tensar_month_accumulator').format(device)
         result = self.db.execute_query(query)
         return result
-

@@ -13,7 +13,8 @@ class ProductionTracking:
     def __init__(self):
         self.query = PostgresQuery()
 
-    def get_production_tracking_analysis(self, device, fix=None, target=None, cycle_time=None):
+    def get_production_tracking_analysis(self, device, fix=None, target=None, cycle_time=None, customer=None,
+                                         stop_cause=None):
         """
         Método central de la clase. Este método se encarga de recopilar todas los calculos necesarios
         para tener el tracking de la producción de las máquinas. Me refiero: obtenemos todos los valores
@@ -38,6 +39,8 @@ class ProductionTracking:
         daily_compliance_percentege = self.get_daily_compliance_percentage(day_accumulator, target)
         # Porcentaje de performance de la maquina (si existe tiempo de ciclo seteado, sinó SET)
         performance = self.get_performance(production_rate, cycle_time)
+        # Chequear si borrar la causa de parada de Fundemap
+        check_clear_stop_cause = self.check_clear_stop_cause(device, customer, 5, stop_cause)
 
         result = {
             'api_day_accumulator': day_accumulator,
@@ -48,6 +51,9 @@ class ProductionTracking:
             'api_instantaneous_production_rate': production_rate,
             'api_performance': performance,
         }
+
+        if check_clear_stop_cause is not None:
+            result = {**result, **check_clear_stop_cause}
 
         return result
 
@@ -112,3 +118,27 @@ class ProductionTracking:
         performance = round(production_rate / cycle_time * 100) if cycle_time is not None else 'Set'
 
         return performance
+
+    def check_clear_stop_cause(self, device, customer, n, stop_cause):
+        """
+        Comentarios del metodo
+        """
+        customer = customer.lower() if customer is not None else None
+
+        if customer == 'fundemap':
+
+            try:
+                last_n_pya = int(self.query.get_pya_last_n_values(device, n)[0][0])
+            except IndexError:
+                last_n_pya = None
+
+            if last_n_pya >= n or stop_cause is None:
+                stop_cause = ''
+
+            result = {
+                'api_stop_cause': stop_cause
+            }
+
+            return result
+
+        return None

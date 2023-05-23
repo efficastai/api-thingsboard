@@ -28,8 +28,11 @@ def production_tracking_analysis():
     fix = request_data.get('fix')
     daily_target = request_data.get('daily_target')
     cycle_time = request_data.get('cycle_time')
+    customer = request_data.get('customer_title')
+    stop_cause = request_data.get('stop_cause')
     production_traking = ProductionTracking()
-    machine_accumulators = production_traking.get_production_tracking_analysis(device, fix, daily_target, cycle_time)
+    machine_accumulators = production_traking.get_production_tracking_analysis(device, fix, daily_target, cycle_time,
+                                                                               customer, stop_cause)
     return machine_accumulators, 200
 
 
@@ -98,7 +101,7 @@ def custom_calculation():
     interval = request_data.get('interval')
     flag = request_data.get('flag')
     custom = CustomCalculation()
-    result = custom.get_tensar_custom_data(device, ts, ppm, interval, flag)
+    result = custom.get_custom_data(device, ts, ppm, interval, flag)
     if result is None:
         return '', 200
     return result, 200

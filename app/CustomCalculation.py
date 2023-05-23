@@ -19,7 +19,7 @@ class CustomCalculation:
         self.date = datetime.now()
         self.flag = threading.Event()
 
-    def get_tensar_custom_data(self, device, ts, value, interval=None, flag=None):
+    def get_custom_data(self, device, ts, value, interval=None, flag=None):
         """
         Método get_tensar_custom_data: Este método recibe un flag y un intervalo de manera opcional. En caso de
         recibirlo (el flag o el intervalo no son None), quiere decir que la maquina requiere un tratamiento especial
