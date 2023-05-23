@@ -114,7 +114,7 @@ class PostgresQuery:
         :param device: a que dispositivo queremos referenciar
         :return: tupla de ultimos 5 registros pya
         """
-        query = postgres.get('get_pya_last_n_registers').format(self.year, self.month_str, device, n)
+        query = postgres.get('get_pya_last_n_values').format(self.year, self.month_str, device, n)
         result = self.db.execute_query(query)
         return result
 
