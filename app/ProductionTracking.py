@@ -121,7 +121,19 @@ class ProductionTracking:
 
     def check_clear_stop_cause(self, device, customer, n):
         """
-        Comentarios del metodo
+        Método que recibe un cliente (por el momento solamente Fundemap necesita esta característica), realiza
+        una consulta a la base de datos para comprobar si los últimos n datos son datos de máquina encendida.
+        En el caso de qué lo sean, el método devuelve True, por lo qué en los nodos de Thingsboard, se cambiará
+        el tipo de mensaje a POST_ATTRIBUTES_REQUEST y se actualizará la causa de parada para eliminar su contenido.
+
+        Parámetros:
+        - device: un dispositivo
+        - customer: un cliente
+        - n: la cantidad de datos 1 que necesitamos
+
+        Return:
+        - Un objeto JSON con stop_cause en True o False
+        - None en caso de que el cliente no sea Fundemap
         """
         customer = customer.lower() if customer is not None else None
 
