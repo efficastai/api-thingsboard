@@ -17,7 +17,6 @@ class CustomCalculation:
     def __init__(self):
         self.query = PostgresQuery()
         self.date = datetime.now()
-        self.flag = threading.Event()
 
     def get_custom_data(self, device, ts, value, interval=None, flag=None):
         """
@@ -28,6 +27,7 @@ class CustomCalculation:
         que las validaciones sean falsas, el metodo no retorna datos para no alterar la vista de los ultimos datos
         que se ven en el front-end
         """
+        self.check_machine_inactivity(device, 5)
         flag = flag.lower() if flag is not None else None
         # Si el flag es de los puentes, retorno los acumulados de pya del dia y totales
         if flag == 'puente':
@@ -213,3 +213,8 @@ class CustomCalculation:
         }
 
         return result
+
+    def check_machine_inactivity(self, device, n):
+        # sum_last_n_pya = self.query.get_pya_last_n_values(device, n)
+        first_stop = self.query.get_pya_last_n_registers_asc(device, n)
+        print(first_stop)

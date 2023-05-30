@@ -118,6 +118,14 @@ class PostgresQuery:
         result = self.db.execute_query(query)
         return result
 
+    def get_pya_last_n_registers_asc(self, device, n):
+        """
+        Comentarios del metodo
+        """
+        query = postgres.get('get_pya_last_n_registers_asc').format(self.year, self.month_str, device, n)
+        result = self.db.execute_query(query)
+        return result
+
     def get_last_data_ts(self, device):
         """
          Obtenemos el ultimo valor del día, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
