@@ -217,4 +217,4 @@ class CustomCalculation:
     def check_machine_inactivity(self, device, n):
         # sum_last_n_pya = self.query.get_pya_last_n_values(device, n)
         first_stop = self.query.get_pya_last_n_registers_asc(device, n)
-        print(first_stop)
+        print("LISTA DE FIRST STOP: ", first_stop)
