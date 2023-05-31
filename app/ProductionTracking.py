@@ -13,8 +13,7 @@ class ProductionTracking:
     def __init__(self):
         self.query = PostgresQuery()
 
-    def get_production_tracking_analysis(self, device, fix=None, target=None, cycle_time=None, customer=None,
-                                         stop_cause=None):
+    def get_production_tracking_analysis(self, device, fix=None, target=None, cycle_time=None, customer=None):
         """
         Método central de la clase. Este método se encarga de recopilar todas los calculos necesarios
         para tener el tracking de la producción de las máquinas. Me refiero: obtenemos todos los valores
