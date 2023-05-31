@@ -219,6 +219,8 @@ class CustomCalculation:
         """
         Comentarios del metodo
         """
+        last_ts = None
+        last_value = None
         if pya == 0:
             sum_last_n_pya = self.query.get_pya_last_n_values(device, n)
 
