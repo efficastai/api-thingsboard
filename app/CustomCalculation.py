@@ -238,7 +238,11 @@ class CustomCalculation:
                     return result
 
         if pya == 1:
-            last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
+            try:
+                last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
+            except IndexError:
+                last_ts, last_value = None
+
             if not last_value:
                 dif = ts - last_ts
                 self.query.update_tensar_last_value(True, dif, device)
@@ -247,5 +251,7 @@ class CustomCalculation:
                     "api_custom_tensar_stop_dif": dif,
                     "api_custom_tensar_stop_last_ts": last_ts
                 }
-
                 return result
+
+            if last_ts is None:
+                return
