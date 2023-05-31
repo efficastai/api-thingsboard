@@ -102,7 +102,7 @@ def custom_calculation():
     interval = request_data.get('interval')
     flag = request_data.get('flag')
     custom = CustomCalculation()
-    result = custom.get_custom_data(device, ts, ppm, interval, flag)
+    result = custom.get_custom_data(device, ts, ppm, interval, flag, pya)
     if result is None:
         return '', 200
     return result, 200
