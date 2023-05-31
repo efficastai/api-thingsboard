@@ -225,8 +225,13 @@ class CustomCalculation:
             sum_last_n_pya = int(self.query.get_pya_last_n_values(device, n)[0][0])
             print("SUMA DE ULTIMOS N VALORES: ", sum_last_n_pya)
             if sum_last_n_pya == 0:
-                last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
+                try:
+                    last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
+                except IndexError:
+                    last_ts = None
+                    last_value = None
                 if last_ts is None or last_value is None or last_value:
+                    print("PRIMER PARADA DE LAS ULTIMAS 5:", self.query.get_pya_last_n_registers_asc(device, n))
                     first_stop_ts = self.query.get_pya_last_n_registers_asc(device, n)[0][0]
                     self.query.insert_tensar_data(first_stop_ts, False, 0, device)
                     count_false_values = self.query.count_tensar_values(device, False)
@@ -241,7 +246,7 @@ class CustomCalculation:
 
         if pya == 1:
             try:
-                last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
+                last_ts, last_value = self.query.get_tensar_day_last_value(device)
             except IndexError:
                 last_ts = None
 
