@@ -222,8 +222,8 @@ class CustomCalculation:
         last_ts = None
         last_value = None
         if pya == 0:
-            sum_last_n_pya = self.query.get_pya_last_n_values(device, n)
-            print("SUMA DE ULTIMOS N VALORES: ", self.query.get_pya_last_n_values(device, n))
+            sum_last_n_pya = int(self.query.get_pya_last_n_values(device, n)[0][0])
+            print("SUMA DE ULTIMOS N VALORES: ", sum_last_n_pya)
             if sum_last_n_pya == 0:
                 last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
                 if last_ts is None or last_value is None or last_value:
