@@ -18,7 +18,7 @@ class CustomCalculation:
         self.query = PostgresQuery()
         self.date = datetime.now()
 
-    def get_custom_data(self, device, ts, value, interval=None, flag=None):
+    def get_custom_data(self, device, ts, value, interval=None, flag=None, pya=None):
         """
         Método get_tensar_custom_data: Este método recibe un flag y un intervalo de manera opcional. En caso de
         recibirlo (el flag o el intervalo no son None), quiere decir que la maquina requiere un tratamiento especial
@@ -31,7 +31,9 @@ class CustomCalculation:
         # Si el flag es de los puentes, retorno los acumulados de pya del dia y totales
         if flag == 'puente':
             pya_values = self.get_pya_values(device)
-            return pya_values
+            check_machine_inactivity = self.check_machine_inactivity(device, 2, pya, ts)
+            result = {**pya_values, **check_machine_inactivity}
+            return result
         # Si el flag es de la caldera, retorno los acumulados de pya del dia y totales + el conteo diario de registros
         # de ppm
         if flag == 'caldera':
