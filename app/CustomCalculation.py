@@ -241,7 +241,7 @@ class CustomCalculation:
             try:
                 last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
             except IndexError:
-                last_ts, last_value = None
+                last_ts = None
 
             if not last_value:
                 dif = ts - last_ts
