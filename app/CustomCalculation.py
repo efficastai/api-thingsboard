@@ -245,7 +245,7 @@ class CustomCalculation:
             except IndexError:
                 last_ts = None
 
-            if not last_value:
+            if last_value is not None:
                 dif = ts - last_ts
                 self.query.update_tensar_last_value(True, dif, device)
 
