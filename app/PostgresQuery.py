@@ -197,6 +197,30 @@ class PostgresQuery:
         result = self.db.execute_query(query)
         return result
 
+    def get_tensar_day_last_value(self, device):
+        """
+        Comentarios del metodo
+        """
+        query = postgres.get('get_tensar_day_last_value').format(device, self.date_str)
+        result = self.db.execute_query(query)
+        return result
+
+    def update_tensar_last_value(self, value, dif, device):
+        """
+        Comentarios del metodo
+        """
+        query = postgres.get('update_tensar_last_value').format(value, dif, device)
+        result = self.db.execute_query(query)
+        return result
+
+    def count_tensar_values(self, device, value):
+        """
+        Comentarios del metodo
+        """
+        query = postgres.get('count_tensar_values').format(device, value, self.date_str)
+        result = self.db.execute_query(query)
+        return result
+
     def get_tensar_day_accumulator(self, device):
         """
         Obtenemos el acumulador del dia de la tabla  tensar

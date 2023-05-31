@@ -27,7 +27,6 @@ class CustomCalculation:
         que las validaciones sean falsas, el metodo no retorna datos para no alterar la vista de los ultimos datos
         que se ven en el front-end
         """
-        self.check_machine_inactivity(device, 5)
         flag = flag.lower() if flag is not None else None
         # Si el flag es de los puentes, retorno los acumulados de pya del dia y totales
         if flag == 'puente':
@@ -214,7 +213,37 @@ class CustomCalculation:
 
         return result
 
-    def check_machine_inactivity(self, device, n):
-        # sum_last_n_pya = self.query.get_pya_last_n_values(device, n)
-        first_stop = self.query.get_pya_last_n_registers_asc(device, n)
-        print("LISTA DE FIRST STOP: ", first_stop)
+    def check_machine_inactivity(self, device, n, pya, ts):
+        """
+        Comentarios del metodo
+        """
+        if pya == 0:
+            sum_last_n_pya = self.query.get_pya_last_n_values(device, n)
+
+            if sum_last_n_pya == 0:
+                last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
+                if last_ts is None or last_value is None or last_value:
+                    first_stop_ts = self.query.get_pya_last_n_registers_asc(device, n)[0][0]
+                    self.query.insert_tensar_data(first_stop_ts, False, 0, device)
+                    count_false_values = self.query.count_tensar_values(device, False)
+
+                    result = {
+                        "api_custom_tensar_stop_ts": first_stop_ts,
+                        "api_custom_tensar_stop_count": count_false_values,
+                        "api_custom_tensar_stop_dif": 0
+                    }
+
+                    return result
+
+        if pya == 1:
+            last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
+            if not last_value:
+                dif = ts - last_ts
+                self.query.update_tensar_last_value(True, dif, device)
+
+                result = {
+                    "api_custom_tensar_stop_dif": dif,
+                    "api_custom_tensar_stop_last_ts": last_ts
+                }
+
+                return result

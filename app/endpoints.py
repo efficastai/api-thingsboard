@@ -98,6 +98,7 @@ def custom_calculation():
     device = request_data.get('device')
     ts = request_data.get('timestamp')
     ppm = request_data.get('PPM2')
+    pya = request_data.get('PYA1')
     interval = request_data.get('interval')
     flag = request_data.get('flag')
     custom = CustomCalculation()
