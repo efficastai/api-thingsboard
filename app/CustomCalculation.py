@@ -227,6 +227,7 @@ class CustomCalculation:
             if sum_last_n_pya == 0:
                 try:
                     last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
+                    print("ULTIMO VALOR: ", last_value)
                 except IndexError:
                     last_ts = None
                     last_value = None
