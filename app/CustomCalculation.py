@@ -260,6 +260,7 @@ class CustomCalculation:
                     "api_custom_tensar_stop_dif": dif,
                     "api_custom_tensar_stop_last_ts": last_ts
                 }
+                print(result)
                 return result
 
             if last_ts is None:
