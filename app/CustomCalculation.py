@@ -252,6 +252,7 @@ class CustomCalculation:
                 last_ts = None
 
             if last_value is not None and not last_value:
+                print("TIPOS: ", type(ts), type(last_ts))
                 dif = ts - last_ts
                 self.query.update_tensar_last_value(True, dif, device)
 
