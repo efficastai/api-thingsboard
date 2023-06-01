@@ -228,7 +228,6 @@ class CustomCalculation:
             if sum_last_n_pya == 0:
                 try:
                     last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
-                    print(self.query.get_tensar_day_last_value(device))
                 except IndexError:
                     last_ts = None
                     last_value = None
@@ -248,11 +247,11 @@ class CustomCalculation:
 
         if pya == 1:
             try:
-                last_ts, last_value = self.query.get_tensar_day_last_value(device)
+                last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
             except IndexError:
                 last_ts = None
 
-            if last_value is not None:
+            if last_value is not None and not last_value:
                 dif = ts - last_ts
                 self.query.update_tensar_last_value(True, dif, device)
 
