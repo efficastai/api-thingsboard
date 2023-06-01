@@ -264,3 +264,5 @@ class CustomCalculation:
 
             if last_ts is None:
                 return
+
+        return None
