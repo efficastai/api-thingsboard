@@ -32,6 +32,8 @@ class CustomCalculation:
         if flag == 'puente':
             pya_values = self.get_pya_values(device)
             check_machine_inactivity = self.check_machine_inactivity(device, 2, pya, ts)
+            if check_machine_inactivity is None:
+                return pya_values
             result = {**pya_values, **check_machine_inactivity}
             return result
         # Si el flag es de la caldera, retorno los acumulados de pya del dia y totales + el conteo diario de registros
