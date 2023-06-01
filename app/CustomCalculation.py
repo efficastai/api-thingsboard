@@ -237,13 +237,13 @@ class CustomCalculation:
                     print("FIRST STOP TS:", first_stop_ts)
                     self.query.insert_tensar_data(first_stop_ts, False, 0, device)
                     count_false_values = self.query.count_tensar_values(device, False)
-
+                    print("Hasta aca LLEGUE!")
                     result = {
                         "api_custom_tensar_stop_ts": first_stop_ts,
                         "api_custom_tensar_stop_count": count_false_values,
                         "api_custom_tensar_stop_dif": 0
                     }
-
+                    print(result)
                     return result
 
         if pya == 1:
