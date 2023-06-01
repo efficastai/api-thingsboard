@@ -232,7 +232,7 @@ class CustomCalculation:
                     last_ts = None
                     last_value = None
                 if last_ts is None or last_value is None or last_value:
-                    print("PRIMER PARADA DE LAS ULTIMAS 5:", self.query.get_pya_last_n_registers_asc(device, n))
+                    print("PRIMER PARADA DE LAS ULTIMAS 5:", self.query.get_pya_last_n_registers_asc(device, n)[0][0])
                     first_stop_ts = self.query.get_pya_last_n_registers_asc(device, n)[0][0]
                     self.query.insert_tensar_data(first_stop_ts, False, 0, device)
                     count_false_values = self.query.count_tensar_values(device, False)
