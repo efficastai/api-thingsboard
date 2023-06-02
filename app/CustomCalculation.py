@@ -239,12 +239,12 @@ class CustomCalculation:
 
         return result
 
-    def check_machine_inactivity(self, device, n, pya, ts):
+    def check_machine_inactivity(self, device, inactivity_interval, pya, ts):
         """
         Comentarios del metodo
         """
         if pya == 0:
-            return self._case_pya_0(device, ts, n)
+            return self._case_pya_0(device, ts, inactivity_interval)
 
         elif pya == 1:
             return self._case_pya_1(device, ts)
