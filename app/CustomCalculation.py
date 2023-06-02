@@ -244,7 +244,7 @@ class CustomCalculation:
         Comentarios del metodo
         """
         if pya == 0:
-            return self._case_pya_0(device, ts, inactivity_interval)
+            return self._case_pya_0(device, inactivity_interval)
 
         elif pya == 1:
             return self._case_pya_1(device, ts)
