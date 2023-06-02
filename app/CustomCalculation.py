@@ -244,10 +244,10 @@ class CustomCalculation:
         Comentarios del metodo
         """
         if pya == 0:
-            return self.case_pya_0(device, ts, n)
+            return self._case_pya_0(device, ts, n)
 
         elif pya == 1:
-            return self.case_pya_1(device, ts)
+            return self._case_pya_1(device, ts)
 
         return None
 
