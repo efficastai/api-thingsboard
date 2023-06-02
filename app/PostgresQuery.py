@@ -244,3 +244,11 @@ class PostgresQuery:
         query = postgres.get('get_tensar_month_accumulator').format(device)
         result = self.db.execute_query(query)
         return result
+
+    def get_tensar_last_counter(self, device):
+        """
+        Comentarios del metodo
+        """
+        query = postgres.get('get_tensar_last_counter').format(device)
+        result = self.db.execute_query(query)
+        return result

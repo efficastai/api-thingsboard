@@ -51,13 +51,18 @@ class TimeCalculation:
 
     def calculate_time_values(self, run_stop_values_tuple, shift_start_in_timestamp_miliseconds=None):
         """
-        Metodo que recibe una tupla de pya, en el indice [0] se encuentra el valor del pya y en el indice [1]
-        se encuentra el valor del timestamp en milisegundos.
-        Primero la lista se ordena de menor a mayor, luego se itera entre los elementos y dependiendo el valor de
-        su delta, el tiempo se acumula en tiempo_on_milis o tiempo_off_milis.
-        @params: una tupla de valores de pya
-        @return: time_on_milis, time_off_milis
+        Recibe una tupla de valores de PYA. En el índice [0] se encuentra el valor y en el índice [1] se encuentra el
+        timestamp en milisegundos. Primero, se ordena la lista de menor a mayor. Luego, se itera sobre los elementos y,
+        según el valor de su delta, se acumula el tiempo en tiempo_on_milis o tiempo_off_milis.
+
+        Parámetros:
+        - tupla_valores: una tupla de valores.
+
+        Retorno:
+        - time_on_milis: el tiempo acumulado en milisegundos para el estado de encendido.
+        - time_off_milis: el tiempo acumulado en milisegundos para el estado de apagado.
         """
+
         time_on_milis = 0
         time_off_milis = 0
         last = None
@@ -96,11 +101,16 @@ class TimeCalculation:
     @staticmethod
     def ratio_shift_time(time_on_milis, shift_start):
         """
-        Metodo que calcula el ratio de encendido/apagado de una maquina en base a la hora de inicio del turno.
-        En caso de que no sea especificada una hora de inicio del turno, el ratio sera calculado en base a las
-        horas transcurridas del dia
-        @params: un tiempo on total del dia en milisegundos, una hora de inicio del turno
-        @return: el ratio de tiempo encendido del dia
+        Calcula el ratio de encendido/apagado de una máquina en base a la hora de inicio del turno. Si no se especifica
+        una hora de inicio del turno, el ratio se calculará en función de las horas transcurridas del día.
+
+        Parámetros:
+        - tiempo_on_total: el tiempo total encendido de la máquina en milisegundos.
+        - hora_inicio_turno (opcional): la hora de inicio del turno en formato HH:MM.
+
+        Retorno:
+        - El ratio de tiempo encendido de la máquina durante el día.
+
         """
         now = datetime.now()
         today = datetime(now.year, now.month, now.day)
@@ -118,11 +128,16 @@ class TimeCalculation:
 
     def shift_to_timestamp_milis(self, shift_start):
         """
-        Metodo que recibe un string representando una hora de inicio de un turno, converierte el string
-        en horas y minutos, luego lo devuelvo en formato timestamp en milisegundos
-        @params: una hora de turno en formato string
-        @return: esa hora en timestamp milisegundos en tipo de dato int
+        Recibe una cadena de texto que representa una hora de inicio de un turno, convierte la cadena en horas y
+        minutos, y luego la devuelve en formato de timestamp en milisegundos.
+
+        Parámetros:
+        - hora_turno: una cadena de texto que representa la hora de inicio del turno.
+
+        Retorno:
+        - hora_timestamp: la hora de inicio del turno convertida a timestamp en milisegundos, como un entero.
         """
+
         # Valido que la hora ingresada tenga un formato correcto, en caso de que no, retorno None
         valid = self.validate_shift_format(shift_start)
         if not valid:

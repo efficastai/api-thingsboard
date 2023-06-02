@@ -1,22 +1,18 @@
-import threading
-
 from .PostgresQuery import *
-from datetime import datetime
 
 
 class CustomCalculation:
     """
-    Clase CustomCalculation: Esta clase fue creada con el proposito de brindar calculos especificos principalmente
-    para las maquinas de Tensar. Las estaciones, hormigoneras y desmoldes, producen datos que deben ser filtrados. Para
-    esto, se crea una nueva tabla en la base de datos de Thingsobard que funciona para administrar las cuentas y los
-    acumuladores de esas maquinas en particular, y asi obtener tablas ordenadas que son utilizadas en el front-end
-    de la instancia Tensar. Además, requerimos conteos totales y parciales de ppm y pya, dependiendo el tipo de maquina,
-    al ser un calculo puntual, también utilizamos esta clase para tratar ese tipo de máquina.
+    Clase CustomCalculation: Esta clase proporciona cálculos específicos principalmente para las máquinas de Tensar.
+    Las máquinas de las estaciones, hormigoneras y desmoldes producen datos que requieren filtrado. Para ello, se crea
+    una nueva tabla en la base de datos de Thingsboard para administrar las cuentas y los acumuladores de estas máquinas
+    en particular, y así obtener tablas ordenadas que se utilizan en el front-end de la instancia Tensar. Además, se
+    necesitan conteos totales y parciales de ppm y pya, según el tipo de máquina. Esta clase también se utiliza para
+    tratar cálculos puntuales específicos de ciertos tipos de máquinas.
     """
 
     def __init__(self):
         self.query = PostgresQuery()
-        self.date = datetime.now()
 
     def get_custom_data(self, device, ts, value, interval=None, flag=None, pya=None):
         """
@@ -26,38 +22,64 @@ class CustomCalculation:
         insertar datos en la tabla "tensar", y por consiguiente retornarlos hacia el front-end. En el caso
         que las validaciones sean falsas, el metodo no retorna datos para no alterar la vista de los ultimos datos
         que se ven en el front-end
+
+        Parámetros:
+
+        Retorno:
+
         """
         flag = flag.lower() if flag is not None else None
-        # Si el flag es de los puentes, retorno los acumulados de pya del dia y totales
+
         if flag == 'puente':
-            pya_values = self.get_pya_values(device)
-            check_machine_inactivity = self.check_machine_inactivity(device, 2, pya, ts)
-            if check_machine_inactivity is None:
-                return pya_values
-            result = {**pya_values, **check_machine_inactivity}
-            return result
-        # Si el flag es de la caldera, retorno los acumulados de pya del dia y totales + el conteo diario de registros
-        # de ppm
-        if flag == 'caldera':
-            pya_values = self.get_pya_values(device)
-            ppm_count_values = self.get_ppm_count_day_accumulator(device)
-            result = {**pya_values, **ppm_count_values}
-            return result
-        # Si el mensaje posee un intervalo, significa que pertenece al tipo de maquina que se le aplica un filtro
-        # de tiempo entre mensajes. A partir de esto vienen validaciones (si el registro es de hoy, si existe o no y
-        # si transcurrieron al menos 15 minutos entre ppm >= 1. Si no se cumplen las condiciones el metodo no retorna
-        # nada
-        if interval is not None:
-            is_valid_value = value >= 1
-            ts_int = int(ts)
-            interval_to_milis = int(interval) * 60000
-            if is_valid_value:
-                insert_custom_data = self.insert_tensar_data(device, ts_int, interval_to_milis)
-                if insert_custom_data:
-                    last_register = self.get_tensar_last_register(device)
-                    return last_register
+            return self._get_puente_data(device, ts, pya)
+        elif flag == 'caldera':
+            return self._get_caldera_data(device)
+        elif interval is not None:
+            return self._process_interval_data(device, ts, value, interval)
 
         return None
+
+    def _get_puente_data(self, device, ts, pya):
+        """
+        Comentarios del metodo
+        """
+        pya_values = self.get_pya_values(device)
+        check_machine_inactivity = self.check_machine_inactivity(device, 2, pya, ts)
+        if check_machine_inactivity is None:
+            return pya_values
+        result = {**pya_values, **check_machine_inactivity}
+        return result
+
+    def _get_caldera_data(self, device):
+        """
+        Comentarios del metodo
+        """
+        pya_values = self.get_pya_values(device)
+        ppm_count_values = self.get_ppm_count_day_accumulator(device)
+        result = {**pya_values, **ppm_count_values}
+        return result
+
+    def _process_interval_data(self, device, ts, value, interval):
+        """
+        Comentarios del método
+
+        Parámetros:
+        - device
+        - ts
+        - value
+        - interval
+
+        Retorno:
+
+        """
+        is_valid_value = value >= 1
+        ts_int = int(ts)
+        interval_to_milis = int(interval) * 60000
+        if is_valid_value:
+            insert_custom_data = self.insert_tensar_data(device, ts_int, interval_to_milis)
+            if insert_custom_data:
+                last_register = self.get_tensar_last_register(device)
+                return last_register
 
     def insert_tensar_data(self, device, ts, interval):
         """
@@ -221,50 +243,58 @@ class CustomCalculation:
         """
         Comentarios del metodo
         """
-        last_value = None
         if pya == 0:
-            sum_last_n_pya = int(self.query.get_pya_last_n_values(device, n)[0][0])
-            print("SUMA DE ULTIMOS N VALORES: ", sum_last_n_pya)
-            if sum_last_n_pya == 0:
-                try:
-                    last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
-                    print("LAST VALUE:", last_value, type(last_value))
-                except IndexError:
-                    last_value = None
-                if last_value is None or last_value:
-                    print("PRIMER PARADA DE LAS ULTIMAS 5:", self.query.get_pya_last_n_registers_asc(device, n)[0][0])
-                    first_stop_ts = self.query.get_pya_last_n_registers_asc(device, n)[0][0]
-                    print("FIRST STOP TS:", first_stop_ts)
-                    self.query.insert_tensar_data(first_stop_ts, False, 0, device)
-                    count_false_values = self.query.count_tensar_values(device, False)
-                    print("Hasta aca LLEGUE!")
-                    result = {
-                        "api_custom_tensar_stop_ts": first_stop_ts,
-                        "api_custom_tensar_stop_count": count_false_values,
-                        "api_custom_tensar_stop_dif": 0
-                    }
-                    print(result)
-                    return result
+            return self.case_pya_0(device, ts, n)
 
-        if pya == 1:
+        elif pya == 1:
+            return self.case_pya_1(device, ts)
+
+        return None
+
+    def _case_pya_0(self, device, ts, n):
+        """
+        Comentarios del método
+
+        @params
+        """
+        sum_last_n_pya = int(self.query.get_pya_last_n_values(device, n)[0][0])
+        if sum_last_n_pya == 0:
             try:
                 last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
             except IndexError:
-                last_ts = None
+                last_value = None
+            if last_value is None or last_value:
+                counter = 1
+                first_stop_ts = self.query.get_pya_last_n_registers_asc(device, n)[0][0]
+                if last_value is not None:
+                    counter = int(self.query.get_tensar_last_counter(device)[0][0])
+                    counter += 1
 
-            if last_value is not None and not last_value:
-                ts = int(ts)
-                dif = ts - last_ts
-                self.query.update_tensar_last_value(True, dif, device)
-
+                self.query.insert_tensar_data(first_stop_ts, False, 0, device, counter)
                 result = {
-                    "api_custom_tensar_stop_dif": dif,
-                    "api_custom_tensar_stop_last_ts": last_ts
+                    "api_custom_tensar_stop_ts": first_stop_ts,
+                    "api_custom_tensar_stop_counter": counter,
+                    "api_custom_tensar_stop_dif": 0
                 }
-                print(result)
                 return result
 
-            if last_ts is None:
-                return
+    def _case_pya_1(self, device, ts):
+        try:
+            last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
+        except IndexError:
+            last_ts = None
 
-        return None
+        if last_value is not None and not last_value:
+            ts = int(ts)
+            dif = ts - last_ts
+            self.query.update_tensar_last_value(True, dif, device)
+
+            result = {
+                "api_custom_tensar_stop_dif": dif,
+                "api_custom_tensar_stop_last_ts": last_ts
+            }
+            print(result)
+            return result
+
+        if last_ts is None:
+            return
