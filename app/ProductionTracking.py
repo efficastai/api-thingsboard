@@ -76,11 +76,26 @@ class ProductionTracking:
         actual.
         """
 
-        day_accumulator = int(self.query.get_ppm_day_accumulator(device=device)[0][0])
-        week_accumulator = int(self.query.get_ppm_week_accumulator(device=device)[0][0])
-        month_accumulator = int(self.query.get_ppm_month_accumulator(device=device)[0][0])
-        # Harcodeo para ultimos 10 valores, queda pendiente ingreso por parametro
-        last_n_values = int(self.query.get_ppm_last_n_values(device=device, n=10)[0][0])
+        try:
+            day_accumulator = int(self.query.get_ppm_day_accumulator(device=device)[0][0])
+        except (TypeError, IndexError):
+            day_accumulator = 0  # Valor por defecto en caso de excepción
+
+        try:
+            week_accumulator = int(self.query.get_ppm_week_accumulator(device=device)[0][0])
+        except (TypeError, IndexError):
+            week_accumulator = 0  # Valor por defecto en caso de excepción
+
+        try:
+            month_accumulator = int(self.query.get_ppm_month_accumulator(device=device)[0][0])
+        except (TypeError, IndexError):
+            month_accumulator = 0  # Valor por defecto en caso de excepción
+
+        try:
+            # Harcodeo para ultimos 10 valores, queda pendiente ingreso por parametro
+            last_n_values = int(self.query.get_ppm_last_n_values(device=device, n=10)[0][0])
+        except (TypeError, IndexError):
+            last_n_values = 0  # Valor por defecto en caso de excepción
 
         if fix is not None:
             setting = Setting()

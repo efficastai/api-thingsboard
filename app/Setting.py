@@ -17,25 +17,32 @@ class Setting:
     @staticmethod
     def fix_values(values_list, fix):
         """
-        Método que recibe una lista de valores que convertir y una bandera que indica que tipo de conversion hay
-        que realizar.
+        Método que recibe una lista de valores que convertir y una bandera que indica qué tipo de conversión realizar.
         Por el momento utilizamos:
          - s10 para describir soldadoras que haya que ajustar / 10 sus valores
          - s20 para describir soldadoras que haya que ajustar / 20 sus valores
-        
+
         Parámetros:
-        - values_list: Una lista de valores
-        - flag: Una flag que describa el ajuste que hay que realizar
-        
+        - values_list: Una lista o tupla de valores o un valor individual
+        - fix: Un valor que describe el ajuste que hay que realizar
+
         Return:
         - fixed_values_list: la lista de los valores ajustados
         """
         fixed_values_list = []
         fix = float(fix)
-        for i in values_list:
-            if i == 0:
-                fixed_values_list.append(i)
-                continue
-            fixed_values_list.append(round(i * fix))
+
+        if isinstance(values_list, (list, tuple)):  # Verificar si es una lista o tupla de valores
+            for i in values_list:
+                if i == 0:
+                    fixed_values_list.append(i)
+                    continue
+                fixed_values_list.append(round(i * fix))
+        else:  # Si es un solo valor entero
+            if values_list != 0:
+                fixed_values_list = [round(values_list * fix)]
+            else:
+                return 0
 
         return fixed_values_list
+

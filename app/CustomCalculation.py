@@ -278,6 +278,8 @@ class CustomCalculation:
                 }
                 return result
 
+        return None
+
     def _case_pya_1(self, device, ts):
         """
         Comentarios del metodo
@@ -287,10 +289,10 @@ class CustomCalculation:
         Retorno:
 
         """
-        last_value = None
         try:
             last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
         except IndexError:
+            last_value = None
             last_ts = None
 
         if last_value is not None and not last_value:
@@ -302,8 +304,7 @@ class CustomCalculation:
                 "api_custom_tensar_stop_dif": dif,
                 "api_custom_tensar_stop_last_ts": last_ts
             }
-            print(result)
+
             return result
 
-        if last_ts is None:
-            return
+        return None
