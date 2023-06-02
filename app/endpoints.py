@@ -1,10 +1,10 @@
 from flask import request
 
 from app import app
-from .ProductionTracking import *
-from .Setting import *
-from .TimeCalculation import *
-from .CustomCalculation import *
+from .production_tracking import *
+from .setting import *
+from .time_calculation import *
+from .custom_calculation import *
 
 
 @app.route('/api/production_tracking_analysis', methods=['POST'])

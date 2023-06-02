@@ -1,10 +1,10 @@
 import configparser
-from .PostgresDB import *
+from .postgresDB import *
 from datetime import datetime
 from query import postgres
 
 
-class PostgresQuery:
+class PostgreSQLQueryBuilder:
     """
     Esta clase realiza consultas SQL a la base de datos de Thingsboard..
     """

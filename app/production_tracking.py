@@ -1,7 +1,7 @@
 import time
 
-from .PostgresQuery import *
-from .Setting import *
+from .postgres_query_builder import *
+from .setting import *
 
 
 class ProductionTracking:
@@ -11,7 +11,7 @@ class ProductionTracking:
     """
 
     def __init__(self):
-        self.query = PostgresQuery()
+        self.query = PostgreSQLQueryBuilder()
 
     def get_production_tracking_analysis(self, device, fix=None, target=None, cycle_time=None, customer=None):
         """

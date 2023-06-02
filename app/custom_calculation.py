@@ -1,4 +1,4 @@
-from .PostgresQuery import *
+from .postgres_query_builder import *
 
 
 class CustomCalculation:
@@ -12,7 +12,7 @@ class CustomCalculation:
     """
 
     def __init__(self):
-        self.query = PostgresQuery()
+        self.query = PostgreSQLQueryBuilder()
 
     def get_custom_data(self, device, ts, value, interval=None, flag=None, pya=None):
         """

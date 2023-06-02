@@ -1,4 +1,4 @@
-from app.TimeCalculation import *
+from app.time_calculation import *
 
 
 def test_calculate_time_values():

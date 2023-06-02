@@ -1,7 +1,7 @@
 import math
 import re
 
-from .PostgresQuery import *
+from .postgres_query_builder import *
 
 
 class TimeCalculation:
@@ -11,7 +11,7 @@ class TimeCalculation:
     """
 
     def __init__(self):
-        self.query = PostgresQuery()
+        self.query = PostgreSQLQueryBuilder()
 
     def get_machine_time_calculations(self, device, shift_start=None, flag=None):
         """
