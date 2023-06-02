@@ -172,11 +172,11 @@ class PostgresQuery:
 
     # QUERY DE TENSAR
 
-    def insert_tensar_data(self, ts, pieza, dif, device):
+    def insert_tensar_data(self, ts, pieza, dif, device, counter):
         """
         Insertamos la nueva informacion en la tabla de Tensar.
         """
-        query = postgres.get('insert_tensar_data').format(ts, pieza, dif, device)
+        query = postgres.get('insert_tensar_data').format(ts, pieza, dif, device, counter)
         self.db.execute_query(query)
 
     def get_tensar_last_ts(self, device):
