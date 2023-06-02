@@ -31,7 +31,7 @@ class CustomCalculation:
         flag = flag.lower() if flag is not None else None
 
         if flag == 'puente':
-            return self._get_puente_data(device, ts, pya)
+            return self._get_puente_data(device, 2, ts, pya)
         elif flag == 'caldera':
             return self._get_caldera_data(device)
         elif interval is not None:
@@ -39,12 +39,12 @@ class CustomCalculation:
 
         return None
 
-    def _get_puente_data(self, device, ts, pya):
+    def _get_puente_data(self, device, inactivity_interval, ts, pya):
         """
         Comentarios del metodo
         """
         pya_values = self.get_pya_values(device)
-        check_machine_inactivity = self.check_machine_inactivity(device, 2, pya, ts)
+        check_machine_inactivity = self.check_machine_inactivity(device, inactivity_interval, pya, ts)
         if check_machine_inactivity is None:
             return pya_values
         result = {**pya_values, **check_machine_inactivity}
@@ -251,13 +251,13 @@ class CustomCalculation:
 
         return None
 
-    def _case_pya_0(self, device, ts, n):
+    def _case_pya_0(self, device, inactivity_interval):
         """
         Comentarios del método
 
         @params
         """
-        sum_last_n_pya = int(self.query.get_pya_last_n_values(device, n)[0][0])
+        sum_last_n_pya = int(self.query.get_pya_last_n_values(device, inactivity_interval)[0][0])
         if sum_last_n_pya == 0:
             try:
                 last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
@@ -265,7 +265,7 @@ class CustomCalculation:
                 last_value = None
             if last_value is None or last_value:
                 counter = 1
-                first_stop_ts = self.query.get_pya_last_n_registers_asc(device, n)[0][0]
+                first_stop_ts = self.query.get_pya_last_n_registers_asc(device, inactivity_interval)[0][0]
                 if last_value is not None:
                     counter = int(self.query.get_tensar_last_counter(device)[0][0])
                     counter += 1
