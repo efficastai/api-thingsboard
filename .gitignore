@@ -198,5 +198,6 @@ cython_debug/
 #Configurations
 config.ini
 query.py
+data.py
 
 # End of https://www.toptal.com/developers/gitignore/api/flask
