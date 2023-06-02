@@ -279,6 +279,15 @@ class CustomCalculation:
                 return result
 
     def _case_pya_1(self, device, ts):
+        """
+        Comentarios del metodo
+
+        Parametros:
+
+        Retorno:
+
+        """
+        last_value = None
         try:
             last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
         except IndexError:
