@@ -31,7 +31,7 @@ class CustomCalculation:
         flag = flag.lower() if flag is not None else None
 
         if flag == 'puente':
-            return self._get_puente_data(device, 2, ts, pya)
+            return self._get_bridge_data(device, 2, ts, pya)
         elif flag == 'caldera':
             return self._get_caldera_data(device)
         elif interval is not None:
@@ -39,7 +39,7 @@ class CustomCalculation:
 
         return None
 
-    def _get_puente_data(self, device, inactivity_interval, ts, pya):
+    def _get_bridge_data(self, device, inactivity_interval, ts, pya):
         """
         Comentarios del metodo
         """
