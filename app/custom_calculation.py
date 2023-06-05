@@ -104,6 +104,7 @@ class CustomCalculation:
         # Valores por defecto a insertar en el registro
         value = True
         dif = 0
+        counter = 1
         # Traigo el ultimo registro de timestamp, en caso de que no exista, es None
         try:
             last_ts = self.query.get_tensar_last_ts(device)[0][0]
@@ -112,20 +113,22 @@ class CustomCalculation:
 
         # Si no existe un ultimo registro, inserto el registro actual y retorno True
         if last_ts is None:
-            self.query.insert_tensar_data(ts, value, dif, device)
+            self.query.insert_tensar_data(ts, value, dif, device, counter)
             return True
         elif last_ts is not None:
             is_same_day = self.is_same_day(last_ts)
             # Si el registro no es del mismo dia, inserto el dato y retorno True
             if not is_same_day:
-                self.query.insert_tensar_data(ts, value, dif, device)
+                self.query.insert_tensar_data(ts, value, dif, device, counter)
                 return True
             elif is_same_day:
                 # Consulto si la diferencia es valida en la tabla general de Thingsboard
                 valid_dif = self.is_valid_interval(ts, device, interval)
                 # Si es una diferencia de tiempo valida, inserto el dato y retorno True
                 if valid_dif is not False:
-                    self.query.insert_tensar_data(ts, value, valid_dif, device)
+                    counter = self.query.get_tensar_last_counter(device)
+                    counter += 1
+                    self.query.insert_tensar_data(ts, value, valid_dif, device, counter)
                     return True
 
         return False
