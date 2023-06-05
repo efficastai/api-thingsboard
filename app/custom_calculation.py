@@ -13,6 +13,7 @@ class CustomCalculation:
 
     def __init__(self):
         self.query = PostgreSQLQueryBuilder()
+        self.date = datetime.now()
 
     def get_custom_data(self, device, ts, value, interval=None, flag=None, pya=None):
         """
