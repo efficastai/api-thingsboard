@@ -29,10 +29,9 @@ def production_tracking_analysis():
     daily_target = request_data.get('daily_target')
     cycle_time = request_data.get('cycle_time')
     customer = request_data.get('customer_title')
-    stop_cause = request_data.get('stop_cause')
     production_traking = ProductionTracking()
     machine_accumulators = production_traking.get_production_tracking_analysis(device, fix, daily_target, cycle_time,
-                                                                               customer, stop_cause)
+                                                                               customer)
     return machine_accumulators, 200
 
 
