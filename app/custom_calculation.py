@@ -126,9 +126,7 @@ class CustomCalculation:
                 valid_dif = self.is_valid_interval(ts, device, interval)
                 # Si es una diferencia de tiempo valida, inserto el dato y retorno True
                 if valid_dif:
-                    counter = self.query.get_tensar_last_counter(device)
-                    counter += 1
-                    self.query.insert_tensar_data(ts, value, valid_dif, device, counter)
+                    self.query.insert_tensar_data(ts, value, valid_dif, device, 0)
                     return True
 
         return False

@@ -252,3 +252,10 @@ class PostgreSQLQueryBuilder:
         query = postgres.get('get_tensar_last_counter').format(device)
         result = self.db.execute_query(query)
         return result
+
+    def update_tensar_counter(self, device):
+        """
+        Comentarios del metodo
+        """
+        query = postgres.get('get_tensar_last_counter').format(device)
+        self.db.execute_query(query)
