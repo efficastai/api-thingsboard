@@ -100,8 +100,9 @@ def custom_calculation():
     pya = request_data.get('PYA1')
     interval = request_data.get('interval')
     flag = request_data.get('flag')
+    daily_target = request_data.get('target')
     custom = CustomCalculation()
-    result = custom.get_custom_data(device, ts, ppm, interval, flag, pya)
+    result = custom.get_custom_data(device, ts, ppm, interval, flag, pya, daily_target)
     if result is None:
         return '', 200
     return result, 200

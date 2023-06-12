@@ -15,7 +15,7 @@ class CustomCalculation:
         self.query = PostgreSQLQueryBuilder()
         self.date = datetime.now()
 
-    def get_custom_data(self, device, ts, value, interval=None, flag=None, pya=None):
+    def get_custom_data(self, device, ts, value, interval=None, flag=None, pya=None, daily_target=None):
         """
         Método get_tensar_custom_data: Este método recibe un flag y un intervalo de manera opcional. En caso de
         recibirlo (el flag o el intervalo no son None), quiere decir que la maquina requiere un tratamiento especial
@@ -36,7 +36,7 @@ class CustomCalculation:
         elif flag == 'caldera':
             return self._get_caldera_data(device)
         elif interval is not None:
-            return self._process_interval_data(device, ts, value, interval)
+            return self._process_interval_data(device, ts, value, interval, daily_target)
 
         return None
 
@@ -60,7 +60,7 @@ class CustomCalculation:
         result = {**pya_values, **ppm_count_values}
         return result
 
-    def _process_interval_data(self, device, ts, value, interval):
+    def _process_interval_data(self, device, ts, value, interval, daily_target):
         """
         Comentarios del método
 
@@ -79,7 +79,7 @@ class CustomCalculation:
         if is_valid_value:
             insert_custom_data = self.insert_tensar_data(device, ts_int, interval_to_milis)
             if insert_custom_data:
-                last_register = self.get_tensar_last_register(device)
+                last_register = self.get_tensar_last_register(device, daily_target)
                 return last_register
 
     def insert_tensar_data(self, device, ts, interval):
@@ -131,7 +131,7 @@ class CustomCalculation:
 
         return False
 
-    def get_tensar_last_register(self, device):
+    def get_tensar_last_register(self, device, daily_target):
         """
         Metodo que retorna un objeto JSON con los resultados obtenidos de la tabla de Tensar:
         ultimo ts y dif registrado, total acumulado de piezas del dia en base a los filtros que requieren ser
@@ -150,6 +150,7 @@ class CustomCalculation:
         day_accumulator = self.query.get_tensar_day_accumulator(device)[0][0]
         week_accumulator = self.query.get_tensar_week_accumulator(device)[0][0]
         month_accumulator = self.query.get_tensar_month_accumulator(device)[0][0]
+        daily_compliance_percentege = self.get_custom_daily_compliance_percentege(day_accumulator, daily_target)
 
         result = {
             'api_custom_tensar_ts': ts,
@@ -157,10 +158,20 @@ class CustomCalculation:
             'api_custom_tensar_ppm': ppm,
             'api_custom_tensar_day_accumulator': day_accumulator,
             'api_custom_tensar_week_accumulator': week_accumulator,
-            'api_custom_tensar_month_accumulator': month_accumulator
+            'api_custom_tensar_month_accumulator': month_accumulator,
+            'api_custom_tensar_daily_compliance_percentege': daily_compliance_percentege
         }
 
         return result
+
+    @staticmethod
+    def get_custom_daily_compliance_percentege(day_accumulator, daily_target):
+        """
+        Comentarios del metodo
+        """
+        daily_compliance_percentege = round(day_accumulator * 100 / daily_target) if daily_target is not None else 'Set'
+
+        return daily_compliance_percentege
 
     def is_same_day(self, ts):
         """
