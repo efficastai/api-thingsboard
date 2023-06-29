@@ -1,8 +1,6 @@
-import time
-
 from .postgres_query_builder import *
 from .setting import *
-from decorators import mide_tiempo
+from .decorators import mide_tiempo
 
 
 class ProductionTracking:
@@ -171,7 +169,7 @@ class ProductionTracking:
                 print("Exception en método check_clear_stop_cause", e)
                 last_n_pya = None
 
-            if last_n_pya >= n:
+            if last_n_pya is not None and last_n_pya >= n:
                 stop_cause = True
 
             result = {

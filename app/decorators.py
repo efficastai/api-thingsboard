@@ -1,7 +1,5 @@
 import time
 
-import time
-
 
 def mide_tiempo(funcion):
     def funcion_medida(*args, **kwargs):

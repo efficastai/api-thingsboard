@@ -2,7 +2,7 @@ import math
 import re
 
 from .postgres_query_builder import *
-from decorators import mide_tiempo
+from .decorators import mide_tiempo
 
 
 class TimeCalculation:
@@ -72,8 +72,12 @@ class TimeCalculation:
         time_off_milis = 0
         last = None
 
+        run_stop_values_ordered = []
         # Ordenar los valores de timestamp de menor a mayor
-        run_stop_values_ordered = sorted(run_stop_values_tuple, key=lambda x: x[1])
+        try:
+            run_stop_values_ordered = sorted(run_stop_values_tuple, key=lambda x: x[1])
+        except Exception as e:
+            print("Exception en run_stop_values_ordered", e)
 
         # Si existe un tiempo de inicio de turno, actualizo la lista a partir de ese timestamp de inicio de turno
         if shift_start_in_timestamp_miliseconds is not None:
