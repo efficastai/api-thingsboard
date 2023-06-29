@@ -2,6 +2,7 @@ import math
 import re
 
 from .postgres_query_builder import *
+from decorators import mide_tiempo
 
 
 class TimeCalculation:
@@ -13,6 +14,7 @@ class TimeCalculation:
     def __init__(self):
         self.query = PostgreSQLQueryBuilder()
 
+    @mide_tiempo
     def get_machine_time_calculations(self, device, shift_start=None, flag=None):
         """
         Este método devuelve el tiempo encendido, tiempo apagado y disponibilidad de una máquina en lo que va

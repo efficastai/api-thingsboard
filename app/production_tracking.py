@@ -2,6 +2,7 @@ import time
 
 from .postgres_query_builder import *
 from .setting import *
+from decorators import mide_tiempo
 
 
 class ProductionTracking:
@@ -13,6 +14,7 @@ class ProductionTracking:
     def __init__(self):
         self.query = PostgreSQLQueryBuilder()
 
+    @mide_tiempo
     def get_production_tracking_analysis(self, device, fix=None, target=None, cycle_time=None, customer=None):
         """
         Método central de la clase. Recopila los cálculos necesarios para realizar el seguimiento de la producción de
