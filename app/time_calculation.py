@@ -24,7 +24,10 @@ class TimeCalculation:
             flag = flag.lower()
             # Si tengo un flag de soldadora obtengo los valores de ppm del día y luego los convierto a valores de pya
             if "s" in flag:
-                day_ppm_values = self.query.get_day_ppm_values(device)
+                try:
+                    day_ppm_values = self.query.get_day_ppm_values(device)
+                except Exception as e:
+                    print("Exception en get_machine_time_calculations:", e)
                 run_stop_values_tuple = self.convert_to_pya_tuple(day_ppm_values)
         # Si el mensaje viene sin flag obtengo los valores de pya del día
         if run_stop_values_tuple is None:

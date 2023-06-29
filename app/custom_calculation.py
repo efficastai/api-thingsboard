@@ -304,7 +304,8 @@ class CustomCalculation:
         """
         try:
             last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
-        except IndexError:
+        except Exception as e:
+            print("Exception en _case_pya_1", e)
             last_value = None
             last_ts = None
 
