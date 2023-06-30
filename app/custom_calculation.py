@@ -279,7 +279,11 @@ class CustomCalculation:
 
         @params
         """
-        sum_last_n_pya = int(self.query.get_pya_last_n_values(device, inactivity_interval)[0][0])
+        sum_last_n_pya = None
+        try:
+            sum_last_n_pya = int(self.query.get_pya_last_n_values(device, inactivity_interval)[0][0])
+        except Exception as e:
+            print("Exception en Custom Calculation, sum_last_n_pya", e)
         if sum_last_n_pya == 0:
             try:
                 last_ts, last_value = self.query.get_tensar_day_last_value(device)[0]
