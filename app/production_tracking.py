@@ -141,7 +141,7 @@ class ProductionTracking:
 
         return performance
 
-    def check_clear_stop_cause(self, device, customer, n):
+    def check_clear_stop_cause(self, entity_id, customer, n):
         """
         Método que recibe un cliente (por el momento solamente Fundemap necesita esta característica), realiza
         una consulta a la base de datos para comprobar si los últimos n datos son datos de máquina encendida.
@@ -164,7 +164,7 @@ class ProductionTracking:
             stop_cause = False
 
             try:
-                last_n_pya = int(self.query.get_pya_last_n_values(device, n)[0][0])
+                last_n_pya = int(self.query.get_pya_last_n_values(entity_id, n)[0][0])
             except Exception as e:
                 print("Exception en método check_clear_stop_cause", e)
                 last_n_pya = None
