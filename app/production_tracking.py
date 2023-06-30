@@ -13,7 +13,7 @@ class ProductionTracking:
         self.query = PostgreSQLQueryBuilder()
 
     @mide_tiempo
-    def get_production_tracking_analysis(self, device, fix=None, target=None, cycle_time=None, customer=None):
+    def get_production_tracking_analysis(self, entity_id, fix=None, target=None, cycle_time=None, customer=None):
         """
         Método central de la clase. Recopila los cálculos necesarios para realizar el seguimiento de la producción de
         las máquinas. Esto incluye obtener los valores acumulados (día, semana, mes y últimos n valores), el porcentaje
@@ -32,7 +32,7 @@ class ProductionTracking:
         """
 
         # Obtengo los acumulados del día, la semana, el mes, y los ultimos n valores
-        day_accumulator, week_accumulator, month_accumulator, last_n_values = self.get_accumulators(device, fix)
+        day_accumulator, week_accumulator, month_accumulator, last_n_values = self.get_accumulators(entity_id, fix)
         # Tasa de produccion instantanea
         production_rate = last_n_values * 6
         # Porcentaje de cumplimiento de piezas diario del dispositivo (si existe target seteado, sinó SET)
@@ -40,7 +40,7 @@ class ProductionTracking:
         # Porcentaje de performance de la maquina (si existe tiempo de ciclo seteado, sinó SET)
         performance = self.get_performance(production_rate, cycle_time)
         # Chequear si borrar la causa de parada de Fundemap
-        check_clear_stop_cause = self.check_clear_stop_cause(device, customer, 6)
+        check_clear_stop_cause = self.check_clear_stop_cause(entity_id, customer, 6)
 
         result = {
             'api_day_accumulator': day_accumulator,
@@ -57,7 +57,7 @@ class ProductionTracking:
 
         return result
 
-    def get_accumulators(self, device, fix=None):
+    def get_accumulators(self, entity_id, fix=None):
         """
         Método que devuelve los acumuladores necesarios (día, semana, mes, últimos n valores) para el dispositivo
         especificado.
@@ -77,26 +77,26 @@ class ProductionTracking:
         """
 
         try:
-            day_accumulator = int(self.query.get_ppm_day_accumulator(device=device)[0][0])
+            day_accumulator = int(self.query.get_ppm_day_accumulator(entity_id)[0][0])
         except Exception as e:
             print("Exception en DAY ACCUMULATOR: ", e)
             day_accumulator = 0  # Valor por defecto en caso de excepción
 
         try:
-            week_accumulator = int(self.query.get_ppm_week_accumulator(device=device)[0][0])
+            week_accumulator = int(self.query.get_ppm_week_accumulator(entity_id)[0][0])
         except Exception as e:
             print("Exception en WEEK ACCUMULATOR: ", e)
             week_accumulator = 0  # Valor por defecto en caso de excepción
 
         try:
-            month_accumulator = int(self.query.get_ppm_month_accumulator(device=device)[0][0])
+            month_accumulator = int(self.query.get_ppm_month_accumulator(entity_id)[0][0])
         except Exception as e:
             print("Exception en MONTH ACCUMULATOR: ", e)
             month_accumulator = 0  # Valor por defecto en caso de excepción
 
         try:
             # Harcodeo para ultimos 10 valores, queda pendiente ingreso por parametro
-            last_n_values = int(self.query.get_ppm_last_n_values(device=device, n=10)[0][0])
+            last_n_values = int(self.query.get_ppm_last_n_values(entity_id, n=10)[0][0])
         except Exception as e:
             print("Exception en LAST N VALUES: ", e)
             last_n_values = 0  # Valor por defecto en caso de excepción

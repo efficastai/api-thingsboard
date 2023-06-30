@@ -24,13 +24,13 @@ def production_tracking_analysis():
         - Un objeto JSON con los valores de los acumuladores
     """
     request_data = request.get_json()
-    device = request_data.get('device')
+    entity_id = request_data.get('entity_id')
     fix = request_data.get('fix')
     daily_target = request_data.get('daily_target')
     cycle_time = request_data.get('cycle_time')
     customer = request_data.get('customer_title')
     production_traking = ProductionTracking()
-    machine_accumulators = production_traking.get_production_tracking_analysis(device, fix, daily_target, cycle_time,
+    machine_accumulators = production_traking.get_production_tracking_analysis(entity_id, fix, daily_target, cycle_time,
                                                                                customer)
     return machine_accumulators, 200
 
@@ -66,11 +66,11 @@ def time_calculations():
     - Un objeto JSON con los cálculos de tiempo para la máquina especificada.
     """
     request_data = request.get_json()
-    device_name = request_data.get('device')
+    entity_id = request_data.get('entity_id')
     shift_start = request_data.get('shift_start')
     flag = request_data.get('flag')
     time_calculation = TimeCalculation()
-    machine_time_calculations = time_calculation.get_machine_time_calculations(device_name, shift_start, flag)
+    machine_time_calculations = time_calculation.get_machine_time_calculations(entity_id, shift_start, flag)
     return machine_time_calculations, 200
 
 

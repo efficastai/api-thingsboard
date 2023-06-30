@@ -42,33 +42,33 @@ class PostgreSQLQueryBuilder:
     def __del__(self):
         self.db.disconnect()
 
-    def get_ppm_day_accumulator(self, device):
+    def get_ppm_day_accumulator(self, entity_id):
         """
         Obtenemos el acumulado del día, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36).
-        :param device:
+        :param entity_id:
         :return: acumulador diario
         """
-        query = postgres.get('get_ppm_day_accumulator').format(self.year, self.month_str, self.date_str, device)
+        query = postgres.get('get_ppm_day_accumulator').format(self.year, self.month_str, self.date_str, entity_id)
         result = self.db.execute_query(query)
         return result
 
-    def get_ppm_week_accumulator(self, device):
+    def get_ppm_week_accumulator(self, entity_id):
         """
         Obtenemos el acumulado de la semana, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
-        :param device:
+        :param entity_id:
         :return: acumulador diario
         """
-        query = postgres.get('get_ppm_week_accumulator').format(self.year, self.month_str, device)
+        query = postgres.get('get_ppm_week_accumulator').format(self.year, self.month_str, entity_id)
         result = self.db.execute_query(query)
         return result
 
-    def get_ppm_month_accumulator(self, device):
+    def get_ppm_month_accumulator(self, entity_id):
         """
         Obtenemos el acumulado del mes, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
-        :param device: a que dispositivo queremos referenciar
+        :param entity_id: a que dispositivo queremos referenciar
         :return: acumulador diario
         """
-        query = postgres.get('get_ppm_month_accumulator').format(self.year, self.month_str, device)
+        query = postgres.get('get_ppm_month_accumulator').format(self.year, self.month_str, entity_id)
         result = self.db.execute_query(query)
         return result
 
@@ -96,14 +96,14 @@ class PostgreSQLQueryBuilder:
         result = self.db.execute_query(query)
         return result
 
-    def get_ppm_last_n_values(self, device, n):
+    def get_ppm_last_n_values(self, entity_id, n):
         """
         Obtenemos el acumulado del día, de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
         :param n: a cuantos valores limitar la consulta
-        :param device: a que dispositivo queremos referenciar
+        :param entity_id: a que dispositivo queremos referenciar
         :return: acumulador diario
         """
-        query = postgres.get('get_ppm_last_n_values').format(self.year, self.month_str, device, n)
+        query = postgres.get('get_ppm_last_n_values').format(self.year, self.month_str, entity_id, n)
         result = self.db.execute_query(query)
         return result
 
@@ -136,21 +136,21 @@ class PostgreSQLQueryBuilder:
         result = self.db.execute_query(query)
         return result
 
-    def get_day_pya_values(self, device):
+    def get_day_pya_values(self, entity_id):
         """
         Obtenemos un lista con los valores de pya del dia
         """
-        query = postgres.get('get_day_pya_values').format(self.year, self.month_str, self.date_str, device)
+        query = postgres.get('get_day_pya_values').format(self.year, self.month_str, self.date_str, entity_id)
         result = self.db.execute_query(query)
         return result
 
-    def get_day_ppm_values(self, device):
+    def get_day_ppm_values(self, entity_id):
         """
         Obtenemos una tupla de tuplas con los valores de la tabla ts_kv_{esteAnio}_{esteMes} en base a los PPM (key 36)
-        :param device:
+        :param entity_id:
         :return: acumulador diario
         """
-        query = postgres.get('get_day_ppm_values').format(self.year, self.month_str, self.date_str, device)
+        query = postgres.get('get_day_ppm_values').format(self.year, self.month_str, self.date_str, entity_id)
         result = self.db.execute_query(query)
         return result
 

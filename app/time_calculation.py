@@ -15,7 +15,7 @@ class TimeCalculation:
         self.query = PostgreSQLQueryBuilder()
 
     @mide_tiempo
-    def get_machine_time_calculations(self, device, shift_start=None, flag=None):
+    def get_machine_time_calculations(self, entity_id, shift_start=None, flag=None):
         """
         Este método devuelve el tiempo encendido, tiempo apagado y disponibilidad de una máquina en lo que va
         del día actual en base a su hora de inicio de turno.
@@ -27,13 +27,13 @@ class TimeCalculation:
             # Si tengo un flag de soldadora obtengo los valores de ppm del día y luego los convierto a valores de pya
             if "s" in flag:
                 try:
-                    day_ppm_values = self.query.get_day_ppm_values(device)
+                    day_ppm_values = self.query.get_day_ppm_values(entity_id)
                 except Exception as e:
                     print("Exception en get_machine_time_calculations:", e)
                 run_stop_values_tuple = self.convert_to_pya_tuple(day_ppm_values)
         # Si el mensaje viene sin flag obtengo los valores de pya del día
         if run_stop_values_tuple is None:
-            run_stop_values_tuple = self.query.get_day_pya_values(device)
+            run_stop_values_tuple = self.query.get_day_pya_values(entity_id)
 
         # Convierto el string de shift_start en un timestamp en milisegundos.
         if shift_start is not None:
