@@ -224,15 +224,15 @@ class CustomCalculation:
         Return:
         - Un objeto diccionario con los resultados de las querys.
         """
+        pya_day_accumulator = None
+        pya_total_accumulator = None
         try:
             pya_day_accumulator = int(self.query.get_pya_day_accumulator(device)[0][0])
         except Exception as e:
-            pya_day_accumulator = 0
             print("Exception en Custom Calculation, get_pya_values", e)
         try:
             pya_total_accumulator = int(self.query.get_pya_total_accumulator(device)[0][0])
         except Exception as e:
-            pya_total_accumulator = 0
             print("Exception en Custom Calculation, get_pya_values", e)
         result = {
             'api_day_pya_accumulator': pya_day_accumulator,
