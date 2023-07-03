@@ -72,11 +72,11 @@ class PostgreSQLQueryBuilder:
         result = self.db.execute_query(query)
         return result
 
-    def get_pya_day_accumulator(self, device):
+    def get_pya_day_accumulator(self, entity_id):
         """
         Obtenemos el acumulado del dia de pya
         """
-        query = postgres.get('get_pya_day_accumulator').format(self.year, self.month_str, self.date_str, device)
+        query = postgres.get('get_pya_day_accumulator').format(self.year, self.month_str, self.date_str, entity_id)
         result = self.db.execute_query(query)
         return result
 
@@ -88,11 +88,11 @@ class PostgreSQLQueryBuilder:
         result = self.db.execute_query(query)
         return result
 
-    def get_pya_total_accumulator(self, device):
+    def get_pya_total_accumulator(self, entity_id):
         """
         Obtenemos el acumulado historico de pya
         """
-        query = postgres.get('get_pya_total_accumulator').format(device)
+        query = postgres.get('get_pya_total_accumulator').format(entity_id)
         result = self.db.execute_query(query)
         return result
 
@@ -118,11 +118,11 @@ class PostgreSQLQueryBuilder:
         result = self.db.execute_query(query)
         return result
 
-    def get_pya_last_n_registers_asc(self, device, n):
+    def get_pya_last_n_registers_asc(self, entity_id, n):
         """
         Comentarios del metodo
         """
-        query = postgres.get('get_pya_last_n_registers_asc').format(self.year, self.month_str, device, n)
+        query = postgres.get('get_pya_last_n_registers_asc').format(self.year, self.month_str, entity_id, n)
         result = self.db.execute_query(query)
         return result
 

@@ -15,7 +15,7 @@ class CustomCalculation:
         self.query = PostgreSQLQueryBuilder()
         self.date = datetime.now()
 
-    def get_custom_data(self, device, ts, value, interval=None, flag=None, pya=None, daily_target=None):
+    def get_custom_data(self, device, ts, value, interval=None, flag=None, pya=None, daily_target=None, entity_id=None):
         """
         Método get_tensar_custom_data: Este método recibe un flag y un intervalo de manera opcional. En caso de
         recibirlo (el flag o el intervalo no son None), quiere decir que la maquina requiere un tratamiento especial
@@ -32,7 +32,7 @@ class CustomCalculation:
         flag = flag.lower() if flag is not None else None
 
         if flag == 'puente':
-            return self._get_bridge_data(device, 6, ts, pya)
+            return self._get_bridge_data(device, entity_id, 6, ts, pya)
         elif flag == 'caldera':
             return self._get_caldera_data(device)
         elif interval is not None:
@@ -40,12 +40,12 @@ class CustomCalculation:
 
         return None
 
-    def _get_bridge_data(self, device, inactivity_interval, ts, pya):
+    def _get_bridge_data(self, device, entity_id, inactivity_interval, ts, pya):
         """
         Comentarios del metodo
         """
-        pya_values = self.get_pya_values(device)
-        check_machine_inactivity = self.check_machine_inactivity(device, inactivity_interval, pya, ts)
+        pya_values = self.get_pya_values(entity_id)
+        check_machine_inactivity = self.check_machine_inactivity(device, entity_id, inactivity_interval, pya, ts)
         if check_machine_inactivity is None:
             return pya_values
         result = {**pya_values, **check_machine_inactivity}
@@ -213,7 +213,7 @@ class CustomCalculation:
 
         return False
 
-    def get_pya_values(self, device):
+    def get_pya_values(self, entity_id):
         """
         Método get_pya_values: Este metodo retorna el acumulado de pya del dia y el acumulador historico de pya.
         Se utiliza principalmente para los puentes que desean saber las conmutaciones diarios y totoles.
@@ -227,11 +227,11 @@ class CustomCalculation:
         pya_day_accumulator = None
         pya_total_accumulator = None
         try:
-            pya_day_accumulator = int(self.query.get_pya_day_accumulator(device)[0][0])
+            pya_day_accumulator = int(self.query.get_pya_day_accumulator(entity_id)[0][0])
         except Exception as e:
             print("Exception en Custom Calculation, get_pya_values", e)
         try:
-            pya_total_accumulator = int(self.query.get_pya_total_accumulator(device)[0][0])
+            pya_total_accumulator = int(self.query.get_pya_total_accumulator(entity_id)[0][0])
         except Exception as e:
             print("Exception en Custom Calculation, get_pya_values", e)
 
@@ -261,19 +261,19 @@ class CustomCalculation:
 
         return result
 
-    def check_machine_inactivity(self, device, inactivity_interval, pya, ts):
+    def check_machine_inactivity(self, device, entity_id, inactivity_interval, pya, ts):
         """
         Comentarios del metodo
         """
         if pya == 0:
-            return self._case_pya_0(device, inactivity_interval)
+            return self._case_pya_0(device, entity_id, inactivity_interval)
 
         elif pya == 1:
             return self._case_pya_1(device, ts)
 
         return None
 
-    def _case_pya_0(self, device, inactivity_interval):
+    def _case_pya_0(self, device, entity_id, inactivity_interval):
         """
         Comentarios del método
 
@@ -281,7 +281,7 @@ class CustomCalculation:
         """
         sum_last_n_pya = None
         try:
-            sum_last_n_pya = int(self.query.get_pya_last_n_values(device, inactivity_interval)[0][0])
+            sum_last_n_pya = int(self.query.get_pya_last_n_values(entity_id, inactivity_interval)[0][0])
         except Exception as e:
             print("Exception en Custom Calculation, sum_last_n_pya", e)
         if sum_last_n_pya == 0:
@@ -291,7 +291,7 @@ class CustomCalculation:
                 last_value = None
             if last_value is None or last_value:
                 counter = 1
-                first_stop_ts = self.query.get_pya_last_n_registers_asc(device, inactivity_interval)[0][0]
+                first_stop_ts = self.query.get_pya_last_n_registers_asc(entity_id, inactivity_interval)[0][0]
                 if last_value is not None:
                     counter = int(self.query.get_tensar_last_counter(device)[0][0])
                     counter += 1

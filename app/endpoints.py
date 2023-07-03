@@ -95,6 +95,7 @@ def custom_calculation():
     """
     request_data = request.get_json()
     device = request_data.get('device')
+    entity_id = request_data.get('entity_id')
     ts = request_data.get('timestamp')
     ppm = request_data.get('PPM2')
     pya = request_data.get('PYA1')
@@ -102,7 +103,7 @@ def custom_calculation():
     flag = request_data.get('flag')
     daily_target = request_data.get('target')
     custom = CustomCalculation()
-    result = custom.get_custom_data(device, ts, ppm, interval, flag, pya, daily_target)
+    result = custom.get_custom_data(device, ts, ppm, interval, flag, pya, daily_target, entity_id)
     if result is None:
         return '', 200
     return result, 200
