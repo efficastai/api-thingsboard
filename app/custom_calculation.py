@@ -291,7 +291,10 @@ class CustomCalculation:
                 last_value = None
             if last_value is None or last_value:
                 counter = 1
-                first_stop_ts = self.query.get_pya_last_n_registers_asc(entity_id, inactivity_interval)[0][0]
+                try:
+                    first_stop_ts = self.query.get_pya_last_n_registers_asc(entity_id, inactivity_interval)[0][0]
+                except Exception as e:
+                    print("Exception in Custom Calculation, first_stop_ts", e)
                 if last_value is not None:
                     counter = int(self.query.get_tensar_last_counter(device)[0][0])
                     counter += 1
