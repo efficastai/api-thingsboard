@@ -253,7 +253,11 @@ class CustomCalculation:
         Return:
         - Un objeto diccionario con el conteo de registros de ppm del dia.
         """
-        ppm_count_day_accumulator = int(self.query.get_ppm_count_day_accumulator(device)[0][0])
+        ppm_count_day_accumulator = None
+        try:
+            ppm_count_day_accumulator = int(self.query.get_ppm_count_day_accumulator(device)[0][0])
+        except Exception as e:
+            print("Exception in Custom Calculation, get_ppm_count_day_accumulator", e)
 
         result = {
             'api_custom_tensar_ppm_count_day_accumulator': ppm_count_day_accumulator
